@@ -33,12 +33,13 @@ public class MonsterData
     public string[] Unit = { "002","005", "008","101","102","201"};//유닛넣는곳
     public bool SommonON;
     public bool MoveON;
+    public int ManaStone = 0;
     public int Kind = 0;
     public string MonsterID;
     public List<string> MonsterList = new List<string>();
     public string SommonID;
     public int Mana=0;
-    public int TIme = 30;
+    public float Time = 30f;
     public List<string> MoveList = new List<string>();
     public int trun; // 0=선공, 1=후공
     public int[] CountUnit = {0,0,0};
