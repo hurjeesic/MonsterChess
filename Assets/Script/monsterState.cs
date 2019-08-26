@@ -33,16 +33,24 @@ public class MonsterData
     public string[] Unit = { "002","005", "008","101","102","201"};//유닛넣는곳
     public bool SommonON;
     public bool MoveON;
-    public int ManaStone = 0;
+    public bool PlayON = false;
+    public int ManaStone = 0;//마나 스톤수
+    public bool ManaStoneOn = false;
+    public int ManaStoneCount = 2;//마나 스톤 카운트
     public int Kind = 0;
     public string MonsterID;
     public List<string> MonsterList = new List<string>();
     public string SommonID;
     public int Mana=0;
-    public float Time = 30f;
+    public float Time = 50f;
     public List<string> MoveList = new List<string>();
-    public int trun; // 0=선공, 1=후공
+    public int turn = 0;//턴수
+    public int Order=0;// 0=선공, 1=후공
     public int[] CountUnit = {0,0,0};
+    public List<GameObject> Range = new List<GameObject>();//선택한 칸의 이동범위
+    public List<string> Direction = new List<string>();
+    public GameObject ManaStoneArea;
+    public GameObject origin;//현재 선택한칸(이동)
 }
 
 

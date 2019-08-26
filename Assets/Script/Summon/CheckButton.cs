@@ -24,7 +24,7 @@ public class CheckButton : MonoBehaviour {
         if (DataIndex.MonsterList.Count() == 6)
         {
             DataIndex.SommonON = false;
-            SceneManager.LoadScene("게임판");     
+            SceneManager.LoadScene("PlayGame");     
         }
         else
         {

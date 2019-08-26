@@ -6,13 +6,14 @@ using System;
 using UnityEngine.UI;
 using System.Linq;
 
-public class PanSetting : MonoBehaviour {
+public class PanSetting : MonoBehaviour
+{
 
-   
-    
+
+
     // Use this for initialization
-    static MonsterData DataIndex=MonsterData.Instance;
-     
+    static MonsterData DataIndex = MonsterData.Instance;
+
     void Start()
     {
 
@@ -23,20 +24,42 @@ public class PanSetting : MonoBehaviour {
         {
             for (int j = 0; j < 7; j++)
             {
-                
+
                 if (DataIndex.pan[j, i] != null)
                 {
-                    Debug.Log(DataIndex.pan[j,i]);
-                    if (i > 3)
+                    Debug.Log(DataIndex.pan[j, i]);
+                    if (DataIndex.Order == 0)
                     {
-                        DataIndex.MoveList.Add("" + j + i + DataIndex.MonsterList[ListCount] + 0 + 0 + 0 + 0);
-                        //x(1),y(1),ID(3),코스트(1),AP(1),HP(1),선공or후공(1), 상태(1), movex(1),movey(1)
-                       
+                        if (i > 3)
+                        {
+                            //적
+                            DataIndex.MoveList.Add("" + j + i + DataIndex.MonsterList[ListCount] + 1 + 0 + 0 + 0 + 0);
+                            //x(1),y(1),ID(3),코스트(1),AP(1),HP(1),선공or후공(1), 상태(1), movex(1),movey(1),이동방향(1)
+
+                        }
+                        else
+                        {
+                            //아군
+                            DataIndex.MoveList.Add("" + j + i + DataIndex.MonsterList[ListCount] + 0 + 0 + 0 + 0 + 0);
+
+                        }
+
                     }
                     else
                     {
-                        DataIndex.MoveList.Add("" + j + i + DataIndex.MonsterList[ListCount] + 1 + 0 + 0 + 0);
-                       
+                        if (i > 3)
+                        {
+                            //적
+                            DataIndex.MoveList.Add("" + j + i + DataIndex.MonsterList[ListCount] + 0 + 0 + 0 + 0 + 0);
+                            //x(1),y(1),ID(3),코스트(1),AP(1),HP(1),선공or후공(1), 상태(1), movex(1),movey(1)
+
+                        }
+                        else
+                        {
+                            //아군
+                            DataIndex.MoveList.Add("" + j + i + DataIndex.MonsterList[ListCount] + 1 + 0 + 0 + 0 + 0);
+
+                        }
                     }
                     Debug.Log(ListCount);
                     switch (DataIndex.MonsterList[ListCount].Substring(0, 1))
@@ -83,18 +106,19 @@ public class PanSetting : MonoBehaviour {
         }
 
 
-     
-      //히어로 유닛추가와 적배치를 시키고 다시 챙겨보기
+
+        //히어로 유닛추가와 적배치를 시키고 다시 챙겨보기
 
     }
 
     // Update is called once per frame
 
 
-    void SortList() {
+    void SortList()
+    {
         for (int i = 0; i < DataIndex.MoveList.Count(); i++)
         {
-         
+
             for (int j = i; j < DataIndex.MoveList.Count(); j++)
             {
                 if (i == 0)
@@ -181,23 +205,23 @@ public class PanSetting : MonoBehaviour {
                         }
                     }
                 }
-              
+
 
             }
             //항목별 정리
-            
+
         }
 
         for (int i = 2; i < DataIndex.MoveList.Count(); i++)
         {
-            for (int j = i+2; j < DataIndex.MoveList.Count(); j++)
+            for (int j = i + 2; j < DataIndex.MoveList.Count(); j++)
             {
                 //항목안에서의 정리
                 if (i < DataIndex.CountUnit[0] + 2)
                 {
                     if (i % 2 == 0)
                     {
-                        
+
                         if (DataIndex.MoveList[j].Substring(2, 1) == "0")
                         {
                             if (DataIndex.MoveList[j].Substring(8, 1) == "0")
@@ -208,7 +232,7 @@ public class PanSetting : MonoBehaviour {
                                     DataIndex.MoveList[j] = DataIndex.MoveList[i];
                                     DataIndex.MoveList[i] = temp;
                                 }
-                                
+
                             }
                         }
 
@@ -262,7 +286,7 @@ public class PanSetting : MonoBehaviour {
 
         for (int i = 0; i < DataIndex.MoveList.Count(); i++)
         {
-            Debug.Log(""+i+" : "+DataIndex.MoveList[i]);
+            Debug.Log("" + i + " : " + DataIndex.MoveList[i]);
 
         }
     }

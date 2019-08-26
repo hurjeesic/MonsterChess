@@ -29,7 +29,7 @@ public class CreatEnermy : MonoBehaviour {
         }
         
 
-        SceneManager.LoadScene("게임판");
+        SceneManager.LoadScene("PlayGame");
       
       
 
