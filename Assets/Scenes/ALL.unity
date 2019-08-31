@@ -563,6 +563,7 @@ GameObject:
   - component: {fileID: 16917506}
   - component: {fileID: 16917505}
   - component: {fileID: 16917504}
+  - component: {fileID: 16917507}
   m_Layer: 5
   m_Name: Next
   m_TagString: Place
@@ -627,7 +628,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 16917505}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 16917507}
+        m_MethodName: PlayOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &16917505
@@ -663,6 +675,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 16917502}
+--- !u!114 &16917507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 16917502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b57d31f991dfd42879cf6e17952399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextList: {fileID: 1387234988}
 --- !u!1 &53565402
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,7 +775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &88647885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2455,12 +2479,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 386207717}
-        m_MethodName: 
+      - m_Target: {fileID: 386207722}
+        m_MethodName: LoginOn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2512,6 +2536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d478409a97f1b53459ff88169b797cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NextList: {fileID: 1387234988}
 --- !u!1 &388217049
 GameObject:
   m_ObjectHideFlags: 0
@@ -4732,6 +4757,7 @@ GameObject:
   - component: {fileID: 755313658}
   - component: {fileID: 755313657}
   - component: {fileID: 755313656}
+  - component: {fileID: 755313659}
   m_Layer: 5
   m_Name: done
   m_TagString: Untagged
@@ -4797,8 +4823,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Done
+      - m_Target: {fileID: 755313659}
+        m_MethodName: PlaceOn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4843,6 +4869,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 755313654}
+--- !u!114 &755313659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 755313654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7e6c04ea7cb0440af48b9445ee707d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextList: {fileID: 1387234988}
 --- !u!1 &820814729
 GameObject:
   m_ObjectHideFlags: 0
@@ -8758,6 +8796,7 @@ MonoBehaviour:
   PnP: {fileID: 2084631067}
   Place: {fileID: 2030366995}
   Play: {fileID: 1266583429}
+  SceneName: 
 --- !u!1 &1425723573
 GameObject:
   m_ObjectHideFlags: 0
@@ -10537,6 +10576,7 @@ GameObject:
   - component: {fileID: 1845321042}
   - component: {fileID: 1845321041}
   - component: {fileID: 1845321040}
+  - component: {fileID: 1845321043}
   m_Layer: 5
   m_Name: Fight
   m_TagString: Untagged
@@ -10600,7 +10640,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1845321041}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1845321043}
+        m_MethodName: FightOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1845321041
@@ -10636,6 +10687,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1845321038}
+--- !u!114 &1845321043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1845321038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d81d0f61fe2a846ab81b633ce66a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextList: {fileID: 1387234988}
 --- !u!1 &1902714012
 GameObject:
   m_ObjectHideFlags: 0

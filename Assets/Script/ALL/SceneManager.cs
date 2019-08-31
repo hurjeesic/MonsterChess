@@ -17,7 +17,7 @@ public class SceneManager : MonoBehaviour {
         Place,
         Play
     }
-    string SceneName;
+   public string SceneName;
     static Data DataIndex = Data.Instance;
 	// Use this for initialization
 	void Start () {
@@ -33,12 +33,21 @@ public class SceneManager : MonoBehaviour {
                 Login.SetActive(true);
                 break;
             case "Main":
+                Login.SetActive(false);
+                Main.SetActive(true);
                 break;
             case "Select":
+                Main.SetActive(false);
+                Select.SetActive(true);
                 break;
-            case "Place": 
+            case "Place":
+                PnP.SetActive(true);
+                Select.SetActive(false);
+                Place.SetActive(true);
                 break;
             case "Play":
+                Place.SetActive(false);
+                Play.SetActive(true);
                 break;
         }
 
