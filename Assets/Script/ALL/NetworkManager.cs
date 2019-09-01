@@ -2,7 +2,7 @@
 using FreeNetUnity;
 using UnityEngine;
 
-namespace MonterChessClient
+namespace MonsterChessClient
 {
     public class NetworkManager : MonoBehaviour
     {
@@ -11,6 +11,8 @@ namespace MonterChessClient
 
         [HideInInspector]
         public MonoBehaviour messageReceiver;
+
+        GameObject loginButton;
 
         void Awake()
         {
@@ -24,6 +26,8 @@ namespace MonterChessClient
 
             // Packet 수신 Delegate 설정
             this.gameServer.appCallbackOnMessage += OnMessage;
+
+            loginButton = GameObject.Find("LoginButton");
         }
 
 
@@ -51,7 +55,7 @@ namespace MonterChessClient
                         LogManager.Log("on connected");
                         this.receivedMessage += "on connected\n";
 
-                        GameObject.Find("LoginButton").GetComponent<Login>().OnConnected();
+                        loginButton.GetComponent<Login>().OnConnected();
                     }
                     break;
 
@@ -61,7 +65,7 @@ namespace MonterChessClient
                     this.receivedMessage += "disconnected\n";
 
                     this.gameServer.Disconnect();
-                    GameObject.Find("LoginButton").GetComponent<Login>().OnDisconnected();
+                    loginButton.GetComponent<Login>().OnDisconnected();
                     break;
             }
         }

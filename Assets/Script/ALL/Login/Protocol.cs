@@ -1,4 +1,4 @@
-﻿namespace MonterChessClient
+﻿namespace MonsterChessClient
 {
     public enum PROTOCOL : short
     {

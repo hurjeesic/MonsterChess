@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Threading;
 
-namespace MonterChessClient
+namespace MonsterChessClient
 {
     public static class LogManager
     {

@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class NextButton : MonoBehaviour {
-    public GameObject NextList;
-    // Use this for initialization
-    public void PlayOn()
+namespace MonsterChessClient
+{
+    public class NextButton : MonoBehaviour
     {
-        NextList.GetComponent<SceneManager>().SceneName = "Play";
+        public void PlayOn()
+        {
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Play;
+        }
     }
 }

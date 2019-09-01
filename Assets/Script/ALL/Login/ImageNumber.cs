@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace MonterChessClient
+namespace MonsterChessClient
 {
     public class ImageNumber : MonoBehaviour
     {

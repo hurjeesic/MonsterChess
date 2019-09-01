@@ -1,10 +1,8 @@
 ﻿using FreeNet;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace MonterChessClient
+namespace MonsterChessClient
 {
     public class Login : MonoBehaviour
     {
@@ -22,7 +20,7 @@ namespace MonterChessClient
         NetworkManager networkManager;
         UserStage userState;
 
-        float timer;
+        float timer, totalTimer;
 
         public InputField id, pwd;
 
@@ -31,7 +29,7 @@ namespace MonterChessClient
         {
             this.userState = UserStage.RequestLogin;
 
-            networkManager = networkManagerObject.GetComponent<NetworkManager>();
+            if (networkManagerObject != null) networkManager = networkManagerObject.GetComponent<NetworkManager>();
         }
 
         public void Enter()
@@ -45,7 +43,7 @@ namespace MonterChessClient
             else
             {
                 OnConnected();
-                timer = 0;
+                totalTimer = 0;
             }
         }
 
@@ -67,7 +65,14 @@ namespace MonterChessClient
                         timer = 0;
                     }
 
+                    if (totalTimer > 10)
+                    {
+                        Debug.Log("서버가 응답하지 않습니다.");
+                        this.userState = UserStage.RequestLogin;
+                    }
+
                     timer += Time.deltaTime;
+                    totalTimer += Time.deltaTime;
                     break;
 
                 case UserStage.Connected:
@@ -119,7 +124,8 @@ namespace MonterChessClient
 
         public void OnDisconnected()
         {
-            this.userState = UserStage.NotConnected;
+            this.userState = UserStage.RequestLogin;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Login;
         }
 
         /// <summary>
@@ -160,7 +166,7 @@ namespace MonterChessClient
                     {
                         Debug.Log("로그인에 성공하였습니다.");
                         UserData.User.Instance.Initialize(msg.PopString(), msg.PopInt32(), msg.PopInt32());
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().SceneName = "Main";
+                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Main;
                     }
                     break;
                 case PROTOCOL.StartLoading:
@@ -169,7 +175,7 @@ namespace MonterChessClient
 
                         //this.battleRoom.gameObject.SetActive(true);
                         //this.battleRoom.StartLoading(playerIndex);
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().SceneName = "Select";
+                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Select;
                         gameObject.SetActive(false);
                     }
                     break;

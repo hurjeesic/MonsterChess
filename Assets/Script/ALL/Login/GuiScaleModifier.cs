@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MonterChessClient
+namespace MonsterChessClient
 {
     public static class GuiScaleModifier
     {

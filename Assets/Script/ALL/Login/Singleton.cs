@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MonterChessClient
+namespace MonsterChessClient
 {
     public abstract class SingletonMonobehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
