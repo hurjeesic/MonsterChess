@@ -1,13 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlaceButton : MonoBehaviour {
-    public GameObject NextList;
-    // Use this for initialization
-    public void PlaceOn()
+namespace MonsterChessClient
+{
+    public class PlaceButton : MonoBehaviour
     {
-        NextList.GetComponent<SceneManager>().SceneName = "Place";
+        public void PlaceOn()
+        {
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Place;
+        }
 
+        public void SelectOff()
+        {
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Main;
+        }
     }
 }

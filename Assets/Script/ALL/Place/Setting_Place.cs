@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
-public class Setting_Place : MonoBehaviour {
+public class Setting_Place : MonoBehaviour
+{
     static Data DataIndex = Data.Instance;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         for (int i = 0; i < 5; i++)
         {
             GameObject[] SommonButton = new GameObject[5];
@@ -23,6 +22,4 @@ public class Setting_Place : MonoBehaviour {
         Hero.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
         DataIndex.pan[0, 3] = DataIndex.Unit[5];
     }
-	
-	
 }
