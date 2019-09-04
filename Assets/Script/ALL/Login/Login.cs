@@ -15,6 +15,7 @@ namespace MonsterChessClient
         }
 
         public Main main;
+        public Account account;
 
         public NetworkManager networkManager;
         UserStage userState;
@@ -26,20 +27,23 @@ namespace MonsterChessClient
 
         void Start()
         {
-            
+            this.networkManager.messageReceiver = this;
         }
 
         public void Enter()
         {
             this.networkManager.messageReceiver = this;
+        }
 
+        public void Connect()
+        {
             if (!this.networkManager.IsConnected())
             {
                 this.networkManager.Connect();
             }
             else
             {
-                foreach (Button btn in btns) btn.GetComponent<Button>().enabled = true;
+                EnableButtons(true);
                 OnConnected();
                 totalTimer = 0;
             }
@@ -56,7 +60,7 @@ namespace MonsterChessClient
                     GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Connecting...");
                     if (timer > 3)
                     {
-                        Enter();
+                        Connect();
                         // Debug.Log("Connecting...");
                         timer = 0;
                     }
@@ -65,7 +69,7 @@ namespace MonsterChessClient
                     {
                         Debug.Log("서버가 응답하지 않습니다.");
                         this.userState = UserStage.RequestLogin;
-                        foreach (Button btn in btns) btn.GetComponent<Button>().enabled = true;
+                        EnableButtons(true);
                         totalTimer = 0;
                     }
 
@@ -88,10 +92,15 @@ namespace MonsterChessClient
             }
         }
 
+        public void EnableButtons(bool enable)
+        {
+            foreach (Button btn in btns) btn.GetComponent<Button>().enabled = enable;
+        }
+
         public void RequestLogin()
         {
             this.userState = UserStage.NotConnected;
-            foreach (Button btn in btns) btn.GetComponent<Button>().enabled = false;
+            EnableButtons(false);
         }
 
         public void RequestMatching()
@@ -100,6 +109,18 @@ namespace MonsterChessClient
 
             Packet msg = Packet.Create((short)PROTOCOL.RequestMatching);
             this.networkManager.Send(msg);
+        }
+
+        public void FindUser()
+        {
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.FindUser;
+        }
+
+        public void Account()
+        {
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Account;
+            account.Enter();
+            EnableButtons(false);
         }
 
         /// <summary>
@@ -127,7 +148,6 @@ namespace MonsterChessClient
         /// <summary>
         /// Packet을 수신 했을 때 호출됨
         /// </summary>
-        /// <param name="protocol"></param>
         /// <param name="msg"></param>
         public void OnReceive(Packet msg)
         {

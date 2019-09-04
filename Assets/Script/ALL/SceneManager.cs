@@ -7,6 +7,8 @@ namespace MonsterChessClient
         public enum SceneList : short
         {
             Login = 0,
+            Account,
+            FindUser,
             Main,
             Select,
             Place,
@@ -15,6 +17,8 @@ namespace MonsterChessClient
         }
 
         public GameObject Login;
+        public GameObject Account;
+        public GameObject FindUser;
         public GameObject Main;
         public GameObject Select;
         public GameObject PnP;
@@ -33,6 +37,29 @@ namespace MonsterChessClient
                 {
                     case SceneList.Login:
                         Login.SetActive(true);
+                        FindUser.SetActive(false);
+                        Account.SetActive(false);
+
+                        Main.SetActive(false);
+                        Select.SetActive(false);
+                        PnP.SetActive(false);
+                        Friend.SetActive(false);
+                        break;
+                    case SceneList.Account:
+                        Login.SetActive(true);
+                        FindUser.SetActive(false);
+                        Account.SetActive(true);
+
+                        Main.SetActive(false);
+                        Select.SetActive(false);
+                        PnP.SetActive(false);
+                        Friend.SetActive(false);
+                        break;
+                    case SceneList.FindUser:
+                        Login.SetActive(true);
+                        FindUser.SetActive(true);
+                        Account.SetActive(false);
+
                         Main.SetActive(false);
                         Select.SetActive(false);
                         PnP.SetActive(false);
