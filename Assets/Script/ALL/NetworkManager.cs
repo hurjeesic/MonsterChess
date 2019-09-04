@@ -12,7 +12,7 @@ namespace MonsterChessClient
         [HideInInspector]
         public MonoBehaviour messageReceiver;
 
-        GameObject loginButton;
+        public Login login;
 
         void Awake()
         {
@@ -26,14 +26,12 @@ namespace MonsterChessClient
 
             // Packet 수신 Delegate 설정
             this.gameServer.appCallbackOnMessage += OnMessage;
-
-            loginButton = GameObject.Find("LoginButton");
         }
 
 
         public void Connect()
         {
-            this.gameServer.Connect("172.19.0.94", 7979);
+            this.gameServer.Connect("172.19.6.6", 7979);
         }
 
         public bool IsConnected()
@@ -54,18 +52,19 @@ namespace MonsterChessClient
                     {
                         LogManager.Log("on connected");
                         this.receivedMessage += "on connected\n";
-
-                        loginButton.GetComponent<Login>().OnConnected();
                     }
                     break;
 
                 // 연결 끊김
                 case NetworkEvent.disconnected:
-                    LogManager.Log("disconnected");
-                    this.receivedMessage += "disconnected\n";
+                    {
+                        LogManager.Log("disconnected");
+                        this.receivedMessage += "disconnected\n";
 
-                    this.gameServer.Disconnect();
-                    loginButton.GetComponent<Login>().OnDisconnected();
+                        this.gameServer.Disconnect();
+                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Login;
+                        login.Enter();
+                    }
                     break;
             }
         }
