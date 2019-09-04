@@ -1,25 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
-public class Setting_Place : MonoBehaviour
+namespace MonsterChessClient
 {
-    static Data DataIndex = Data.Instance;
-
-	// Use this for initialization
-	void Start ()
+    public class Setting_Place : MonoBehaviour
     {
-        for (int i = 0; i < 5; i++)
+        // Use this for initialization
+        void Start()
         {
-            GameObject[] SommonButton = new GameObject[5];
-            SommonButton[i] = GameObject.Find("" + i);
-            string temp = "Image/ButtonUnit/" + DataIndex.Unit[i];
-            SommonButton[i].GetComponent<RawImage>().texture = Resources.Load(temp) as Texture;
-            SommonButton[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            DataIndex.SommonOn = false;
+            for (int i = 0; i < 5; i++)
+            {
+                GameObject[] SommonButton = new GameObject[5];
+                SommonButton[i] = GameObject.Find("" + i);
+                string temp = "Image/ButtonUnit/" + Data.Instance.Unit[i];
+                SommonButton[i].GetComponent<RawImage>().texture = Resources.Load(temp) as Texture;
+                SommonButton[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                Data.Instance.SommonOn = false;
+            }
+            GameObject Hero = GameObject.Find("0,3");
+            Hero.GetComponent<RawImage>().texture = Resources.Load("Image/Unit/" + Data.Instance.Unit[5]) as Texture;
+            Hero.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            Data.Instance.pan[0, 3] = Data.Instance.Unit[5];
         }
-        GameObject Hero = GameObject.Find("0,3");
-        Hero.GetComponent<RawImage>().texture = Resources.Load("Image/Unit/" + DataIndex.Unit[5]) as Texture;
-        Hero.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-        DataIndex.pan[0, 3] = DataIndex.Unit[5];
     }
+
 }

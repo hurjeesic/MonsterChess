@@ -30,6 +30,10 @@ namespace MonsterChessClient
             this.userState = UserStage.RequestLogin;
 
             if (networkManagerObject != null) networkManager = networkManagerObject.GetComponent<NetworkManager>();
+
+            //코드 추가
+            this.userState = UserStage.Connected;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Select;
         }
 
         public void Enter()
