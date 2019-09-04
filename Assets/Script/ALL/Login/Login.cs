@@ -14,22 +14,19 @@ namespace MonsterChessClient
             WaitingMatching
         }
 
-        BattleRoom battleRoom;
+        public Main main;
 
-        public GameObject networkManagerObject;
-        NetworkManager networkManager;
+        public NetworkManager networkManager;
         UserStage userState;
 
         float timer, totalTimer;
 
-        public InputField id, pwd;
+        public InputField idTxt, pwdTxt;
+        public Button[] btns;
 
-        // Use this for initialization
         void Start()
         {
-            this.userState = UserStage.RequestLogin;
-
-            if (networkManagerObject != null) networkManager = networkManagerObject.GetComponent<NetworkManager>();
+            
         }
 
         public void Enter()
@@ -42,6 +39,7 @@ namespace MonsterChessClient
             }
             else
             {
+                foreach (Button btn in btns) btn.GetComponent<Button>().enabled = true;
                 OnConnected();
                 totalTimer = 0;
             }
@@ -52,12 +50,10 @@ namespace MonsterChessClient
             switch (this.userState)
             {
                 case UserStage.RequestLogin:
-                    gameObject.GetComponent<Button>().enabled = true;
                     break;
 
                 case UserStage.NotConnected:
                     GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Connecting...");
-                    gameObject.GetComponent<Button>().enabled = false;
                     if (timer > 3)
                     {
                         Enter();
@@ -69,6 +65,8 @@ namespace MonsterChessClient
                     {
                         Debug.Log("서버가 응답하지 않습니다.");
                         this.userState = UserStage.RequestLogin;
+                        foreach (Button btn in btns) btn.GetComponent<Button>().enabled = true;
+                        totalTimer = 0;
                     }
 
                     timer += Time.deltaTime;
@@ -76,7 +74,6 @@ namespace MonsterChessClient
                     break;
 
                 case UserStage.Connected:
-                    gameObject.GetComponent<Button>().enabled = true;
                     break;
 
                 case UserStage.WaitingMatching:
@@ -93,9 +90,8 @@ namespace MonsterChessClient
 
         public void RequestLogin()
         {
-            this.networkManagerObject.SetActive(true);
-
             this.userState = UserStage.NotConnected;
+            foreach (Button btn in btns) btn.GetComponent<Button>().enabled = false;
         }
 
         public void RequestMatching()
@@ -116,8 +112,8 @@ namespace MonsterChessClient
 
             Packet msg = Packet.Create((short)PROTOCOL.RequestLogin);
             
-            msg.Push(id.GetComponent<InputField>().text);
-            msg.Push(pwd.GetComponent<InputField>().text);
+            msg.Push(idTxt.GetComponent<InputField>().text);
+            msg.Push(pwdTxt.GetComponent<InputField>().text);
             this.networkManager.Send(msg);
             this.userState = UserStage.Connected;
         }
@@ -166,6 +162,8 @@ namespace MonsterChessClient
                     {
                         Debug.Log("로그인에 성공하였습니다.");
                         UserData.User.Instance.Initialize(msg.PopString(), msg.PopInt32(), msg.PopInt32());
+                        this.userState = UserStage.RequestLogin;
+                        main.Enter();
                         GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Main;
                     }
                     break;

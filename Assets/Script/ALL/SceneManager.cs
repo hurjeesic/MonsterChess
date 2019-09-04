@@ -10,7 +10,8 @@ namespace MonsterChessClient
             Main,
             Select,
             Place,
-            Play
+            Play,
+            Friend
         }
 
         public GameObject Login;
@@ -19,6 +20,7 @@ namespace MonsterChessClient
         public GameObject PnP;
         public GameObject Place;
         public GameObject Play;
+        public GameObject Friend;
 
         private SceneList present;
         public SceneList Present
@@ -34,18 +36,21 @@ namespace MonsterChessClient
                         Main.SetActive(false);
                         Select.SetActive(false);
                         PnP.SetActive(false);
+                        Friend.SetActive(false);
                         break;
                     case SceneList.Main:
                         Login.SetActive(false);
                         Main.SetActive(true);
                         Select.SetActive(false);
                         PnP.SetActive(false);
+                        Friend.SetActive(false);
                         break;
                     case SceneList.Select:
                         Login.SetActive(false);
                         Main.SetActive(false);
                         Select.SetActive(true);
                         PnP.SetActive(false);
+                        Friend.SetActive(false);
                         break;
                     case SceneList.Place:
                         Login.SetActive(false);
@@ -55,6 +60,8 @@ namespace MonsterChessClient
                         PnP.SetActive(true);
                         Place.SetActive(true);
                         Play.SetActive(false);
+
+                        Friend.SetActive(false);
                         break;
                     case SceneList.Play:
                         Login.SetActive(false);
@@ -64,6 +71,16 @@ namespace MonsterChessClient
                         PnP.SetActive(true);
                         Place.SetActive(false);
                         Play.SetActive(true);
+
+                        Friend.SetActive(false);
+                        break;
+                    case SceneList.Friend:
+                        Login.SetActive(false);
+                        Main.SetActive(false);
+                        Select.SetActive(false);
+                        PnP.SetActive(false);
+
+                        Friend.SetActive(true);
                         break;
                 }
             }
