@@ -28,23 +28,18 @@ namespace MonsterChessClient
                     {
                         if (DataIndex.Mana - cost >= 0)
                         {
-                            if (GameObject.Find("SceneManager").GetComponent<SceneManager>().Present == SceneManager.SceneList.Place)
-                            {
-                                CheckPan();
-                                Texture UnitImage = Resources.Load("Image/Unit/" + DataIndex.SommonID) as Texture;
-                                gameObject.GetComponent<RawImage>().texture = UnitImage;
-                                gameObject.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-                                DataIndex.pan[y, x] = DataIndex.SommonID;
-                                DataIndex.SommonOn = false;
-                                DataIndex.Mana -= cost;
-                            }
-                            else
-                            {
-                                Debug.Log("마나가부족합니다.");
-                                DataIndex.SommonOn = false;
-                            }
-
-
+                            if (GameObject.Find("SceneManager").GetComponent<SceneManager>().Present == SceneManager.SceneList.Place){CheckPan();}
+                            Texture UnitImage = Resources.Load("Image/UnitMy/" + DataIndex.SommonID) as Texture;
+                            gameObject.GetComponent<RawImage>().texture = UnitImage;
+                            gameObject.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                            DataIndex.pan[y, x] = DataIndex.SommonID;
+                            DataIndex.SommonOn = false;
+                            DataIndex.Mana -= cost;
+                        }
+                        else
+                        {
+                            Debug.Log("마나가부족합니다.");
+                            DataIndex.SommonOn = false;
                         }
                     }
                 }

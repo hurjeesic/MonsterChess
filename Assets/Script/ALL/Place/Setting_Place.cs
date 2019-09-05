@@ -17,7 +17,7 @@ namespace MonsterChessClient
                 Data.Instance.SommonOn = false;
             }
             GameObject Hero = GameObject.Find("0,3");
-            Hero.GetComponent<RawImage>().texture = Resources.Load("Image/Unit/" + Data.Instance.Unit[5]) as Texture;
+            Hero.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.Unit[5]) as Texture;
             Hero.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
             Data.Instance.pan[0, 3] = Data.Instance.Unit[5];
         }

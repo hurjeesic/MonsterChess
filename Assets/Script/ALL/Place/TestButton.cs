@@ -100,21 +100,21 @@ namespace MonsterChessClient
                             case 0:
                                 Data.Instance.pan[6, j] = Data.Instance.pan[i, j];
                                 GameObject TempUnit = GameObject.Find("" + 6 + "," + j);
-                                Texture UnitImage = Resources.Load("Image/Unit/" + Data.Instance.pan[6,j]) as Texture;
+                                Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.pan[6,j]) as Texture;
                                 TempUnit.GetComponent<RawImage>().texture = UnitImage;
                                 TempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 break;
                             case 1:
                                 Data.Instance.pan[5, j] = Data.Instance.pan[i, j];
                                 TempUnit = GameObject.Find("" + 5 + "," + j);
-                                UnitImage = Resources.Load("Image/Unit/" + Data.Instance.pan[5, j]) as Texture;
+                                UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.pan[5, j]) as Texture;
                                 TempUnit.GetComponent<RawImage>().texture = UnitImage;
                                 TempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 break;
                             case 2:
                                 Data.Instance.pan[4, j] = Data.Instance.pan[i, j];
                                 TempUnit = GameObject.Find("" + 4 + "," + j);
-                                UnitImage = Resources.Load("Image/Unit/" + Data.Instance.pan[4, j]) as Texture;
+                                UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.pan[4, j]) as Texture;
                                 TempUnit.GetComponent<RawImage>().texture = UnitImage;
                                 TempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 break;
