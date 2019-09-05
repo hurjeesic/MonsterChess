@@ -886,6 +886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   main: {fileID: 545942546}
+  account: {fileID: 407957002}
   networkManager: {fileID: 758624254}
   idTxt: {fileID: 1127795852}
   pwdTxt: {fileID: 351112966}
@@ -1350,7 +1351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &192973697
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3721,13 +3722,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 407957001}
+  - component: {fileID: 407957002}
   m_Layer: 5
   m_Name: Account
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &407957001
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3755,6 +3757,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &407957002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 407957000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d1fd058acc5754e9b39ced1b1f8877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkManager: {fileID: 758624254}
+  login: {fileID: 88647886}
+  id: {fileID: 1685513884}
+  pwd: {fileID: 566606981}
+  name: {fileID: 955579254}
+  btns:
+  - {fileID: 2027593666}
+  - {fileID: 569309194}
 --- !u!1 &448526546
 GameObject:
   m_ObjectHideFlags: 0
@@ -4794,7 +4815,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 569309195}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 407957002}
+        m_MethodName: Cancle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &569309195
@@ -7881,7 +7913,7 @@ GameObject:
   - component: {fileID: 955579255}
   - component: {fileID: 955579254}
   m_Layer: 5
-  m_Name: InputField (2)
+  m_Name: InputField-Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12032,6 +12064,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Login: {fileID: 88647884}
+  Account: {fileID: 407957000}
+  FindUser: {fileID: 192973696}
   Main: {fileID: 545942544}
   Select: {fileID: 235067389}
   PnP: {fileID: 2084631067}
@@ -12180,7 +12214,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1408449600}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 88647886}
+        m_MethodName: Account
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1408449600
@@ -16540,7 +16585,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2027593667}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 407957002}
+        m_MethodName: RequestRegistering
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2027593667
