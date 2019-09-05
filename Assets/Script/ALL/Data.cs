@@ -41,10 +41,12 @@ namespace MonsterChessClient
         public List<string> PlayList = new List<string>();//실제 게임진행하는 리스트
         public string SommonID;//소환할 ID를 가져옴
 
-        public int Mana = 100;//소환에 필요한 마나
+        public int Mana = 10;//소환에 필요한 마나
         public int Turn = 0;//턴수
         public int Order = 0;// 0=선공, 1=후공
         public float Time = 50f; // 턴의 시간
+
+        public List<GameObject> Range = new List<GameObject>();
 
         public bool SommonOn;//소환
         public bool ChangeListOn;//무브리스트 변경
