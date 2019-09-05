@@ -8,6 +8,10 @@
         FailLogin,
         SuccessLogin,
 
+        RequestRegistering,
+        FailRegistering,
+        SuccessRegistering,
+
         RequestMatching, // Client의 Matching 요청
         CancleMatching, // Client의 Matching 취소 요청
         StartLoading,
