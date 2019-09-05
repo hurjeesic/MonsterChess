@@ -1,6 +1,4 @@
 ﻿using FreeNet;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,16 +9,20 @@ namespace MonsterChessClient
         enum UserStage
         {
             RequestRegistering,
+            EmptyField,
             NotConnected,
             Connected,
+            FailRegistering,
+            SuccessRegistering
         }
 
         public NetworkManager networkManager;
         public Login login;
         UserStage userState;
 
-        public InputField id, pwd, name;
+        public InputField id, pwd, nick;
         public Button[] btns;
+        public GameObject process;
 
         float timer, totalTimer;
 
@@ -34,6 +36,10 @@ namespace MonsterChessClient
         {
             this.networkManager.messageReceiver = this;
             this.userState = UserStage.RequestRegistering;
+            id.text = "";
+            pwd.text = "";
+            nick.text = "";
+            process.SetActive(false);
         }
 
         public void Cancle()
@@ -46,7 +52,17 @@ namespace MonsterChessClient
 
         public void RequestRegistering()
         {
-            this.userState = UserStage.NotConnected;
+            process.SetActive(true);
+            if (id.text == "" || pwd.text == "" || nick.text == "")
+            {
+                this.userState = UserStage.EmptyField;
+                process.GetComponentsInChildren<Text>()[0].text = "모든 칸을 채워주세요.";
+            }
+            else
+            {
+                this.userState = UserStage.NotConnected;
+            }
+
             EnableButtons(false);
         }
 
@@ -60,19 +76,20 @@ namespace MonsterChessClient
             {
                 EnableButtons(true);
                 OnConnected();
-                totalTimer = 0;
+                process.SetActive(false);
             }
         }
 
         public void OnConnected()
         {
             timer = 0;
+            totalTimer = 0;
             // Debug.Log("Connected");
 
             Packet msg = Packet.Create((short)PROTOCOL.RequestRegistering);
             msg.Push(id.text);
             msg.Push(pwd.text);
-            msg.Push(name.text);
+            msg.Push(nick.text);
             this.networkManager.Send(msg);
             this.userState = UserStage.Connected;
         }
@@ -88,26 +105,82 @@ namespace MonsterChessClient
             {
                 case UserStage.RequestRegistering:
                     break;
-
+                case UserStage.EmptyField:
+                    if (timer > 3)
+                    {
+                        timer = 0;
+                        EnableButtons(true);
+                        process.SetActive(false);
+                    }
+                    else
+                    {
+                        timer += Time.deltaTime;
+                    }
+                    break;
                 case UserStage.NotConnected:
-                    GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Connecting...");
+                    if (totalTimer > 10)
+                    {
+                        process.GetComponentsInChildren<Text>()[0].text = "서버 무응답";
+                    }
+
+                    if (totalTimer > 12)
+                    {
+                        this.userState = UserStage.RequestRegistering;
+                        EnableButtons(true);
+                        process.SetActive(false);
+                        totalTimer = 0;
+                    }
+                    else
+                    {
+                        totalTimer += Time.deltaTime;
+                    }
+
+                    if (timer > 2)
+                    {
+                        process.GetComponentsInChildren<Text>()[0].text = "연결 중...";
+                    }
+                    else if (timer > 1)
+                    {
+                        process.GetComponentsInChildren<Text>()[0].text = "연결 중..";
+                    }
+                    else if (timer > 0)
+                    {
+                        process.GetComponentsInChildren<Text>()[0].text = "연결 중.";
+                    }
+
                     if (timer > 3)
                     {
                         Connect();
-                        // Debug.Log("Connecting...");
+
                         timer = 0;
                     }
-
-                    if (totalTimer > 10)
+                    else
                     {
-                        Debug.Log("서버가 응답하지 않습니다.");
-                        this.userState = UserStage.RequestRegistering;
-                        EnableButtons(true);
-                        totalTimer = 0;
+                        timer += Time.deltaTime;
                     }
-
-                    timer += Time.deltaTime;
-                    totalTimer += Time.deltaTime;
+                    break;
+                case UserStage.FailRegistering:
+                    if (timer > 3)
+                    {
+                        process.SetActive(false);
+                        timer = 0;
+                    }
+                    else
+                    {
+                        timer += Time.deltaTime;
+                    }
+                    break;
+                case UserStage.SuccessRegistering:
+                    if (timer > 3)
+                    {
+                        process.SetActive(false);
+                        timer = 0;
+                        Cancle();
+                    }
+                    else
+                    {
+                        timer += Time.deltaTime;
+                    }
                     break;
             }
         }
@@ -125,25 +198,29 @@ namespace MonsterChessClient
             {
                 case PROTOCOL.FailRegistering:
                     {
+                        process.SetActive(true);
                         int result = msg.PopInt32();
                         switch (result)
                         {
                             case -3:
-                                Debug.Log("서버의 데이터베이스에 문제가 생겼습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "DB 연결 실패";
                                 break;
                             case -2:
-                                Debug.Log("알 수 없는 이유가 가입하지 못하였습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "알 수 없는 문제";
                                 break;
                             case -1:
-                                Debug.Log("중복되는 아이디 또는 이름이 있습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "아이디 또는 이름 중복";
                                 break;
                         }
+
+                        this.userState = UserStage.FailRegistering;
                     }
                     break;
                 case PROTOCOL.SuccessRegistering:
                     {
-                        Debug.Log("가입되었습니다.");
-                        Cancle();
+                        process.SetActive(true);
+                        process.GetComponentsInChildren<Text>()[0].text = "가입 완료";
+                        this.userState = UserStage.SuccessRegistering;
                     }
                     break;
             }
