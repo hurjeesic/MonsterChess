@@ -16,6 +16,7 @@ namespace MonsterChessClient
 
         public Main main;
         public Account account;
+        public Find find;
 
         public NetworkManager networkManager;
         UserStage userState;
@@ -43,7 +44,7 @@ namespace MonsterChessClient
             }
             else
             {
-                EnableButtons(true);
+                EnableObjects(true);
                 OnConnected();
                 totalTimer = 0;
             }
@@ -69,7 +70,7 @@ namespace MonsterChessClient
                     {
                         Debug.Log("서버가 응답하지 않습니다.");
                         this.userState = UserStage.RequestLogin;
-                        EnableButtons(true);
+                        EnableObjects(true);
                         totalTimer = 0;
                     }
 
@@ -92,7 +93,7 @@ namespace MonsterChessClient
             }
         }
 
-        public void EnableButtons(bool enable)
+        public void EnableObjects(bool enable)
         {
             foreach (Button btn in btns) btn.GetComponent<Button>().enabled = enable;
         }
@@ -100,7 +101,7 @@ namespace MonsterChessClient
         public void RequestLogin()
         {
             this.userState = UserStage.NotConnected;
-            EnableButtons(false);
+            EnableObjects(false);
         }
 
         public void RequestMatching()
@@ -114,13 +115,15 @@ namespace MonsterChessClient
         public void FindUser()
         {
             GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.FindUser;
+            find.Enter();
+            EnableObjects(false);
         }
 
         public void Account()
         {
             GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Account;
             account.Enter();
-            EnableButtons(false);
+            EnableObjects(false);
         }
 
         /// <summary>

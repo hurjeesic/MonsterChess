@@ -4,63 +4,80 @@ using UnityEngine.UI;
 
 namespace MonsterChessClient
 {
-    public class Account : MonoBehaviour
+    public class Find : MonoBehaviour
     {
         enum UserStage
         {
-            RequestRegistering,
+            RequestFinding,
             EmptyField,
             NotConnected,
             Connected,
-            FailRegistering,
-            SuccessRegistering
+            FailFinding,
+            SuccessFinding
         }
 
         public NetworkManager networkManager;
         public Login login;
         UserStage userState;
 
-        public InputField id, pwd, nick;
+        public InputField nick, id;
         public Button[] btns;
         public GameObject process;
 
         float timer, totalTimer;
+        int signal;
 
         // Use this for initialization
         void Start()
         {
-
+            signal = 0;
         }
 
         public void Enter()
         {
             this.networkManager.messageReceiver = this;
-            this.userState = UserStage.RequestRegistering;
+            this.userState = UserStage.RequestFinding;
             id.text = "";
-            pwd.text = "";
             nick.text = "";
             process.SetActive(false);
-            EnableObjects(true);
         }
 
         public void Cancle()
         {
             login.Enter();
             login.EnableObjects(true);
-            this.userState = UserStage.RequestRegistering;
+            this.userState = UserStage.RequestFinding;
             GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Login;
         }
 
-        public void RequestRegistering()
+        public void RequestFindID()
         {
             process.SetActive(true);
-            if (id.text == "" || pwd.text == "" || nick.text == "")
+            if (nick.text == "")
             {
                 this.userState = UserStage.EmptyField;
-                process.GetComponentsInChildren<Text>()[0].text = "모든 칸을 채워주세요.";
+                process.GetComponentsInChildren<Text>()[0].text = "닉네임을 입력해세요.";
             }
             else
             {
+                signal = 0;
+                this.userState = UserStage.NotConnected;
+            }
+
+            EnableObjects(false);
+        }
+
+        public void RequestFindPWD()
+        {
+            process.SetActive(true);
+            if (id.text == "")
+            {
+                this.userState = UserStage.EmptyField;
+                process.GetComponentsInChildren<Text>()[0].text = "아이디를 채워주세요.";
+            }
+            else
+            {
+                signal = 1;
                 this.userState = UserStage.NotConnected;
             }
 
@@ -87,10 +104,17 @@ namespace MonsterChessClient
             totalTimer = 0;
             // Debug.Log("Connected");
 
-            Packet msg = Packet.Create((short)PROTOCOL.RequestRegistering);
-            msg.Push(id.text);
-            msg.Push(pwd.text);
-            msg.Push(nick.text);
+            Packet msg = Packet.Create((short)PROTOCOL.RequestFinding);
+            msg.Push(signal);
+            switch (signal)
+            {
+                case 0:
+                    msg.Push(nick.text);
+                    break;
+                case 1:
+                    msg.Push(id.text);
+                    break;
+            }
             this.networkManager.Send(msg);
             this.userState = UserStage.Connected;
         }
@@ -104,14 +128,14 @@ namespace MonsterChessClient
         {
             switch (this.userState)
             {
-                case UserStage.RequestRegistering:
+                case UserStage.RequestFinding:
                     break;
                 case UserStage.EmptyField:
                     if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
                     {
                         EnableObjects(true);
                         process.SetActive(false);
-                        this.userState = UserStage.RequestRegistering;
+                        this.userState = UserStage.RequestFinding;
                     }
                     break;
                 case UserStage.NotConnected:
@@ -120,7 +144,7 @@ namespace MonsterChessClient
                         process.GetComponentsInChildren<Text>()[0].text = "서버 무응답";
                         if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
                         {
-                            this.userState = UserStage.RequestRegistering;
+                            this.userState = UserStage.RequestFinding;
                             EnableObjects(true);
                             process.SetActive(false);
                             totalTimer = 0;
@@ -155,20 +179,20 @@ namespace MonsterChessClient
                         totalTimer += Time.deltaTime;
                     }
                     break;
-                case UserStage.FailRegistering:
+                case UserStage.FailFinding:
                     if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
                     {
                         EnableObjects(true);
                         process.SetActive(false);
-                        this.userState = UserStage.RequestRegistering;
+                        this.userState = UserStage.RequestFinding;
                     }
                     break;
-                case UserStage.SuccessRegistering:
+                case UserStage.SuccessFinding:
                     if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
                     {
                         EnableObjects(true);
                         process.SetActive(false);
-                        this.userState = UserStage.RequestRegistering;
+                        this.userState = UserStage.RequestFinding;
                         Cancle();
                     }
                     break;
@@ -186,7 +210,7 @@ namespace MonsterChessClient
 
             switch (protocolID)
             {
-                case PROTOCOL.FailRegistering:
+                case PROTOCOL.FailFinding:
                     {
                         process.SetActive(true);
                         int result = msg.PopInt32();
@@ -196,21 +220,38 @@ namespace MonsterChessClient
                                 process.GetComponentsInChildren<Text>()[0].text = "DB 연결 실패";
                                 break;
                             case -2:
-                                process.GetComponentsInChildren<Text>()[0].text = "알 수 없는 문제";
+                                // Debugging - 거의 나타나지 않음
+                                process.GetComponentsInChildren<Text>()[0].text = "잘못된 신호";
                                 break;
                             case -1:
-                                process.GetComponentsInChildren<Text>()[0].text = "아이디 또는 이름 중복";
+                                switch (signal)
+                                {
+                                    case 0:
+                                        process.GetComponentsInChildren<Text>()[0].text = "없는 닉네임입니다.";
+                                        break;
+                                    case 1:
+                                        process.GetComponentsInChildren<Text>()[0].text = "없는 아이디입니다.";
+                                        break;
+                                }
                                 break;
                         }
 
-                        this.userState = UserStage.FailRegistering;
+                        this.userState = UserStage.FailFinding;
                     }
                     break;
-                case PROTOCOL.SuccessRegistering:
+                case PROTOCOL.SuccessFinding:
                     {
                         process.SetActive(true);
-                        process.GetComponentsInChildren<Text>()[0].text = "가입 완료";
-                        this.userState = UserStage.SuccessRegistering;
+                        switch (signal)
+                        {
+                            case 0:
+                                process.GetComponentsInChildren<Text>()[0].text = "아이디 : " + msg.PopString();
+                                break;
+                            case 1:
+                                process.GetComponentsInChildren<Text>()[0].text = "비밀번호 : " + msg.PopString();
+                                break;
+                        }
+                        this.userState = UserStage.SuccessFinding;
                     }
                     break;
             }
