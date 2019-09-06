@@ -12,6 +12,10 @@
         FailRegistering,
         SuccessRegistering,
 
+        RequestFinding,
+        FailFinding,
+        SuccessFinding,
+
         RequestMatching, // Client의 Matching 요청
         CancleMatching, // Client의 Matching 취소 요청
         StartLoading,

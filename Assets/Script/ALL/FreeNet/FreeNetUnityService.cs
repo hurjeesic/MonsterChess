@@ -13,7 +13,6 @@ namespace FreeNetUnity
     /// </summary>
     public class FreeNetUnityService : MonoBehaviour
     {
-        bool isConnect = false;
         FreeNetEventManager eventManager;
 
         // 연결된 게임 서버 객체

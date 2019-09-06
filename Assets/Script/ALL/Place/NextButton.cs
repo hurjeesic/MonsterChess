@@ -6,7 +6,7 @@ namespace MonsterChessClient
     {
         public void PlayOn()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Play;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Play;
         }
     }
 }

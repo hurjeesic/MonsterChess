@@ -31,7 +31,7 @@ namespace MonsterChessClient
 
         public void Connect()
         {
-            this.gameServer.Connect("172.19.9.10", 7979);
+            this.gameServer.Connect("172.19.1.82", 7979);
         }
 
         public bool IsConnected()
@@ -62,7 +62,12 @@ namespace MonsterChessClient
                         this.receivedMessage += "disconnected\n";
 
                         this.gameServer.Disconnect();
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Login;
+                        SceneManager present = GameObject.Find("SceneManager").GetComponent<SceneManager>();
+                        if (present.Present != SceneList.Login && present.Present != SceneList.Account && present.Present != SceneList.FindUser)
+                        {
+                            present.Present = SceneList.Login;
+                        }
+
                         login.Enter();
                     }
                     break;
