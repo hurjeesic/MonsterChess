@@ -2,19 +2,21 @@
 
 namespace MonsterChessClient
 {
+    public enum SceneList : short
+    {
+        Login = 0,
+        Account,
+        FindUser,
+        Main,
+        Select,
+        Place,
+        Play,
+        Friend
+    }
+
     public class SceneManager : MonoBehaviour
     {
-        public enum SceneList : short
-        {
-            Login = 0,
-            Account,
-            FindUser,
-            Main,
-            Select,
-            Place,
-            Play,
-            Friend
-        }
+        
 
         public GameObject Login;
         public GameObject Account;

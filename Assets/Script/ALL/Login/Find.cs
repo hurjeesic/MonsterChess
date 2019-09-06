@@ -47,7 +47,7 @@ namespace MonsterChessClient
             login.Enter();
             login.EnableObjects(true);
             this.userState = UserStage.RequestFinding;
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Login;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Login;
         }
 
         public void RequestFindID()
@@ -102,7 +102,6 @@ namespace MonsterChessClient
         {
             timer = 0;
             totalTimer = 0;
-            // Debug.Log("Connected");
 
             Packet msg = Packet.Create((short)PROTOCOL.RequestFinding);
             msg.Push(signal);
@@ -124,7 +123,7 @@ namespace MonsterChessClient
             foreach (Button btn in btns) btn.GetComponent<Button>().enabled = enable;
         }
 
-        void OnGUI()
+        void Update()
         {
             switch (this.userState)
             {

@@ -9,8 +9,11 @@ namespace MonsterChessClient
         enum UserStage
         {
             RequestLogin,
+            EmptyField,
             NotConnected,
             Connected,
+            FailLogin,
+            SuccessLogin,
             WaitingMatching
         }
 
@@ -25,15 +28,17 @@ namespace MonsterChessClient
 
         public InputField idTxt, pwdTxt;
         public Button[] btns;
+        public GameObject process;
 
         void Start()
         {
-            this.networkManager.messageReceiver = this;
+            Enter();
         }
 
         public void Enter()
         {
             this.networkManager.messageReceiver = this;
+            process.SetActive(false);
         }
 
         public void Connect()
@@ -50,35 +55,86 @@ namespace MonsterChessClient
             }
         }
 
-        void OnGUI()
+        void Update()
         {
             switch (this.userState)
             {
                 case UserStage.RequestLogin:
                     break;
 
-                case UserStage.NotConnected:
-                    GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Connecting...");
-                    if (timer > 3)
+                case UserStage.EmptyField:
+                    if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
                     {
-                        Connect();
-                        // Debug.Log("Connecting...");
-                        timer = 0;
+                        EnableObjects(true);
+                        process.SetActive(false);
+                        this.userState = UserStage.RequestLogin;
                     }
+                    break;
 
+                case UserStage.NotConnected:
                     if (totalTimer > 10)
                     {
-                        Debug.Log("서버가 응답하지 않습니다.");
-                        this.userState = UserStage.RequestLogin;
-                        EnableObjects(true);
-                        totalTimer = 0;
+                        process.GetComponentsInChildren<Text>()[0].text = "서버 무응답";
+                        if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
+                        {
+                            this.userState = UserStage.RequestLogin;
+                            EnableObjects(true);
+                            process.SetActive(false);
+                            totalTimer = 0;
+                        }
                     }
+                    else
+                    {
+                        if (timer > 2)
+                        {
+                            process.GetComponentsInChildren<Text>()[0].text = "연결 중...";
+                        }
+                        else if (timer > 1)
+                        {
+                            process.GetComponentsInChildren<Text>()[0].text = "연결 중..";
+                        }
+                        else if (timer > 0)
+                        {
+                            process.GetComponentsInChildren<Text>()[0].text = "연결 중.";
+                        }
 
-                    timer += Time.deltaTime;
-                    totalTimer += Time.deltaTime;
+                        if (timer > 3)
+                        {
+                            Connect();
+
+                            timer = 0;
+                        }
+                        else
+                        {
+                            timer += Time.deltaTime;
+                        }
+
+                        totalTimer += Time.deltaTime;
+                    }
                     break;
 
                 case UserStage.Connected:
+                    break;
+
+                case UserStage.FailLogin:
+                    if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
+                    {
+                        EnableObjects(true);
+                        process.SetActive(false);
+                        this.userState = UserStage.RequestLogin;
+                    }
+                    break;
+
+                case UserStage.SuccessLogin:
+                    if (Input.touchCount > 0 || Input.GetMouseButtonUp(0))
+                    {
+                        EnableObjects(true);
+                        process.SetActive(false);
+                        this.userState = UserStage.RequestLogin;
+
+                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Main;
+                        main.Enter();
+                    }
                     break;
 
                 case UserStage.WaitingMatching:
@@ -100,7 +156,24 @@ namespace MonsterChessClient
 
         public void RequestLogin()
         {
-            this.userState = UserStage.NotConnected;
+            process.SetActive(true);
+            if (idTxt.text == "" || pwdTxt.text == "")
+            {
+                this.userState = UserStage.EmptyField;
+                if (idTxt.text == "")
+                {
+                    process.GetComponentsInChildren<Text>()[0].text = "아이디를 입력해세요.";
+                }
+                else
+                {
+                    process.GetComponentsInChildren<Text>()[0].text = "비밀번호를 입력해세요.";
+                }
+            }
+            else
+            {
+                this.userState = UserStage.NotConnected;
+            }
+            
             EnableObjects(false);
         }
 
@@ -114,14 +187,14 @@ namespace MonsterChessClient
 
         public void FindUser()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.FindUser;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.FindUser;
             find.Enter();
             EnableObjects(false);
         }
 
         public void Account()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Account;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Account;
             account.Enter();
             EnableObjects(false);
         }
@@ -145,7 +218,7 @@ namespace MonsterChessClient
         public void OnDisconnected()
         {
             this.userState = UserStage.RequestLogin;
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Login;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Login;
         }
 
         /// <summary>
@@ -161,33 +234,33 @@ namespace MonsterChessClient
             {
                 case PROTOCOL.FailLogin:
                     {
+                        process.SetActive(true);
                         int result = msg.PopInt32();
                         switch (result)
                         {
                             case -4:
-                                Debug.Log("이미 접속되어 있습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "이미 접속 중";
                                 break;
                             case -3:
-                                Debug.Log("서버의 데이터베이스에 문제가 생겼습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "서버 DB 문제";
                                 break;
                             case -2:
-                                Debug.Log("아이디가 존재하지 않습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "없는 아이디입니다.";
                                 break;
                             case -1:
-                                Debug.Log("비밀번호가 일치하지 않습니다.");
+                                process.GetComponentsInChildren<Text>()[0].text = "비밀번호가 틀렸습니다.";
                                 break;
                         }
-                    }
 
-                    this.userState = UserStage.RequestLogin;
+                        this.userState = UserStage.FailLogin;
+                    }
                     break;
                 case PROTOCOL.SuccessLogin:
                     {
-                        Debug.Log("로그인에 성공하였습니다.");
                         UserData.User.Instance.Initialize(msg.PopString(), msg.PopInt32(), msg.PopInt32());
-                        this.userState = UserStage.RequestLogin;
-                        main.Enter();
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Main;
+                        process.GetComponentsInChildren<Text>()[0].text = UserData.User.Instance.name + "님 환영합니다.";
+
+                        this.userState = UserStage.SuccessLogin;
                     }
                     break;
                 case PROTOCOL.StartLoading:
@@ -196,7 +269,7 @@ namespace MonsterChessClient
 
                         //this.battleRoom.gameObject.SetActive(true);
                         //this.battleRoom.StartLoading(playerIndex);
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneManager.SceneList.Select;
+                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Select;
                         gameObject.SetActive(false);
                     }
                     break;
