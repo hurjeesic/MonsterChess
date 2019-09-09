@@ -512,7 +512,7 @@ RectTransform:
   m_Children:
   - {fileID: 961870110}
   m_Father: {fileID: 235067390}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1626,6 +1626,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 588259001}
   - {fileID: 277145390}
   - {fileID: 14716760}
   - {fileID: 971355271}
@@ -1795,6 +1796,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 277145390}
+  - component: {fileID: 277145391}
   m_Layer: 0
   m_Name: Tap
   m_TagString: Untagged
@@ -1816,8 +1818,19 @@ Transform:
   - {fileID: 1170958971}
   - {fileID: 1599560151}
   m_Father: {fileID: 235067390}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &277145391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 277145389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d48d25a1326fd049b0ac6bb0b2c0c27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &280630097
 GameObject:
   m_ObjectHideFlags: 0
@@ -3791,7 +3804,7 @@ RectTransform:
   m_Children:
   - {fileID: 2053197516}
   m_Father: {fileID: 235067390}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4933,6 +4946,47 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &588259000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 588259001}
+  - component: {fileID: 588259002}
+  m_Layer: 0
+  m_Name: SelectSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &588259001
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 588259000}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -19.119202, y: 78.42334, z: -2.9375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 235067390}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &588259002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 588259000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa82e3bdef4e8944381b179ba56d55c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: []
 --- !u!1 &588824627
 GameObject:
   m_ObjectHideFlags: 0
@@ -6398,7 +6452,7 @@ RectTransform:
   m_Children:
   - {fileID: 53565403}
   m_Father: {fileID: 235067390}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8186,7 +8240,7 @@ Transform:
   - {fileID: 2020543437}
   - {fileID: 1575108492}
   m_Father: {fileID: 235067390}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &986726913
 GameObject:
@@ -10071,7 +10125,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 277145391}
         m_MethodName: L_Tap
         m_Mode: 1
         m_Arguments:
@@ -13087,6 +13141,7 @@ GameObject:
   - component: {fileID: 1575108495}
   - component: {fileID: 1575108494}
   - component: {fileID: 1575108493}
+  - component: {fileID: 1575108496}
   m_Layer: 5
   m_Name: 3
   m_TagString: Monster_Slot
@@ -13196,6 +13251,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1575108491}
+--- !u!114 &1575108496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1575108491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1599560150
 GameObject:
   m_ObjectHideFlags: 0
@@ -13272,7 +13338,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 277145391}
         m_MethodName: S_Tap
         m_Mode: 1
         m_Arguments:
@@ -15262,6 +15328,7 @@ GameObject:
   - component: {fileID: 1902714016}
   - component: {fileID: 1902714015}
   - component: {fileID: 1902714014}
+  - component: {fileID: 1902714017}
   m_Layer: 5
   m_Name: 1
   m_TagString: Monster_Slot
@@ -15371,6 +15438,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1902714012}
+--- !u!114 &1902714017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1902714012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1908179223
 GameObject:
   m_ObjectHideFlags: 0
@@ -15945,6 +16023,7 @@ GameObject:
   - component: {fileID: 1974981600}
   - component: {fileID: 1974981599}
   - component: {fileID: 1974981598}
+  - component: {fileID: 1974981601}
   m_Layer: 5
   m_Name: 0
   m_TagString: Monster_Slot
@@ -16054,6 +16133,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1974981596}
+--- !u!114 &1974981601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1974981596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1995430208
 GameObject:
   m_ObjectHideFlags: 0
@@ -16213,6 +16303,7 @@ GameObject:
   - component: {fileID: 2020543440}
   - component: {fileID: 2020543439}
   - component: {fileID: 2020543438}
+  - component: {fileID: 2020543441}
   m_Layer: 5
   m_Name: 2
   m_TagString: Monster_Slot
@@ -16322,6 +16413,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2020543436}
+--- !u!114 &2020543441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2020543436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2027593664
 GameObject:
   m_ObjectHideFlags: 0
@@ -17389,8 +17491,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 277145389}
-        m_MethodName: 
+      - m_Target: {fileID: 277145391}
+        m_MethodName: H_Tap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

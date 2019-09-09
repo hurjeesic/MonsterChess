@@ -42,8 +42,15 @@ public class Data
 
     public bool SommonOn;//소환
     public bool ChangeListOn;//준비시간에
-   
-   
+
+
+    // 여기서 부터는SelectUnit 관련 변수들=====================
+
+    public int Kind = 0;//현재 선택된 탭의 번호
+    public string MonsterID;//선택된 몬스터의 이름
+    public int Cost = 0;//선택된 몬스터의 코스트 합
+
+
 }
 
 /*사용 방법
