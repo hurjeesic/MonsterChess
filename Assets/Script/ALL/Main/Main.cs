@@ -6,6 +6,7 @@ namespace MonsterChessClient
     public class Main : MonoBehaviour
     {
         public NetworkManager networkManager;
+        public Friend friend;
 
         void Start()
         {
@@ -15,6 +16,12 @@ namespace MonsterChessClient
         public void Enter()
         {
             this.networkManager.messageReceiver = this;
+        }
+
+        public void MoveFriendList()
+        {
+            friend.Enter();
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Friend;
         }
 
         /// <summary>

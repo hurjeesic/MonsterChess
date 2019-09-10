@@ -1,4 +1,5 @@
-﻿using FreeNet;
+﻿#define DEBUG
+using FreeNet;
 using UnityEngine;
 using System;
 using System.Net;
@@ -39,7 +40,9 @@ namespace FreeNetUnity
         {
             if (IsConnected())
             {
-                Debug.LogError("Already connected.");
+                #if DEBUG
+                    Debug.LogError("Already connected.");
+                #endif
                 return;
             }
 

@@ -1,4 +1,5 @@
-﻿using FreeNet;
+﻿#define DEBUG
+using FreeNet;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -205,7 +206,9 @@ namespace MonsterChessClient
         public void OnConnected()
         {
             timer = 0;
-            // Debug.Log("Connected");
+            #if DEBUG
+                Debug.Log("Connected");
+            #endif
 
             Packet msg = Packet.Create((short)PROTOCOL.RequestLogin);
             

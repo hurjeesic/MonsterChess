@@ -5,6 +5,18 @@ using System.Text;
 
 namespace UserData
 {
+    public enum RANK
+    {
+        UnRank = 0,
+
+        Private, PrivateFirstClass, Corporal, Sergeant, // 훈련병=이병, 일병, 상병, 병장
+        StaffSergeant, SergeantFirstClass, FirstSergeant, CommandSergeantMajor, // 하사, 중사, 상사, 원사
+        WarrantOfficer, SecondLieutenant, FirstLieutenant, Captain, // 준위, 소위, 중위, 대위
+        Major, LieutenantColonel, Colonel, // 소령, 중령, 대령
+        BrigadierGeneral, MajorGeneral, LieutenantGeneral, General, // 준장, 소장, 중장, 대장
+        President
+    }
+
     class User
     {
         public string name { get; private set; }

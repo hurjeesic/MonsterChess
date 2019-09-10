@@ -16,6 +16,10 @@
         FailFinding,
         SuccessFinding,
 
+        RequestFriendList,
+        FailFriendList,
+        SuccessFriendList,
+
         RequestMatching, // Client의 Matching 요청
         CancleMatching, // Client의 Matching 취소 요청
         StartLoading,
