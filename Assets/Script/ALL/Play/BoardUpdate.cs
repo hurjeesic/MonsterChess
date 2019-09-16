@@ -20,38 +20,43 @@ namespace MonsterChessClient
         // Update is called once per frame
         void Update()
         {
-            if (Data.Instance.Time >= 40)//30초 시작
+            if (Data.Instance.PlayOn == false)
             {
-                //SortList();//무브리스트 정렬
-                Data.Instance.Mana++;
-                GameObject ManaText = GameObject.Find("Mana");
-                ManaText.GetComponent<Text>().text = Data.Instance.Mana + "";
-                //================================================
-                Data.Instance.ChangeListOn = false;
-                Data.Instance.SommonOn = false;
-                Data.Instance.Time = 31;
+                if (Data.Instance.Time >= 40)//30초 시작
+                {
+                    //SortList();//무브리스트 정렬
+                    Data.Instance.Mana++;
+                    GameObject ManaText = GameObject.Find("Mana");
+                    ManaText.GetComponent<Text>().text = Data.Instance.Mana + "";
+                    //================================================
+                    Data.Instance.SommonOn = false;
+                    Data.Instance.MoveOn = false;
+                    Data.Instance.Time = 31;
 
-            }
-            else if (Data.Instance.Time <= 1)
-            {
+                }
+                else if (Data.Instance.Time <= 0)
+                {
 
-                Data.Instance.Time = 0;
-                GameObject TimeText = GameObject.Find("Time");
-                TimeText.GetComponent<Text>().text = Mathf.Floor(Data.Instance.Time) + "";
-                Data.Instance.Turn++;
-                //30초 끝
-                //시간초 초기화(재우)
-                Data.Instance.Time = 50;
-            }
-            else
-            {
-                //시간이 진행됨
-                Data.Instance.Time -= Time.deltaTime;
-                GameObject TimeText = GameObject.Find("Time");
-                TimeText.GetComponent<Text>().text = Mathf.Floor(Data.Instance.Time) + "";
-                //30초 중
-                // 소환(성준)
-                //이동범위 표시(성준)
+                    Data.Instance.Time = 0;
+                    GameObject TimeText = GameObject.Find("Time");
+                    TimeText.GetComponent<Text>().text = Mathf.Floor(Data.Instance.Time) + "";
+                    Data.Instance.Turn++;
+                    //30초 끝
+                    //시간초 초기화(재우)
+                    Data.Instance.Time = 50;
+                    Data.Instance.PlayOn = true;
+                }
+                else
+                {
+                    //시간이 진행됨
+                    Data.Instance.Time -= Time.deltaTime;
+                    GameObject TimeText = GameObject.Find("Time");
+                    TimeText.GetComponent<Text>().text = Mathf.Floor(Data.Instance.Time) + "";
+                    //30초 중
+                    // 소환(성준)
+                    //이동범위 표시(성준)
+                }
+
             }
 
 

@@ -24,7 +24,7 @@ namespace MonsterChessClient
         private Data()
         {
         }
-
+        //몬스터 리스트는 스크립트에 접근하지 않고 정보를 가져오기 위한 저장장
         public string[,] StateOfMonster = {{"000100121고블린","001110121벤시","002100121놀","003210222드레이크","004110232오크"
                                         ,"005100232골렘","006210342트윈헤드오우거","007200333광전사","008110332웜","009210443데스나이트"
                                         ,"010210434발키리","011210443용사" },
@@ -36,21 +36,23 @@ namespace MonsterChessClient
 
         public string[,] pan = new string[7, 7];//현재 판의 데이터 배열
         public string[] Unit = { "002", "005", "008", "101", "102", "201" };//유닛넣는곳(임시로 넣었음)
-        public List <string>MonsterList = new List<string>();//빠르게 몬스터 데이터를 가져올수 있는곳
-        public List<string> MoveList = new List<string>();//아군유닛의 움직임을 저장하는곳
         public List<string> PlayList = new List<string>();//실제 게임진행하는 리스트
+        public List<string> MoveDirection= new List<string>(); // 유닛의 이동방향을 나타냄
         public string SommonID;//소환할 ID를 가져옴
+
 
         public int Mana = 10;//소환에 필요한 마나
         public int Turn = 0;//턴수
         public int Order = 0;// 0=선공, 1=후공
         public float Time = 50f; // 턴의 시간
 
-        public List<GameObject> Range = new List<GameObject>();
+        public GameObject Origin;
+   
 
         public bool SommonOn;//소환
-        public bool ChangeListOn;//무브리스트 변경
         public bool ManaStoneOn;//마나스톤 생성
+        public bool MoveOn=false;
+        public bool PlayOn = false;
 
 
     }

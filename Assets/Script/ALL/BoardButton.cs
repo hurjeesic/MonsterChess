@@ -4,14 +4,17 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using System.Linq;
+using System.Reflection;
+
 namespace MonsterChessClient
 {
+   
     public class BoardButton : MonoBehaviour
     {
-       
+        int RangeNum;
         // Use this for initialization
         public void OnBoard()
-        {
+        {   
             if (GameObject.Find("SceneManager").GetComponent<SceneManager>().Present == SceneManager.SceneList.Place)
             {
                 //플레이스 에서의 소환
@@ -31,6 +34,138 @@ namespace MonsterChessClient
                             Texture UnitImage = Resources.Load("Image/UnitMy/" + Data.Instance.SommonID) as Texture;
                             gameObject.GetComponent<RawImage>().texture = UnitImage;
                             gameObject.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                            gameObject.AddComponent<Move>();
+                            //문자열을 사용하여 스크립트 불러오기
+                            switch (Data.Instance.SommonID)
+                            {
+                                case "000":
+                                    gameObject.AddComponent<Unit000>();
+                                    gameObject.GetComponent<Unit000>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit000>().x = x;
+                                    gameObject.GetComponent<Unit000>().y = y;
+                                    gameObject.GetComponent<Unit000>().Status = 0;
+                                    break;
+                                case "001":
+                                    gameObject.AddComponent<Unit001>();
+                                    gameObject.GetComponent<Unit001>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit001>().x = x;
+                                    gameObject.GetComponent<Unit001>().y = y;
+                                    gameObject.GetComponent<Unit001>().Status = 0;
+                                    break;
+                                case "002":
+                                    gameObject.AddComponent<Unit002>();
+                                    gameObject.GetComponent<Unit002>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit002>().x = x;
+                                    gameObject.GetComponent<Unit002>().y = y;
+                                    gameObject.GetComponent<Unit002>().Status = 0;
+                                    break;
+                                case "003":
+                                    gameObject.AddComponent<Unit003>();
+                                    gameObject.GetComponent<Unit003>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit003>().x = x;
+                                    gameObject.GetComponent<Unit003>().y = y;
+                                    gameObject.GetComponent<Unit003>().Status = 0;
+                                    break;
+                                case "004":
+                                    gameObject.AddComponent<Unit004>();
+                                    gameObject.GetComponent<Unit004>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit004>().x = x;
+                                    gameObject.GetComponent<Unit004>().y = y;
+                                    gameObject.GetComponent<Unit004>().Status = 0;
+                                    break;
+                                case "005":
+                                    gameObject.AddComponent<Unit005>();
+                                    gameObject.GetComponent<Unit005>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit005>().x = x;
+                                    gameObject.GetComponent<Unit005>().y = y;
+                                    gameObject.GetComponent<Unit005>().Status = 0;
+                                    break;
+                                case "006":
+                                    gameObject.AddComponent<Unit006>();
+                                    gameObject.GetComponent<Unit006>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit006>().x = x;
+                                    gameObject.GetComponent<Unit006>().y = y;
+                                    gameObject.GetComponent<Unit006>().Status = 0;
+                                    break;
+                                case "007":
+                                    gameObject.AddComponent<Unit007>();
+                                    gameObject.GetComponent<Unit007>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit007>().x = x;
+                                    gameObject.GetComponent<Unit007>().y = y;
+                                    gameObject.GetComponent<Unit007>().Status = 0;
+                                    break;
+                                case "008":
+                                    gameObject.AddComponent<Unit008>();
+                                    gameObject.GetComponent<Unit008>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit008>().x = x;
+                                    gameObject.GetComponent<Unit008>().y = y;
+                                    gameObject.GetComponent<Unit008>().Status = 0;
+                                    break;
+                                case "009":
+                                    gameObject.AddComponent<Unit009>();
+                                    gameObject.GetComponent<Unit009>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit009>().x = x;
+                                    gameObject.GetComponent<Unit009>().y = y;
+                                    gameObject.GetComponent<Unit009>().Status = 0;
+                                    break;
+                                case "010":
+                                    gameObject.AddComponent<Unit010>();
+                                    gameObject.GetComponent<Unit010>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit010>().x = x;
+                                    gameObject.GetComponent<Unit010>().y = y;
+                                    gameObject.GetComponent<Unit010>().Status = 0;
+                                    break;
+                                case "011":
+                                    gameObject.AddComponent<Unit011>();
+                                    gameObject.GetComponent<Unit011>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit011>().x = x;
+                                    gameObject.GetComponent<Unit011>().y = y;
+                                    gameObject.GetComponent<Unit011>().Status = 0;
+                                    break;
+                                case "100":
+                                    gameObject.AddComponent<Unit100>();
+                                    gameObject.GetComponent<Unit100>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit100>().x = x;
+                                    gameObject.GetComponent<Unit100>().y = y;
+                                    gameObject.GetComponent<Unit100>().Status = 0;
+                                    break;
+                                case "101":
+                                    gameObject.AddComponent<Unit101>();
+                                    gameObject.GetComponent<Unit101>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit101>().x = x;
+                                    gameObject.GetComponent<Unit101>().y = y;
+                                    gameObject.GetComponent<Unit101>().Status = 0;
+                                    break;
+                                case "102":
+                                    gameObject.AddComponent<Unit102>();
+                                    gameObject.GetComponent<Unit102>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit102>().x = x;
+                                    gameObject.GetComponent<Unit102>().y = y;
+                                    gameObject.GetComponent<Unit102>().Status = 0;
+                                    break;
+                                case "103":
+                                    gameObject.AddComponent<Unit103>();
+                                    gameObject.GetComponent<Unit103>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit103>().x = x;
+                                    gameObject.GetComponent<Unit103>().y = y;
+                                    gameObject.GetComponent<Unit103>().Status = 0;
+                                    break;
+                                case "104":
+                                    gameObject.AddComponent<Unit104>();
+                                    gameObject.GetComponent<Unit104>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit104>().x = x;
+                                    gameObject.GetComponent<Unit104>().y = y;
+                                    gameObject.GetComponent<Unit104>().Status = 0;
+                                    break;
+                                case "105":
+                                    gameObject.AddComponent<Unit105>();
+                                    gameObject.GetComponent<Unit105>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit105>().x = x;
+                                    gameObject.GetComponent<Unit105>().y = y;
+                                    gameObject.GetComponent<Unit105>().Status = 0;
+                                    break;
+                             
+                            }
                             Data.Instance.pan[y, x] = Data.Instance.SommonID;
                             Data.Instance.SommonOn = false;
                         }
@@ -43,101 +178,342 @@ namespace MonsterChessClient
                 //플레이 에서의 기능
                 if (Data.Instance.SommonOn == true && Data.Instance.Time <= 30)
                 {
-
-                    for (int i = 0; i < Data.Instance.MonsterList.Count(); i++)
-                    {
-
-                        if (Data.Instance.MonsterList[i].Substring(0, 3) == Data.Instance.SommonID)
-                        {
-
-                            int TempMana = int.Parse(Data.Instance.MonsterList[i].Substring(3, 1));
-                            if (Data.Instance.Mana - TempMana < 0) { break; }
-                            else
-                            {
-                                Debug.Log("4");
-                                Data.Instance.Mana -= TempMana;
-                                GameObject.Find("Mana").GetComponent<Text>().text = "" + Data.Instance.Mana;
-                                int x = int.Parse(gameObject.name.Substring(0, 1));
-                                int y = int.Parse(gameObject.name.Substring(2));
-                                if (y < 3)
-                                {
-                                    Debug.Log("5");
-                                    if (Data.Instance.pan[y, x] == null)
-                                    {
-                                        Debug.Log("6");
-                                        Texture UnitImage = Resources.Load("Image/Unit/" + Data.Instance.SommonID) as Texture;
-                                        gameObject.GetComponent<RawImage>().texture = UnitImage;
-                                        gameObject.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-                                        Data.Instance.pan[x, y] = Data.Instance.SommonID;
-                                        Data.Instance.MoveList.Add("" + y + x + Data.Instance.MonsterList[i] + Data.Instance.Order + 2 + 0 + 0 + 0);//2번상태 소환한상태
-                                        Data.Instance.SommonOn = false;
-                                    }
-                                }
-                                else
-                                {
-                                    //아군진영이 아님
-                                }
-                            }
-                        }
-                    }
-                    //소환
-                }
-                else if (Data.Instance.ChangeListOn == true && Data.Instance.Time <= 30)
-                {
-                    //무르리스트 변경
-                    for (int i = 0; i < Data.Instance.Range.Count(); i++)
-                    {
-                        if (Data.Instance.Range[i].name == gameObject.name)
-                        {
-                            int y = int.Parse(Data.Instance.origin.name.Substring(0, 1));
-                            int x = int.Parse(Data.Instance.origin.name.Substring(2));
-                            AnimatiomOFF();
-                            int ListNumber = FindMoveList(y, x);
-                            string Front = Data.Instance.MoveList[ListNumber].Substring(0, 9);
-                            int MoveY = int.Parse(gameObject.name.Substring(0, 1));
-                            int MoveX = int.Parse(gameObject.name.Substring(2));
-                            string Back = "" + 1 + MoveY + MoveX + Data.Instance.Direction[i];
-                            Data.Instance.MoveList[ListNumber] = Front + Back;
-                            Debug.Log("바뀜 :" + Data.Instance.MoveList[ListNumber]);
-
-                            Data.Instance.Range.Clear();
-                            Data.Instance.Direction.Clear();
-                            Data.Instance.MoveON = false;
-                            break;
-                        }
-
-                    }
-
-
-                }
-                else if (Data.Instance.MoveON == false && Data.Instance.Time <= 30)
-                {
-                    //이동범위 표시
-                    int y = int.Parse(gameObject.name.Substring(0, 1));
                     int x = int.Parse(gameObject.name.Substring(2));
-                    for (int i = 0; i < Data.Instance.MoveList.Count(); i++)
+                    int y = int.Parse(gameObject.name.Substring(0, 1));
+                    int cost = int.Parse(FindStateOfMonster(Data.Instance.SommonID).Substring(6,1));
+                    if (Data.Instance.Mana - cost >= 0)
                     {
-                        if (Data.Instance.MoveList[i].Substring(0, 2) == "" + y + x)
+                        if (Data.Instance.pan[y, x] == null)
                         {
-                            if (Data.Instance.MoveList[i].Substring(8, 1) == "" + Data.Instance.Order)
+                            //소환은 즉각 적용 시키고 플레이 리스트에 제외 시킨다
+                            x = int.Parse(gameObject.name.Substring(2));
+                            y = int.Parse(gameObject.name.Substring(0, 1));
+                            Texture UnitImage = Resources.Load("Image/UnitMy/" + Data.Instance.SommonID) as Texture;
+                            gameObject.GetComponent<RawImage>().texture = UnitImage;
+                            gameObject.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                            Data.Instance.pan[y, x] = Data.Instance.SommonID;
+                            Data.Instance.SommonOn = false;
+                            Data.Instance.Mana -= cost;
+                            switch (Data.Instance.SommonID)
                             {
-                                UnitState();
-                                UnitRange();
-                                AnimationON();
-                                Data.Instance.MoveON = true;
-                                Data.Instance.origin = gameObject;
+                                case "000":
+                                    gameObject.AddComponent<Unit000>();
+                                    gameObject.GetComponent<Unit000>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit000>().x = x;
+                                    gameObject.GetComponent<Unit000>().y = y;
+                                    gameObject.GetComponent<Unit000>().Status = 2;
+                                    break;
+                                case "001":
+                                    gameObject.AddComponent<Unit001>();
+                                    gameObject.GetComponent<Unit001>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit001>().x = x;
+                                    gameObject.GetComponent<Unit001>().y = y;
+                                    gameObject.GetComponent<Unit001>().Status = 2;
+                                    break;
+                                case "002":
+                                    gameObject.AddComponent<Unit002>();
+                                    gameObject.GetComponent<Unit002>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit002>().x = x;
+                                    gameObject.GetComponent<Unit002>().y = y;
+                                    gameObject.GetComponent<Unit002>().Status = 2;
+                                    break;
+                                case "003":
+                                    gameObject.AddComponent<Unit003>();
+                                    gameObject.GetComponent<Unit003>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit003>().x = x;
+                                    gameObject.GetComponent<Unit003>().y = y;
+                                    gameObject.GetComponent<Unit003>().Status = 2;
+                                    break;
+                                case "004":
+                                    gameObject.AddComponent<Unit004>();
+                                    gameObject.GetComponent<Unit004>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit004>().x = x;
+                                    gameObject.GetComponent<Unit004>().y = y;
+                                    gameObject.GetComponent<Unit004>().Status = 2;
+                                    break;
+                                case "005":
+                                    gameObject.AddComponent<Unit005>();
+                                    gameObject.GetComponent<Unit005>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit005>().x = x;
+                                    gameObject.GetComponent<Unit005>().y = y;
+                                    gameObject.GetComponent<Unit005>().Status = 2;
+                                    break;
+                                case "006":
+                                    gameObject.AddComponent<Unit006>();
+                                    gameObject.GetComponent<Unit006>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit006>().x = x;
+                                    gameObject.GetComponent<Unit006>().y = y;
+                                    gameObject.GetComponent<Unit006>().Status = 2;
+                                    break;
+                                case "007":
+                                    gameObject.AddComponent<Unit007>();
+                                    gameObject.GetComponent<Unit007>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit007>().x = x;
+                                    gameObject.GetComponent<Unit007>().y = y;
+                                    gameObject.GetComponent<Unit007>().Status = 2;
+                                    break;
+                                case "008":
+                                    gameObject.AddComponent<Unit008>();
+                                    gameObject.GetComponent<Unit008>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit008>().x = x;
+                                    gameObject.GetComponent<Unit008>().y = y;
+                                    gameObject.GetComponent<Unit008>().Status = 2;
+                                    break;
+                                case "009":
+                                    gameObject.AddComponent<Unit009>();
+                                    gameObject.GetComponent<Unit009>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit009>().x = x;
+                                    gameObject.GetComponent<Unit009>().y = y;
+                                    gameObject.GetComponent<Unit009>().Status = 2;
+                                    break;
+                                case "010":
+                                    gameObject.AddComponent<Unit010>();
+                                    gameObject.GetComponent<Unit010>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit010>().x = x;
+                                    gameObject.GetComponent<Unit010>().y = y;
+                                    gameObject.GetComponent<Unit010>().Status = 2;
+                                    break;
+                                case "011":
+                                    gameObject.AddComponent<Unit011>();
+                                    gameObject.GetComponent<Unit011>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit011>().x = x;
+                                    gameObject.GetComponent<Unit011>().y = y;
+                                    gameObject.GetComponent<Unit011>().Status = 2;
+                                    break;
+                                case "100":
+                                    gameObject.AddComponent<Unit100>();
+                                    gameObject.GetComponent<Unit100>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit100>().x = x;
+                                    gameObject.GetComponent<Unit100>().y = y;
+                                    gameObject.GetComponent<Unit100>().Status = 2;
+                                    break;
+                                case "101":
+                                    gameObject.AddComponent<Unit101>();
+                                    gameObject.GetComponent<Unit101>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit101>().x = x;
+                                    gameObject.GetComponent<Unit101>().y = y;
+                                    gameObject.GetComponent<Unit101>().Status = 2;
+                                    break;
+                                case "102":
+                                    gameObject.AddComponent<Unit102>();
+                                    gameObject.GetComponent<Unit102>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit102>().x = x;
+                                    gameObject.GetComponent<Unit102>().y = y;
+                                    gameObject.GetComponent<Unit102>().Status = 2;
+                                    break;
+                                case "103":
+                                    gameObject.AddComponent<Unit103>();
+                                    gameObject.GetComponent<Unit103>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit103>().x = x;
+                                    gameObject.GetComponent<Unit103>().y = y;
+                                    gameObject.GetComponent<Unit103>().Status = 2;
+                                    break;
+                                case "104":
+                                    gameObject.AddComponent<Unit104>();
+                                    gameObject.GetComponent<Unit104>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit104>().x = x;
+                                    gameObject.GetComponent<Unit104>().y = y;
+                                    gameObject.GetComponent<Unit104>().Status = 2;
+                                    break;
+                                case "105":
+                                    gameObject.AddComponent<Unit105>();
+                                    gameObject.GetComponent<Unit105>().Order = Data.Instance.Order;
+                                    gameObject.GetComponent<Unit105>().x = x;
+                                    gameObject.GetComponent<Unit105>().y = y;
+                                    gameObject.GetComponent<Unit105>().Status = 2;
+                                    break;
 
                             }
-                            else
-                            {
-                                Debug.Log("자신의 유닛이 아닙니다.");
-                            }
+                   
+
+                        }
+                        else
+                        {
+                            Debug.Log("배치할려는 칸에 유닛존재");
                         }
                     }
-
+                    else
+                    {
+                        Debug.Log("마나부족");
+                    }
                 }
+                else if (Data.Instance.MoveOn == false && Data.Instance.Time <= 30)
+                {
+                    //터치한 유닛의 이동 범위를 가져옴
+                    //터치한 유닛의 이동 범위를 가져옴
+                    int x = int.Parse(gameObject.name.Substring(2));
+                    int y = int.Parse(gameObject.name.Substring(0, 1));
+                    switch (Data.Instance.pan[y, x])
+                    {
+                        case "000":
+                            gameObject.GetComponent<Unit000>().MoveRange();
+                            break;
+                        case "001":
+                            gameObject.GetComponent<Unit001>().MoveRange();
+                            break;
+                        case "002":
+                            gameObject.GetComponent<Unit002>().MoveRange();
+                            break;
+                        case "003":
+                            gameObject.GetComponent<Unit003>().MoveRange();
+                            break;
+                        case "004":
+                            gameObject.GetComponent<Unit004>().MoveRange();
+                            break;
+                        case "005":
+                            gameObject.GetComponent<Unit005>().MoveRange();
+                            break;
+                        case "006":
+                            gameObject.GetComponent<Unit006>().MoveRange();
+                            break;
+                        case "007":
+                            gameObject.GetComponent<Unit007>().MoveRange();
+                            break;
+                        case "008":
+                            gameObject.GetComponent<Unit008>().MoveRange();
+                            break;
+                        case "009":
+                            gameObject.GetComponent<Unit009>().MoveRange();
+                            break;
+                        case "010":
+                            gameObject.GetComponent<Unit010>().MoveRange();
+                            break;
+                        case "011":
+                            gameObject.GetComponent<Unit011>().MoveRange();
+                            break;
+                        case "100":
+                            gameObject.GetComponent<Unit100>().MoveRange();
+                            break;
+                        case "101":
+                            gameObject.GetComponent<Unit101>().MoveRange();
+                            break;
+                        case "102":
+                            gameObject.GetComponent<Unit102>().MoveRange();
+                            break;
+                        case "103":
+                            gameObject.GetComponent<Unit103>().MoveRange();
+                            break;
+                        case "104":
+                            gameObject.GetComponent<Unit104>().MoveRange();
+                            break;
+                        case "105":
+                            gameObject.GetComponent<Unit105>().MoveRange();
+                            break;
+                        case "200":
+                            gameObject.GetComponent<Unit200>().MoveRange();
+                            break;
+                        case "201":
+                            gameObject.GetComponent<Unit201>().MoveRange();
+                            break;
+                        case "202":
+                            gameObject.GetComponent<Unit202>().MoveRange();
+                            break;
+                    }
+                    Data.Instance.Origin = gameObject;
+                    Data.Instance.MoveOn = true;
+                }
+                else
+                {
+                    int MoveX = int.Parse(gameObject.name.Substring(2));
+                    int MoveY = int.Parse(gameObject.name.Substring(0, 1));
+                    //이동범위 클릭시 무브리스트 변경
+                    int x = int.Parse(Data.Instance.Origin.name.Substring(2));
+                    int y = int.Parse(Data.Instance.Origin.name.Substring(0, 1));
+                    switch (Data.Instance.pan[y, x])
+                    {
+                        case "000":
+                            gameObject.GetComponent<Unit000>().MoveRange();
+                            break;
+                        case "001":
+                            gameObject.GetComponent<Unit001>().MoveRange();
+                            break;
+                        case "002":
+                            gameObject.GetComponent<Unit002>().MoveRange();
+                            break;
+                        case "003":
+                            gameObject.GetComponent<Unit003>().MoveRange();
+                            break;
+                        case "004":
+                            gameObject.GetComponent<Unit004>().MoveRange();
+                            break;
+                        case "005":
+                            gameObject.GetComponent<Unit005>().MoveRange();
+                            break;
+                        case "006":
+                            gameObject.GetComponent<Unit006>().MoveRange();
+                            break;
+                        case "007":
+                            gameObject.GetComponent<Unit007>().MoveRange();
+                            break;
+                        case "008":
+                            gameObject.GetComponent<Unit008>().MoveRange();
+                            break;
+                        case "009":
+                            gameObject.GetComponent<Unit009>().MoveRange();
+                            break;
+                        case "010":
+                            gameObject.GetComponent<Unit010>().MoveRange();
+                            break;
+                        case "011":
+                            gameObject.GetComponent<Unit011>().MoveRange();
+                            break;
+                        case "100":
+                            gameObject.GetComponent<Unit100>().MoveRange();
+                            break;
+                        case "101":
+                            gameObject.GetComponent<Unit101>().MoveRange();
+                            break;
+                        case "102":
+                            gameObject.GetComponent<Unit102>().MoveRange();
+                            break;
+                        case "103":
+                            gameObject.GetComponent<Unit103>().MoveRange();
+                            break;
+                        case "104":
+                            gameObject.GetComponent<Unit104>().MoveRange();
+                            break;
+                        case "105":
+                            gameObject.GetComponent<Unit105>().MoveRange();
+                            break;
+                        case "200":
+                            gameObject.GetComponent<Unit200>().MoveRange();
+                            break;
+                        case "201":
+                            gameObject.GetComponent<Unit201>().MoveRange();
+                            break;
+                        case "202":
+                            gameObject.GetComponent<Unit202>().MoveRange();
+                            break;
+                    }
+                    Data.Instance.MoveOn = false;
+                    
+                }
+            }
+        }
+        void AnimatiomOFF(List<GameObject>Range,List<int>Direction)
+        {
+            for (int i = 0; i < Range.Count(); i++)
+            {
+                Debug.Log(Range[i].name);
+                Animation anim = Range[i].GetComponent<Animation>();
+                anim.Stop("LightUnit");
+                int y = int.Parse(Range[i].name.Substring(0, 1));
+                int x = int.Parse(Range[i].name.Substring(2));
+                if (Data.Instance.pan[y, x] == null)
+                {
+                    Range[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                }
+                else
+                {
+                    Range[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                }
+
 
             }
+            Range.Clear();
+            Direction.Clear();
+
+        }
 
         string FindStateOfMonster(string ID)
         {
@@ -175,7 +551,7 @@ namespace MonsterChessClient
             }
             return "";
         }
-
+       
         void CheckPan()
         {
             //소환했던 거라면 취소하고 정한위치에 재소환
@@ -195,41 +571,9 @@ namespace MonsterChessClient
             }
 
         }
+     
+      
+        
 
-            void AnimationON()
-            {
-                Debug.Log("에니메이션");
-                for (int i = 0; i < DataIndex.Range.Count(); i++)
-                {
-
-                    Animation anim = DataIndex.Range[i].GetComponent<Animation>();
-                    anim.Play("LightUnit");
-                }
-
-            }
-
-            void AnimatiomOFF()
-            {
-                for (int i = 0; i < DataIndex.Range.Count(); i++)
-                {
-                    Debug.Log(DataIndex.Range[i].name);
-                    Animation anim = DataIndex.Range[i].GetComponent<Animation>();
-                    anim.Stop("LightUnit");
-                    int y = int.Parse(DataIndex.Range[i].name.Substring(0, 1));
-                    int x = int.Parse(DataIndex.Range[i].name.Substring(2));
-                    if (DataIndex.pan[y, x] == null)
-                    {
-                        DataIndex.Range[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-                    }
-                    else
-                    {
-                        DataIndex.Range[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-                    }
-
-                }
-
-
-            }
-
-        }
+    }
 }
