@@ -33,6 +33,11 @@ namespace MonsterChessClient
 
         void Start()
         {
+            this.userState = UserStage.RequestLogin;
+
+            //코드 추가
+            this.userState = UserStage.Connected;
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Select;
             Enter();
         }
 

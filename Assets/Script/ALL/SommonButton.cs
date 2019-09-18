@@ -4,29 +4,30 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using System.Linq;
-
-public class SommonButton : MonoBehaviour
+namespace MonsterChessClient
 {
-    static Data DataIndex = Data.Instance;
-    // Use this for initialization
-    public void OnSommon()
+    public class SommonButton : MonoBehaviour
     {
-        int TempNum = int.Parse(gameObject.name);
-        string ID = DataIndex.Unit[TempNum];
-        if (DataIndex.SommonOn == false)
+        // Use this for initialization
+        public void OnSommon()
         {
-            DataIndex.SommonOn = true;
-            DataIndex.SommonID = ID;
-        }
-        else
-        {
-            if (DataIndex.SommonID == ID) { DataIndex.SommonOn = false; }
+            int TempNum = int.Parse(gameObject.name);
+            string ID = Data.Instance.Unit[TempNum];
+            if (Data.Instance.SommonOn == false)
+            {
+                Data.Instance.SommonOn = true;
+                Data.Instance.SommonID = ID;
+            }
             else
             {
-                DataIndex.SommonOn = true;
-                DataIndex.SommonID = ID;
+                if (Data.Instance.SommonID == ID) { Data.Instance.SommonOn = false; }
+                else
+                {
+                    Data.Instance.SommonOn = true;
+                    Data.Instance.SommonID = ID;
+                }
             }
         }
     }
+
 }
-   

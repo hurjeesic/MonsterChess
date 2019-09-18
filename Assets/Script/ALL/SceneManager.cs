@@ -16,8 +16,6 @@ namespace MonsterChessClient
 
     public class SceneManager : MonoBehaviour
     {
-        
-
         public GameObject Login;
         public GameObject Account;
         public GameObject FindUser;
