@@ -15,7 +15,7 @@ namespace MonsterChessClient
         // Use this for initialization
         public void OnBoard()
         {   
-            if (GameObject.Find("SceneManager").GetComponent<SceneManager>().Present == SceneList.Place)
+            if (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present == SceneList.Place)
             {
                 //플레이스 에서의 소환
                 if (Data.Instance.SommonOn == true)

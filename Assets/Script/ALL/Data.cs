@@ -7,7 +7,6 @@ namespace MonsterChessClient
 {
     public class Data
     {
-
         private static Data instance = null;
         public static Data Instance
         {
@@ -23,7 +22,9 @@ namespace MonsterChessClient
 
         private Data()
         {
+
         }
+
         //몬스터 리스트는 스크립트에 접근하지 않고 정보를 가져오기 위한 저장장
         public string[,] StateOfMonster = {{"000100121고블린","001110121벤시","002100121놀","003210222드레이크","004110232오크"
                                         ,"005100232골렘","006210342트윈헤드오우거","007200333광전사","008110332웜","009210443데스나이트"
@@ -47,16 +48,19 @@ namespace MonsterChessClient
         public float Time = 50f; // 턴의 시간
 
         public GameObject Origin;
-   
 
         public bool SommonOn;//소환
         public bool ManaStoneOn;//마나스톤 생성
         public bool MoveOn=false;
         public bool PlayOn = false;
+        public bool ChangeListOn;//준비시간에
 
+        // 여기서 부터는 SelectUnit 관련 변수들
 
+        public int Kind = 0;//현재 선택된 탭의 번호
+        public string MonsterID;//선택된 몬스터의 이름
+        public int Cost = 0;//선택된 몬스터의 코스트 합
     }
-
 }
 
 

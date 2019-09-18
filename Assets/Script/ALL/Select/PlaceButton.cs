@@ -6,12 +6,12 @@ namespace MonsterChessClient
     {
         public void PlaceOn()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Place;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Place;
         }
 
         public void SelectOff()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Main;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
         }
     }
 }

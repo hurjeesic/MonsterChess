@@ -35,9 +35,6 @@ namespace MonsterChessClient
         {
             this.userState = UserStage.RequestLogin;
 
-            //코드 추가
-            this.userState = UserStage.Connected;
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Select;
             Enter();
         }
 
@@ -138,7 +135,7 @@ namespace MonsterChessClient
                         process.SetActive(false);
                         this.userState = UserStage.RequestLogin;
 
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Main;
+                        GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
                         main.Enter();
                     }
                     break;
@@ -193,14 +190,14 @@ namespace MonsterChessClient
 
         public void FindUser()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.FindUser;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.FindUser;
             find.Enter();
             EnableObjects(false);
         }
 
         public void Account()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Account;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Account;
             account.Enter();
             EnableObjects(false);
         }
@@ -226,7 +223,7 @@ namespace MonsterChessClient
         public void OnDisconnected()
         {
             this.userState = UserStage.RequestLogin;
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Login;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Login;
         }
 
         /// <summary>
@@ -277,7 +274,7 @@ namespace MonsterChessClient
 
                         //this.battleRoom.gameObject.SetActive(true);
                         //this.battleRoom.StartLoading(playerIndex);
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Select;
+                        GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Select;
                         gameObject.SetActive(false);
                     }
                     break;

@@ -71,7 +71,7 @@ namespace MonsterChessClient
         {
             main.Enter();
             this.userState = UserStage.NotState;
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Main;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
         }
 
         public void Connect()
@@ -161,7 +161,7 @@ namespace MonsterChessClient
 
                         this.userState = UserStage.NotState;
                         main.Enter();
-                        GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Main;
+                        GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
                     }
                     break;
                 case PROTOCOL.SuccessFriendList:

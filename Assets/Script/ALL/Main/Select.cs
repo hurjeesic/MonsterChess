@@ -8,7 +8,7 @@ namespace MonsterChessClient
     {
         public void MoveSelect()
         {
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Select;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Select;
         }
     }
 }

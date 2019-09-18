@@ -42,7 +42,7 @@ namespace MonsterChessClient
             login.Enter();
             login.EnableObjects(true);
             this.userState = UserStage.RequestRegistering;
-            GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Login;
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Login;
         }
 
         public void RequestRegistering()

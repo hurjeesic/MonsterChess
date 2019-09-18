@@ -24,7 +24,7 @@ namespace MonsterChessClient
             if (count == 6)
             {
                 Data.Instance.SommonOn = false;//다음 씬으로 넘어갈때 소환을 끈다.
-                GameObject.Find("SceneManager").GetComponent<SceneManager>().Present = SceneList.Play;
+                GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
             }
             else
             {

@@ -14,7 +14,7 @@ namespace MonsterChessClient
         Friend
     }
 
-    public class SceneManager : MonoBehaviour
+    public class MySceneManager : MonoBehaviour
     {
         public GameObject Login;
         public GameObject Account;

@@ -62,7 +62,7 @@ namespace MonsterChessClient
                         this.receivedMessage += "disconnected\n";
 
                         this.gameServer.Disconnect();
-                        SceneManager present = GameObject.Find("SceneManager").GetComponent<SceneManager>();
+                        MySceneManager present = GameObject.Find("SceneManager").GetComponent<MySceneManager>();
                         if (present.Present != SceneList.Login && present.Present != SceneList.Account && present.Present != SceneList.FindUser)
                         {
                             present.Present = SceneList.Login;
