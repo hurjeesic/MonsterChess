@@ -60,6 +60,7 @@ namespace MonsterChessClient
         public int Kind = 0;//현재 선택된 탭의 번호
         public string MonsterID;//선택된 몬스터의 이름
         public int Cost = 0;//선택된 몬스터의 코스트 합
+        public bool Hero = false;//히어로가 선택 되었는지
     }
 }
 
