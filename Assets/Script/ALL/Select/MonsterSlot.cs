@@ -63,10 +63,10 @@ namespace MonsterChessClient
             {
                 //몬스터가 추가되지 않았을 경우 추가
                 DataIndex.Cost += int.Parse(DataIndex.StateOfMonster[N, a].Substring(6, 1));
-                if (DataIndex.Cost > 10)
+                if (DataIndex.Cost > DataIndex.MaxCost)
                 {
-                    //마나코스트의 합이 10을 넘길경우
-                    Debug.Log("마나코스트의 합이 10을 넘겼습니다");
+                    //마나코스트의 합이 지정한 값을 넘길경우
+                    Debug.Log("마나코스트의 합이 "+ DataIndex.MaxCost+"을 넘겼습니다");
                     DataIndex.Cost -= int.Parse(DataIndex.StateOfMonster[N, a].Substring(6, 1));
                 }
                 else
