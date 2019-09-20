@@ -630,7 +630,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 16917507}
-        m_MethodName: PlayOn
+        m_MethodName: TestOn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -683,7 +683,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 16917502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b57d31f991dfd42879cf6e17952399, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ccfe8e0f7668324082c9cebe2fd7037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &49747029
@@ -914,7 +914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &88647885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2925,6 +2925,7 @@ GameObject:
   - component: {fileID: 362639177}
   - component: {fileID: 362639176}
   - component: {fileID: 362639175}
+  - component: {fileID: 362639178}
   m_Layer: 5
   m_Name: Cancle
   m_TagString: Place
@@ -2989,7 +2990,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 362639176}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 362639178}
+        m_MethodName: BackStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &362639176
@@ -3025,6 +3037,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 362639173}
+--- !u!114 &362639178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 362639173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ceb2661f436236469529a21ac678e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &370519458
 GameObject:
   m_ObjectHideFlags: 0
@@ -4309,7 +4332,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.000015258789}
-  m_SizeDelta: {x: 0, y: -429.02}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &491894789
 MonoBehaviour:
@@ -4949,7 +4972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &545942545
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12456,6 +12479,8 @@ GameObject:
   - component: {fileID: 1266583430}
   - component: {fileID: 1266583432}
   - component: {fileID: 1266583431}
+  - component: {fileID: 1266583434}
+  - component: {fileID: 1266583433}
   m_Layer: 5
   m_Name: Background_Play
   m_TagString: Play
@@ -12515,6 +12540,28 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1266583429}
+--- !u!114 &1266583433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1266583429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3303d306f33d1549a1b3cb3017dd745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1266583434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1266583429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d0a1582cd15aa4489fa25eab696f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1266849188
 GameObject:
   m_ObjectHideFlags: 0
@@ -15070,7 +15117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1533527086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20118,7 +20165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2084631068
 RectTransform:
   m_ObjectHideFlags: 0
