@@ -38,19 +38,8 @@ namespace MonsterChessClient
             if (DataIndex.Kind != N)
             {
                 N = DataIndex.Kind;
-                ChoiceImage(N);
             }
-            if (In[N, a] == false)
-            {
-                gameObject.GetComponent<RawImage>().color
-                    = new Color(191, 191, 191, 255);
-                //나중에 선택된 이미지 넣기
-            }
-            else
-            {
-                gameObject.GetComponent<RawImage>().color
-                    = new Color(200, 200, 200, 255);
-            }
+            ChoiceImage(N);
         }
 
         public void OnClick()
@@ -100,33 +89,22 @@ namespace MonsterChessClient
 
         public void ChoiceImage(int x)
         {
-            Debug.Log("시작");
-                gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/Button_Square") as Texture;
-                Debug.Log("Loading...");
-                temp = "Image/UnitMY/" + DataIndex.StateOfMonster[N, a].Substring(0, 3);
+            gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/Button_Square") as Texture;
+            temp = "Image/UnitMY/" + DataIndex.StateOfMonster[N, a].Substring(0, 3);
 
-                Object[] images = Resources.LoadAll<Object>("Image/UnitMY/");
-                Object image = Resources.Load<Object>(temp);
-                if (image != null)
+            Object[] images = Resources.LoadAll<Object>("Image/");
+            Object image = Resources.Load<Object>(temp);
+            if (image != null)
+            {
+                if (In[N, a] == false)
                 {
-                    Debug.Log("Load");
-                    gameObject.GetComponent<RawImage>().texture = Resources.Load(temp) as Texture;
-                }
-                else Debug.Log(temp +" 없음");
-                /*
-                FileInfo fileInfo = new FileInfo(temp);
-                //파일 있는지 확인 있을때(true), 없으면(false)
-                if (fileInfo.Exists)//해당 파일이 존재하는지 확인하는거 넣기
-                {
-                    //파일이 있으면 몬스터 이미지 표시
                     gameObject.GetComponent<RawImage>().texture = Resources.Load(temp) as Texture;
                 }
                 else
                 {
-                    //파일이 없으면 몬스터 대신 빈칸 이미지
-                    gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/Button_Square") as Texture;
+                    gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[N, a].Substring(0, 3)) as Texture;
                 }
-                */
+            }
         }
     }
 }
