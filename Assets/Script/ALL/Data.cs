@@ -62,6 +62,8 @@ namespace MonsterChessClient
         public int Cost = 0;//선택된 몬스터의 코스트 합
         public bool Hero = false;//히어로가 선택 되었는지
         public int MaxCost = 15;
+
+
     }
 }
 

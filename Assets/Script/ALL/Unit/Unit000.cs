@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
+using MonsterChessClient;
+
 public class Unit000 : MonoBehaviour
 {
 
