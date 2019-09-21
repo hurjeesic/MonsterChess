@@ -8,21 +8,15 @@ namespace MonsterChessClient
 {
     public class MonsterSlot : MonoBehaviour
     {
-        // Start is called before the first frame update
-
         bool[,] In = { { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
         ,{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
         ,{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }};
-
-        
-
 
         int N = 0;
         int a = 0;
         string temp;
 
         static Data DataIndex = Data.Instance;
-
 
         void Start()
         {
@@ -32,7 +26,6 @@ namespace MonsterChessClient
         }
 
         // Update is called once per frame
-
         void Update()
         {
             if (DataIndex.Kind != N)
@@ -43,9 +36,7 @@ namespace MonsterChessClient
         }
 
         public void OnClick()
-        {
-
-            
+        {   
             if (DataIndex.StateOfMonster.Length > a)
             {
                 DataIndex.MonsterID = DataIndex.StateOfMonster[N, a].Substring(0, 3);
