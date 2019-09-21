@@ -45,6 +45,8 @@ namespace MonsterChessClient
                 nextBtn.SetActive(false);
                 matchCancleBtn.SetActive(true);
                 cancleBtn.enabled = false;
+                Packet msg = Packet.Create((short)PROTOCOL.RequestMatching);
+                this.networkManager.Send(msg);
             }
             else
             {
@@ -59,6 +61,46 @@ namespace MonsterChessClient
             nextBtn.SetActive(true);
             matchCancleBtn.SetActive(false);
             cancleBtn.enabled = true;
+            Packet msg = Packet.Create((short)PROTOCOL.CancleMatching);
+            this.networkManager.Send(msg);
+        }
+
+        /// <summary>
+        /// Packet을 수신 했을 때 호출됨
+        /// </summary>
+        /// <param name="msg"></param>
+        public void OnReceive(Packet msg)
+        {
+            // 제일 먼저 프로토콜 아이디를 꺼내온다.
+            PROTOCOL protocolID = (PROTOCOL)msg.PopProtocolID();
+
+            switch (protocolID)
+            {
+                case PROTOCOL.StartLoading:
+                    {
+                        byte playerIndex = msg.PopByte();
+
+                        //this.battleRoom.gameObject.SetActive(true);
+                        //this.battleRoom.StartLoading(playerIndex);
+                        Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
+                        for (int i = 0; i < 6; i++)
+                        {
+                            loadingMsg.Push((int)unitPos[i].x);
+                            loadingMsg.Push((int)unitPos[i].y);
+                            loadingMsg.Push(Data.Instance.pan[(int)unitPos[i].x, (int)unitPos[i].y]);
+                        }
+                        this.networkManager.Send(loadingMsg);
+                        GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
+                        Debug.Log("게임 시작");
+                    }
+                    break;
+
+                case PROTOCOL.StartGame:
+                    {
+                        // Play 씬으로 넘어가야함
+                    }
+                    break;
+            }
         }
     }
 }
