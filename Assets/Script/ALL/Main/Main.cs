@@ -7,15 +7,17 @@ namespace MonsterChessClient
     {
         public NetworkManager networkManager;
         public Friend friend;
-
-        void Start()
-        {
-            
-        }
+        public SelectSystem select;
 
         public void Enter()
         {
             this.networkManager.messageReceiver = this;
+        }
+
+        public void MoveSelect()
+        {
+            select.Enter();
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Select;
         }
 
         public void MoveFriendList()
