@@ -266,128 +266,128 @@ namespace MonsterChessClient
                             Data.Instance.Origin.GetComponent<Unit000>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit000>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit000>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit000>().Status = 1;
+                            
                             break;
                         case "001":
                             Data.Instance.Origin.GetComponent<Unit001>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit001>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit001>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit001>().Status = 1;
+                            
                             break;
                         case "002":
                             Data.Instance.Origin.GetComponent<Unit002>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit002>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit002>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit002>().Status = 1;
+                            
                             break;
                         case "003":
                             Data.Instance.Origin.GetComponent<Unit003>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit003>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit003>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit003>().Status = 1;
+                   
                             break;
                         case "004":
                             Data.Instance.Origin.GetComponent<Unit004>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit004>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit004>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit004>().Status = 1;
+                          
                             break;
                         case "005":
                             Data.Instance.Origin.GetComponent<Unit005>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit005>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit005>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit005>().Status = 1;
+                          
                             break;
                         case "006":
                             Data.Instance.Origin.GetComponent<Unit006>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit006>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit006>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit006>().Status = 1;
+                     
                             break;
                         case "007":
                             Data.Instance.Origin.GetComponent<Unit007>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit007>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit007>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit007>().Status = 1;
+                  
                             break;
                         case "008":
                             Data.Instance.Origin.GetComponent<Unit008>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit008>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit008>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit008>().Status = 1;
+                   
                             break;
                         case "009":
                             Data.Instance.Origin.GetComponent<Unit009>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit009>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit009>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit009>().Status = 1;
+                      
                             break;
                         case "010":
                             Data.Instance.Origin.GetComponent<Unit010>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit010>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit010>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit010>().Status = 1;
+                
                             break;
                         case "011":
                             Data.Instance.Origin.GetComponent<Unit011>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit011>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit011>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit011>().Status = 1;
+                     
                             break;
                         case "100":
                             Data.Instance.Origin.GetComponent<Unit100>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit100>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit100>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit100>().Status = 1;
+                    
                             break;
                         case "101":
                             Data.Instance.Origin.GetComponent<Unit101>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit101>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit101>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit101>().Status = 1;
+               
                             break;
                         case "102":
                             Data.Instance.Origin.GetComponent<Unit102>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit102>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit102>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit102>().Status = 1;
+          
                             break;
                         case "103":
                             Data.Instance.Origin.GetComponent<Unit103>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit103>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit103>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit103>().Status = 1;
+            
                             break;
                         case "104":
                             Data.Instance.Origin.GetComponent<Unit104>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit104>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit104>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit104>().Status = 1;
+               
                             break;
                         case "105":
                             Data.Instance.Origin.GetComponent<Unit105>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit105>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit105>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit105>().Status = 1;
+                  
                             break;
                         case "200":
                             Data.Instance.Origin.GetComponent<Unit200>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit200>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit200>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit200>().Status = 1;
+                   
 
                             break;
                         case "201":
                             Data.Instance.Origin.GetComponent<Unit201>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit201>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit201>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit201>().Status = 1;
+                
                             break;
                         case "202":
                             Data.Instance.Origin.GetComponent<Unit202>().MoveX = MoveX;
                             Data.Instance.Origin.GetComponent<Unit202>().MoveY = MoveY;
                             Data.Instance.Origin.GetComponent<Unit202>().SaveMove();
-                            Data.Instance.Origin.GetComponent<Unit202>().Status = 1;
+                    
                             break;
                     }
                     Data.Instance.MoveOn = false;

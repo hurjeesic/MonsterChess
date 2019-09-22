@@ -178,16 +178,104 @@ namespace MonsterChessClient
                 anim.Play("LightUnit");
             }
         }
-        public void SaveMove(List<GameObject> Range, int MoveDirection, int MoveX, int MoveY)
+        public void SaveMove(List<GameObject> Range, int MoveDirection, int MoveX, int MoveY, int Status)
         {
 
             for (int i = 0; i < Range.Count; i++)
             {
                 int RangeX = int.Parse(Range[i].name.Substring(2));
                 int RangeY = int.Parse(Range[i].name.Substring(0, 1));
+                int x = int.Parse(instance.Origin.name.Substring(2));
+                int y = int.Parse(instance.Origin.name.Substring(0, 1));
                 if (Range[i].name == MoveY + "," + MoveX)
                 {
-                    MoveDirection = i;
+                    switch (instance.pan[y, x])
+                    {
+                        case "000":
+                            Unit000 unit000 = Origin.GetComponent<Unit000>();
+                            unit000.Status = 1;
+                            break;
+                        case "001":
+                            Unit001 unit001 = Origin.GetComponent<Unit001>();
+                            unit001.Status = 1;
+                            break;
+                        case "002":
+                            Unit002 unit002 = Origin.GetComponent<Unit002>();
+                            unit002.Status = 1;
+                            break;
+                        case "003":
+                            Unit003 unit003 = Origin.GetComponent<Unit003>();
+                            unit003.Status = 1;
+                            break;
+                        case "004":
+                            Unit004 unit004 = Origin.GetComponent<Unit004>();
+                            unit004.Status = 1;
+                            break;
+                        case "005":
+                            Unit005 unit005 = Origin.GetComponent<Unit005>();
+                            unit005.Status = 1;
+                            break;
+                        case "006":
+                            Unit006 unit006 = Origin.GetComponent<Unit006>();
+                            unit006.Status = 1;
+                            break;
+                        case "007":
+                            Unit007 unit007 = Origin.GetComponent<Unit007>();
+                            unit007.Status = 1;
+                            break;
+                        case "008":
+                            Unit008 unit008 = Origin.GetComponent<Unit008>();
+                            unit008.Status = 1;
+                            break;
+                        case "009":
+                            Unit009 unit009 = Origin.GetComponent<Unit009>();
+                            unit009.Status = 1;
+                            break;
+                        case "010":
+                            Unit010 unit010 = Origin.GetComponent<Unit010>();
+                            unit010.Status = 1;
+                            break;
+                        case "011":
+                            Unit011 unit011 = Origin.GetComponent<Unit011>();
+                            unit011.Status = 1;
+                            break;
+                        case "100":
+                            Unit100 unit100 = Origin.GetComponent<Unit100>();
+                            unit100.Status = 1;
+                            break;
+                        case "101":
+                            Unit101 unit101 = Origin.GetComponent<Unit101>();
+                            unit101.Status = 1;
+                            break;
+                        case "102":
+                            Unit102 unit102 = Origin.GetComponent<Unit102>();
+                            unit102.Status = 1;
+                            break;
+                        case "103":
+                            Unit103 unit103 = Origin.GetComponent<Unit103>();
+                            unit103.Status = 1;
+                            break;
+                        case "104":
+                            Unit104 unit104 = Origin.GetComponent<Unit104>();
+                            unit104.Status = 1;
+                            break;
+                        case "105":
+                            Unit105 unit105 = Origin.GetComponent<Unit105>();
+                            unit105.Status = 1;
+                            break;
+                        case "200":
+                            Unit200 unit200 = Origin.GetComponent<Unit200>();
+                            unit200.Status = 1;
+                            break;
+                        case "201":
+                            Unit201 unit201 = Origin.GetComponent<Unit201>();
+                            unit201.Status = 1;
+                            break;
+                        case "202":
+                            Unit202 unit202 = Origin.GetComponent<Unit202>();
+                            unit202.Status = 1;
+                            break;
+                    }
                     MoveX = RangeX;
                     MoveY = RangeY;
                     for (int j = 0; j < Range.Count; j++)
@@ -284,6 +372,7 @@ namespace MonsterChessClient
             Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
             EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
             EnemyUnit.GetComponent<Move>().EndPosition = Unit.transform.position;
+     
             Data.Instance.pan[MoveY, MoveX] = Data.Instance.pan[y, x];
             Data.Instance.pan[y, x] = null;
             string temp = Unit.name;

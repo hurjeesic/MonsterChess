@@ -52,6 +52,6 @@ public class Unit008 : MonoBehaviour {
     {
         //이동범위 내 이면 저장
         //이동범위 밖이면 다시선택하게함
-        Data.Instance.SaveMove(Range, MoveDirection, MoveX, MoveY);
+        Data.Instance.SaveMove(Range, MoveDirection, MoveX, MoveY, Status);
     }
 }

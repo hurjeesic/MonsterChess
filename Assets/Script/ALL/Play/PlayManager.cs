@@ -21,12 +21,7 @@ public class PlayManager : MonoBehaviour
                 StartCoroutine("Play");
                 tempCount++;
             }
-            if (tempCount == Data.Instance.PlayList.Count)
-            {
-                tempCount = 0;
-                PlayListCount = 0;
-                Data.Instance.PlayOn = false;
-            }
+            
         }
 
 
@@ -35,7 +30,7 @@ public class PlayManager : MonoBehaviour
     IEnumerator Play()
     {
         Debug.Log(PlayListCount);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         int x = int.Parse(Data.Instance.PlayList[PlayListCount].name.Substring(2));
         int y = int.Parse(Data.Instance.PlayList[PlayListCount].name.Substring(0, 1));
         int MoveX;
@@ -681,8 +676,17 @@ public class PlayManager : MonoBehaviour
                 break;
 
         }
+        yield return new WaitForSeconds(1f);
         PlayListCount++;
+        if (PlayListCount == Data.Instance.PlayList.Count)
+        {
+            yield return new WaitForSeconds(3f);
+            tempCount = 0;
+            PlayListCount = 0;
+            Data.Instance.PlayOn = false;
+        }
         Debug.Log("끝");
+
     }
     void CheckMove(string ID, int MoveDirection, int MoveX, int MoveY, int x, int y, int Order)
     {
