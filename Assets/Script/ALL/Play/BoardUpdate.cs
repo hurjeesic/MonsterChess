@@ -12,7 +12,8 @@ namespace MonsterChessClient
         // Use this for initialization
         void Start()
         {
-
+           
+         
 
         }
 
@@ -24,7 +25,7 @@ namespace MonsterChessClient
             {
                 if (Data.Instance.Time >= 40)//30초 시작
                 {
-                    //SortList();//무브리스트 정렬
+                  
                     Data.Instance.Mana++;
                     GameObject ManaText = GameObject.Find("Mana");
                     ManaText.GetComponent<Text>().text = Data.Instance.Mana + "";
@@ -43,6 +44,8 @@ namespace MonsterChessClient
                     Data.Instance.Turn++;
                     //30초 끝
                     //시간초 초기화(재우)
+                    AddList();
+                    SortList();
                     Data.Instance.Time = 50;
                     Data.Instance.PlayOn = true;
                 }
@@ -62,5 +65,91 @@ namespace MonsterChessClient
 
         }
 
+        void AddList()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    if (Data.Instance.pan[i, j] != null)
+                    {
+
+                        Data.Instance.PlayList.Add(GameObject.Find(i + "," + j));
+                    }
+                }
+            }
+        }
+        void SortList()
+        {
+            GameObject temp;
+            int tempx;
+            int tempy;
+            for (int i = 0; i < Data.Instance.PlayList.Count; i++)
+            {
+                temp = Data.Instance.PlayList[i];
+                tempx = int.Parse(temp.name.Substring(2));
+                tempy = int.Parse(temp.name.Substring(0, 1));
+                if (i == 0)
+                {
+                    for (int j = i; j < Data.Instance.PlayList.Count; j++)
+                    {
+                        if (Data.Instance.PlayList[j].name == "0,3")
+                        {
+                            Data.Instance.PlayList[i] = Data.Instance.PlayList[j];
+                            Data.Instance.PlayList[j] = temp;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = i + 1; j < Data.Instance.PlayList.Count; j++)
+                    {
+                        int x = int.Parse(Data.Instance.PlayList[j].name.Substring(2));
+                        int y = int.Parse(Data.Instance.PlayList[j].name.Substring(0, 1));
+                        if (int.Parse(Data.Instance.pan[tempy, tempx].Substring(0, 1)) > int.Parse(Data.Instance.pan[y, x].Substring(0, 1)))
+                        {
+                            Data.Instance.PlayList[i] = Data.Instance.PlayList[j];
+                            Data.Instance.PlayList[j] = temp;
+                            temp = Data.Instance.PlayList[i];
+                            tempx = int.Parse(Data.Instance.PlayList[i].name.Substring(2));
+                            tempy = int.Parse(Data.Instance.PlayList[i].name.Substring(0, 1));
+                        }
+                    }
+                }
+            }//항목별 정리
+            string UnitNum;
+            for (int i = 1; i < Data.Instance.PlayList.Count; i++)
+            {
+                temp = Data.Instance.PlayList[i];
+                tempx = int.Parse(Data.Instance.PlayList[i].name.Substring(2));
+                tempy = int.Parse(Data.Instance.PlayList[i].name.Substring(0, 1));
+                UnitNum = Data.Instance.pan[tempy, tempx];
+                for (int j = i + 1; j < Data.Instance.PlayList.Count; j++)
+                {
+                    int x = int.Parse(Data.Instance.PlayList[j].name.Substring(2));
+                    int y = int.Parse(Data.Instance.PlayList[j].name.Substring(0, 1));
+                    if (UnitNum.Substring(0, 1) == Data.Instance.pan[y, x].Substring(0, 1))
+                    {
+                        int cost = int.Parse(Data.Instance.FindStateOfMonster(UnitNum).Substring(6, 1));
+                        int TempCost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.pan[y, x]).Substring(6, 1));
+                        if (cost < TempCost)
+                        {
+                            Data.Instance.PlayList[i] = Data.Instance.PlayList[j];
+                            Data.Instance.PlayList[j] = temp;
+                            temp = Data.Instance.PlayList[i];
+                            tempx = int.Parse(Data.Instance.PlayList[i].name.Substring(2));
+                            tempy = int.Parse(Data.Instance.PlayList[i].name.Substring(0, 1));
+                        }
+                    }
+
+                }
+
+            }//코스트별 정리\
+            for (int i = 0; i < Data.Instance.PlayList.Count; i++)
+            {
+                Debug.Log(i + "번" + Data.Instance.PlayList[i]);
+            }
+        }
     }
 }

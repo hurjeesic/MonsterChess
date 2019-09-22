@@ -20,7 +20,10 @@ namespace MonsterChessClient
                 {
                     if (Data.Instance.pan[i, j] != null)
                     {
-                       
+                        if (i < 3)
+                        {
+
+                        }
                         count++;
                     }
                 }
