@@ -9,6 +9,7 @@ namespace MonsterChessClient
         public Vector2 StartPosition;
         public Vector2 EndPosition;
         public float speed = 10f;
+        float time;
     // Use this for initialization
         void Start()
         {
@@ -20,6 +21,8 @@ namespace MonsterChessClient
         {
             if (play == true)
             {
+                time += Time.deltaTime;
+                speed = speed * time;
                 gameObject.transform.position = Vector2.MoveTowards(StartPosition, EndPosition, speed);
             }
            

@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.UI;
 
 namespace MonsterChessClient
 {
@@ -37,7 +39,7 @@ namespace MonsterChessClient
 
         public string[,] pan = new string[7, 7];//현재 판의 데이터 배열
         public string[] Unit = { "002", "005", "008", "101", "102", "201" };//유닛넣는곳(임시로 넣었음)
-        public List<string> PlayList = new List<string>();//실제 게임진행하는 리스트
+        
         public List<string> MoveDirection= new List<string>(); // 유닛의 이동방향을 나타냄
         public string SommonID;//소환할 ID를 가져옴
 
@@ -48,6 +50,7 @@ namespace MonsterChessClient
         public float Time = 50f; // 턴의 시간
 
         public GameObject Origin;
+        public List<GameObject> PlayList = new List<GameObject>();//실제 게임진행하는 리스트
 
         public bool SommonOn;//소환
         public bool ManaStoneOn;//마나스톤 생성
@@ -63,7 +66,480 @@ namespace MonsterChessClient
         public bool Hero = false;//히어로가 선택 되었는지
         public int MaxCost = 15;
 
+        //함수
+        public void MoveRange(int x, int y, int Direction, int Distence, List<GameObject> Range, List<int>TempMoveDirection)
+        {
 
+            switch (Direction)
+            {
+                case 0:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        //0=동, 1=서, 2=남, 3=북 
+                        for (int j = 1; j < (Distence + 1); j++)
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    if (x + j > 6) { break; }
+                                    Range.Add(GameObject.Find("" + y + "," + (x + j)));
+                                    TempMoveDirection.Add(0);
+                                    Debug.Log("동");
+                                    break;
+                                case 1:
+                                    if (x - j < 0) { break; }
+                                    Range.Add(GameObject.Find("" + y + "," + (x - j)));
+                                    Debug.Log("서");
+                                    TempMoveDirection.Add(1);
+                                    break;
+                                case 2:
+                                    if (y - j < 0) { break; }
+                                    Range.Add(GameObject.Find("" + (y - j) + "," + x));
+                                    Debug.Log("남");
+                                    TempMoveDirection.Add(2);
+                                    break;
+                                case 3:
+                                    if (y + j > 6) { break; }
+                                    Range.Add(GameObject.Find("" + (y + j) + "," + x));
+                                    Debug.Log("북");
+                                    TempMoveDirection.Add(3);
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < 8; i++)
+                    {
+                        //0=동, 1=서, 2=남, 3=북 4= 북동 5=남동 6=남서 7=북서
+                        for (int j = 1; j < (Distence + 1); j++)
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    if (x + j > 6) { break; }
+                                    Range.Add(GameObject.Find("" + y + "," + (x + j)));
+                                    TempMoveDirection.Add(0);
+                                    Debug.Log("동");
+                                    break;
+                                case 1:
+                                    if (x - j < 0) { break; }
+                                    Range.Add(GameObject.Find("" + y + "," + (x - j)));
+                                    Debug.Log("서");
+                                    TempMoveDirection.Add(1);
+                                    break;
+                                case 2:
+                                    if (y - j < 0) { break; }
+                                    Range.Add(GameObject.Find("" + (y - j) + "," + x));
+                                    Debug.Log("남");
+                                    TempMoveDirection.Add(2);
+                                    break;
+                                case 3:
+                                    if (y + j > 6) { break; }
+                                    Range.Add(GameObject.Find("" + (y + j) + "," + x));
+                                    Debug.Log("북");
+                                    TempMoveDirection.Add(3);
+                                    break;
+                                case 4:
+                                    if (y + j > 6 || x + j > 6) { break; }
+                                    Range.Add(GameObject.Find("" + (y + j) + "," + (x + j)));
+                                    Debug.Log("북동");
+                                    TempMoveDirection.Add(4);
+                                    break;
+                                case 5:
+                                    if (y - j < 0 || x + j > 6) { break; }
+                                    Range.Add(GameObject.Find("" + (y - j) + "," + (x + j)));
+                                    Debug.Log("남동");
+                                    TempMoveDirection.Add(5);
+                                    break;
+                                case 6:
+                                    if (y - j < 0 || x - j < 0) { break; }
+                                    Range.Add(GameObject.Find("" + (y - j) + "," + (x - j)));
+                                    TempMoveDirection.Add(6);
+                                    break;
+                                case 7:
+                                    if (y + j > 6 || x - j < 0) { break; }
+                                    Range.Add(GameObject.Find("" + (y + j) + "," + (x - j)));
+                                    TempMoveDirection.Add(7);
+                                    break;
+
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    break;
+            }
+            Debug.Log("에니메이션");
+            for (int i = 0; i < Range.Count(); i++)
+            {
+
+                Animation anim = Range[i].GetComponent<Animation>();
+                anim.Play("LightUnit");
+            }
+        }
+        public void SaveMove(List<GameObject> Range, int MoveDirection, int MoveX, int MoveY)
+        {
+
+            for (int i = 0; i < Range.Count; i++)
+            {
+                int RangeX = int.Parse(Range[i].name.Substring(2));
+                int RangeY = int.Parse(Range[i].name.Substring(0, 1));
+                if (Range[i].name == MoveY + "," + MoveX)
+                {
+                    MoveDirection = i;
+                    MoveX = RangeX;
+                    MoveY = RangeY;
+                    for (int j = 0; j < Range.Count; j++)
+                    {
+                        Animation anim = Range[j].GetComponent<Animation>();
+                        anim.Stop("LightUnit");
+                        RangeX = int.Parse(Range[j].name.Substring(2));
+                        RangeY = int.Parse(Range[j].name.Substring(0, 1));
+                        if (Data.Instance.pan[RangeY, RangeX] != null)
+                        {
+                            Range[j].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                        }
+                        else
+                        {
+                            Range[j].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                        }
+                        if (j == Range.Count - 1)
+                        {
+                            return;
+                        }
+                    }
+                    if (i == Range.Count - 1)
+                    {
+                        Debug.Log("이동범위가 아닙니다.");
+                        Debug.Log("유닛부터 다시 선택하여 주십시요");
+                        for (int j = 0; j < Range.Count; j++)
+                        {
+                            Animation anim = Range[j].GetComponent<Animation>();
+                            anim.Stop("LightUnit");
+                            RangeX = int.Parse(Range[j].name.Substring(2));
+                            RangeY = int.Parse(Range[j].name.Substring(0, 1));
+                            if (Data.Instance.pan[RangeY, RangeX] != null)
+                            {
+                                Range[j].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                            }
+                            else
+                            {
+                                Range[j].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                            }
+                            if (j == Range.Count - 1)
+                            {
+                                return;
+                            }
+                        }
+                    }
+
+                }
+            }
+           
+        }
+        public string FindStateOfMonster(string ID)
+        {
+            //ID를 통해 몬스턴 전체 데이터를 가져옴
+            switch (ID.Substring(0, 1))
+            {
+                case "0":
+                    for (int i = 0; i < 12; i++)
+                    {
+                        if (StateOfMonster[0, i].Substring(0, 3) == ID)
+                        {
+                            return StateOfMonster[0, i];
+                        }
+                    }
+                    break;
+                case "1":
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (StateOfMonster[1, i].Substring(0, 3) == ID)
+                        {
+                            return StateOfMonster[1, i];
+                        }
+                    }
+                    break;
+                case "2":
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (StateOfMonster[2, i].Substring(0, 3) == ID)
+                        {
+                            return StateOfMonster[2, i];
+                        }
+                    }
+                    break;
+
+            }
+            return "";
+        }
+        public void Move(GameObject Unit, GameObject EnemyUnit, int MoveX, int MoveY, int x, int y)
+        {
+            //움직일때
+            //Move.Script 사용
+            Unit.AddComponent<Move>();
+            EnemyUnit.AddComponent<Move>();
+            Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+            Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+            EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+            EnemyUnit.GetComponent<Move>().EndPosition = Unit.transform.position;
+            Data.Instance.pan[MoveY, MoveX] = Data.Instance.pan[y, x];
+            Data.Instance.pan[y, x] = null;
+            string temp = Unit.name;
+            Unit.name = EnemyUnit.name;
+            EnemyUnit.name = temp;
+            Unit.GetComponent<Move>().play = true;
+            EnemyUnit.GetComponent<Move>().play = true;
+        }
+        public void KnockBack(GameObject Unit, GameObject EnemyUnit, int MoveX, int MoveY, int x, int y, int MoveDirection)
+        {
+            string temp;
+            switch (MoveDirection)
+            {
+                case 0:
+                    if (pan[MoveY, MoveX + 1] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find(MoveY + "," + (MoveX + 1));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY, MoveX + 1] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 1:
+                    if (pan[MoveY, MoveX - 1] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find(MoveY + "," + (MoveX - 1));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY, MoveX - 1] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 2:
+                    if (pan[MoveY-1, MoveX ] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find((MoveY-1) + "," + (MoveX));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY-1, MoveX] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 3:
+                    if (pan[MoveY + 1, MoveX] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find((MoveY + 1) + "," + (MoveX));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY + 1, MoveX] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 4:
+                    if (pan[MoveY + 1, MoveX+1] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find((MoveY + 1) + "," + (MoveX+1));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY +1, MoveX+1] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 5:
+                    if (pan[MoveY - 1, MoveX + 1] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find((MoveY - 1) + "," + (MoveX+1));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY - 1, MoveX+1] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 6:
+                    if (pan[MoveY - 1, MoveX - 1] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find((MoveY - 1) + "," + (MoveX-1));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY - 1, MoveX-1] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+                case 7:
+                    if (pan[MoveY + 1, MoveX - 1] == null)
+                    {
+                        //넉백가능
+                        GameObject KnockBackBoard = GameObject.Find((MoveY + 1) + "," + (MoveX-1));
+                        Unit.AddComponent<Move>();
+                        EnemyUnit.AddComponent<Move>();
+                        KnockBackBoard.AddComponent<Move>();
+                        Unit.GetComponent<Move>().StartPosition = Unit.transform.position;
+                        Unit.GetComponent<Move>().EndPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().StartPosition = EnemyUnit.transform.position;
+                        EnemyUnit.GetComponent<Move>().EndPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().StartPosition = KnockBackBoard.transform.position;
+                        KnockBackBoard.GetComponent<Move>().EndPosition = Unit.transform.position;
+                        Data.instance.pan[MoveY + 1, MoveX-1] = Data.instance.pan[MoveY, MoveX];
+                        Data.instance.pan[MoveY, MoveX] = Data.instance.pan[y, x];
+                        Data.instance.pan[y, x] = null;
+                        temp = Unit.name;
+                        Unit.name = EnemyUnit.name;
+                        EnemyUnit.name = KnockBackBoard.name;
+                        KnockBackBoard.name = temp;
+                        Unit.GetComponent<Move>().play = true;
+                        EnemyUnit.GetComponent<Move>().play = true;
+                        KnockBackBoard.GetComponent<Move>().play = true;
+                    }
+                    else
+                    {
+                        //넉백불가
+                    }
+                    break;
+            }
+        }
     }
 }
 

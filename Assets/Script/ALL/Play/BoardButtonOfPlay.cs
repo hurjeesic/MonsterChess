@@ -21,7 +21,7 @@ namespace MonsterChessClient
                 {
                     int x = int.Parse(gameObject.name.Substring(2));
                     int y = int.Parse(gameObject.name.Substring(0, 1));
-                    int cost = int.Parse(FindStateOfMonster(Data.Instance.SommonID).Substring(6,1));
+                    int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.SommonID).Substring(6,1));
                     if (Data.Instance.Mana - cost >= 0)
                     {
                         if (Data.Instance.pan[y, x] == null)
@@ -263,67 +263,131 @@ namespace MonsterChessClient
                     switch (Data.Instance.pan[y, x])
                     {
                         case "000":
-                            gameObject.GetComponent<Unit000>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit000>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit000>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit000>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit000>().Status = 1;
                             break;
                         case "001":
-                            gameObject.GetComponent<Unit001>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit001>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit001>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit001>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit001>().Status = 1;
                             break;
                         case "002":
-                            gameObject.GetComponent<Unit002>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit002>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit002>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit002>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit002>().Status = 1;
                             break;
                         case "003":
-                            gameObject.GetComponent<Unit003>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit003>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit003>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit003>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit003>().Status = 1;
                             break;
                         case "004":
-                            gameObject.GetComponent<Unit004>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit004>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit004>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit004>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit004>().Status = 1;
                             break;
                         case "005":
-                            gameObject.GetComponent<Unit005>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit005>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit005>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit005>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit005>().Status = 1;
                             break;
                         case "006":
-                            gameObject.GetComponent<Unit006>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit006>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit006>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit006>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit006>().Status = 1;
                             break;
                         case "007":
-                            gameObject.GetComponent<Unit007>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit007>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit007>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit007>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit007>().Status = 1;
                             break;
                         case "008":
-                            gameObject.GetComponent<Unit008>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit008>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit008>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit008>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit008>().Status = 1;
                             break;
                         case "009":
-                            gameObject.GetComponent<Unit009>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit009>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit009>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit009>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit009>().Status = 1;
                             break;
                         case "010":
-                            gameObject.GetComponent<Unit010>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit010>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit010>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit010>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit010>().Status = 1;
                             break;
                         case "011":
-                            gameObject.GetComponent<Unit011>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit011>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit011>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit011>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit011>().Status = 1;
                             break;
                         case "100":
-                            gameObject.GetComponent<Unit100>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit100>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit100>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit100>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit100>().Status = 1;
                             break;
                         case "101":
-                            gameObject.GetComponent<Unit101>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit101>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit101>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit101>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit101>().Status = 1;
                             break;
                         case "102":
-                            gameObject.GetComponent<Unit102>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit102>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit102>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit102>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit102>().Status = 1;
                             break;
                         case "103":
-                            gameObject.GetComponent<Unit103>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit103>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit103>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit103>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit103>().Status = 1;
                             break;
                         case "104":
-                            gameObject.GetComponent<Unit104>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit104>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit104>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit104>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit104>().Status = 1;
                             break;
                         case "105":
-                            gameObject.GetComponent<Unit105>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit105>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit105>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit105>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit105>().Status = 1;
                             break;
                         case "200":
-                            gameObject.GetComponent<Unit200>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit200>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit200>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit200>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit200>().Status = 1;
+
                             break;
                         case "201":
-                            gameObject.GetComponent<Unit201>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit201>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit201>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit201>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit201>().Status = 1;
                             break;
                         case "202":
-                            gameObject.GetComponent<Unit202>().MoveRange();
+                            Data.Instance.Origin.GetComponent<Unit202>().MoveX = MoveX;
+                            Data.Instance.Origin.GetComponent<Unit202>().MoveY = MoveY;
+                            Data.Instance.Origin.GetComponent<Unit202>().SaveMove();
+                            Data.Instance.Origin.GetComponent<Unit202>().Status = 1;
                             break;
                     }
                     Data.Instance.MoveOn = false;
@@ -331,67 +395,7 @@ namespace MonsterChessClient
                 }
             }
         }
-        void AnimatiomOFF(List<GameObject>Range,List<int>Direction)
-        {
-            for (int i = 0; i < Range.Count(); i++)
-            {
-                Debug.Log(Range[i].name);
-                Animation anim = Range[i].GetComponent<Animation>();
-                anim.Stop("LightUnit");
-                int y = int.Parse(Range[i].name.Substring(0, 1));
-                int x = int.Parse(Range[i].name.Substring(2));
-                if (Data.Instance.pan[y, x] == null)
-                {
-                    Range[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-                }
-                else
-                {
-                    Range[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-                }
-
-
-            }
-            Range.Clear();
-            Direction.Clear();
-
-        }
-
-        string FindStateOfMonster(string ID)
-        {
-            //ID를 통해 몬스턴 전체 데이터를 가져옴
-            switch (ID.Substring(0, 1))
-            {
-                case "0":
-                    for (int i = 0; i < 12; i++)
-                    {
-                        if (Data.Instance.StateOfMonster[0, i].Substring(0, 3) == ID)
-                        {
-                            return Data.Instance.StateOfMonster[0, i];
-                        }
-                    }
-                    break;
-                case "1":
-                    for (int i = 0; i < 6; i++)
-                    {
-                        if (Data.Instance.StateOfMonster[1, i].Substring(0, 3) == ID)
-                        {
-                            return Data.Instance.StateOfMonster[1, i];
-                        }
-                    }
-                    break;
-                case "2":
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (Data.Instance.StateOfMonster[2, i].Substring(0, 3) == ID)
-                        {
-                            return Data.Instance.StateOfMonster[2, i];
-                        }
-                    }
-                    break;
-
-            }
-            return "";
-        }
+        
        
        
      
