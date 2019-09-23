@@ -90,14 +90,14 @@ namespace MonsterChessClient
                             loadingMsg.Push(Data.Instance.pan[(int)unitPos[i].x, (int)unitPos[i].y]);
                         }
                         this.networkManager.Send(loadingMsg);
-                        GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
-                        Debug.Log("게임 시작");
                     }
                     break;
 
-                case PROTOCOL.StartGame:
+                case PROTOCOL.StartedGame:
                     {
                         // Play 씬으로 넘어가야함
+                        GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
+                        Debug.Log("게임 시작");
                     }
                     break;
             }

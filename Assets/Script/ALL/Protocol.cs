@@ -25,12 +25,12 @@
         StartLoading,
         CompleteLoading,
 
-        StartGame, // Game 시작
-        StartTurn,
-        RequestMoving, // Client의 이동 요청
-        PlayerMovedFirst, // 선공인 Player가 이동 했음을 알림
-        PlayerMovedSecond, // 후공인 Player가 이동 했음을 알림
-        RequestFinishedTurn, // Client의 Turn 연출이 끝났음을 알림
+        StartedGame, // Game 시작
+        StartedTurn,
+        RequestedMoving, // Client의 이동 요청
+        MovedUnit, // 요청된 이동 중 하나가 완료
+        CompleteMoving, // 하나의 이동 연출이 완료됨
+        FinishedTurn, // Client의 Turn 연출이 끝났음을 알림
 
         RemovedGame, // 상대방 Player가 나가 방이 삭제됨
         GameOver, // Game 종료
