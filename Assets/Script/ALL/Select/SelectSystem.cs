@@ -31,22 +31,22 @@ namespace MonsterChessClient
 
         public void AddMonster()
         {
-            if ((DataIndex.Hero == false) && (DataIndex.Kind == 2))
+            if ((DataIndex.bHero == false) && (DataIndex.kind == 2))
             {
                 // Debug.Log("히어로를 선택했대요"); // 시각적으로 확인 가능하므로 로그 표시 삭제
-                DataIndex.Hero = true;
+                DataIndex.bHero = true;
             }
-            monster.Add(DataIndex.MonsterID);
+            monster.Add(DataIndex.unitId);
             // Debug.Log("몬스터" + DataIndex.MonsterID + "가 추가되었습니다"); // 시각적으로 확인 가능하므로 로그 표시 삭제
         }
 
         public void RemoveMonster()
         {
-            if ((DataIndex.Hero == true) && (DataIndex.Kind == 2))
+            if ((DataIndex.bHero == true) && (DataIndex.kind == 2))
             {
-                DataIndex.Hero = false;
+                DataIndex.bHero = false;
             }
-            monster.Remove(DataIndex.MonsterID);
+            monster.Remove(DataIndex.unitId);
             // Debug.Log("몬스터" + DataIndex.MonsterID + "가 삭제되었습니다"); // 시각적으로 확인 가능하므로 로그 표시 삭제
         }
 
@@ -58,14 +58,14 @@ namespace MonsterChessClient
                 for (int x = 0; x < monster.Count(); x++)
                 {
 
-                    DataIndex.Unit[x] = monster[x];
+                    DataIndex.units[x] = monster[x];
                     Debug.Log(monster[x]);
                 }
-                Array.Sort(DataIndex.Unit);
+                Array.Sort(DataIndex.units);
                 Debug.Log("정렬된 몬스터");
                 for (int x = 0; x < monster.Count(); x++)
                 {
-                    Debug.Log(DataIndex.Unit[x]);
+                    Debug.Log(DataIndex.units[x]);
                 }
 
                 place.Enter();

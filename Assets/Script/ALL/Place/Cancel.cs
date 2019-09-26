@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MonsterChessClient
 {
@@ -10,7 +8,5 @@ namespace MonsterChessClient
         {
             GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Select;
         }
-      
     }
-
 }

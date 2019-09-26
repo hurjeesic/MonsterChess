@@ -23,19 +23,19 @@ namespace MonsterChessClient
         public void S_Tap()
         {
             Debug.Log("근거리 태비애오");
-            DataIndex.Kind = 0;
+            DataIndex.kind = 0;
         }
 
         public void L_Tap()
         {
             Debug.Log("원거리 태비애오");
-            DataIndex.Kind = 1;
+            DataIndex.kind = 1;
         }
 
         public void H_Tap()
         {
             Debug.Log("히어로 태비애오");
-            DataIndex.Kind = 2;
+            DataIndex.kind = 2;
         }
     }
 }

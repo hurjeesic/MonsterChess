@@ -1,703 +1,301 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MonsterChessClient;
 using UnityEngine.UI;
 using UnityEngine;
-using MonsterChessClient;
 
-public class Unit000 : MonoBehaviour
+namespace UnitType
 {
-
-    public string ID = "000";
-    public int Distence = 1;
-    public int Direction = 0;
-    public int cost = 1;
-    public int FullHP = 2;
-    public int AP = 1;
-
-    public int x;
-    public int y;
-    public int Order;
-    public int Status=0;
-    public int MoveX;
-    public int MoveY;
-    public int HP;
-    public int MoveDirection;
-    public string EnemyID;
-    public List<GameObject> Range = new List<GameObject>();
-    public List<int> TempMoveDirection = new List<int>();
-
-    public void Move()
+    public class Unit000 : Unit
     {
-        GameObject Target = GameObject.Find(MoveY + "," + MoveX);
-        Data.Instance.Move(gameObject,Target,MoveX,MoveY,x,y);//일반 이동
-    }
-
-    public void Attack(int PlayCount)
-    {
-        GameObject Target = GameObject.Find(MoveY + "," + MoveX);
-        string EenemyID = Data.Instance.pan[MoveY, MoveX];
-        switch (EnemyID)
+        protected override void Awake()
         {
-            case "000":
-                if (Target.GetComponent<Unit000>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit000>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target,MoveX,MoveY,x,y,MoveDirection);
-                }
-                break;
-            case "001":
-                if (Target.GetComponent<Unit001>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit001>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "002":
-                if (Target.GetComponent<Unit002>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit002>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "003":
-                if (Target.GetComponent<Unit003>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit003>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "004":
-                if (Target.GetComponent<Unit004>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit004>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "005":
-                if (Target.GetComponent<Unit005>().Defence(AP,HP))
-                {
-                    if (HP == 0) { }
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit005>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "006":
-                if (Target.GetComponent<Unit006>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit006>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "007":
-                if (Target.GetComponent<Unit007>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit007>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "008":
-                if (Target.GetComponent<Unit008>().Defence(AP,HP))
-                {
-                    if (HP <= 0) { }
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit008>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "009":
-                if (Target.GetComponent<Unit009>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit009>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "010":
-                if (Target.GetComponent<Unit010>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit010>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "011":
-                if (Target.GetComponent<Unit011>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit011>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "100":
-                if (Target.GetComponent<Unit100>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit100>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "101":
-                if (Target.GetComponent<Unit101>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit101>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "102":
-                if (Target.GetComponent<Unit102>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit102>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "103":
-                if (Target.GetComponent<Unit103>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit103>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "104":
-                if (Target.GetComponent<Unit104>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit104>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "105":
-                if (Target.GetComponent<Unit105>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit105>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "200":
-                if (Target.GetComponent<Unit200>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit200>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "201":
-                if (Target.GetComponent<Unit201>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit201>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
-            case "202":
-                if (Target.GetComponent<Unit202>().Defence(AP))
-                {
-                    //destroy된경우
-                    if (HP == 1) { HP = 2; }
-                    Destroy(Target.GetComponent<Unit202>());
-                    Destroy(Target.GetComponent<Move>());
-                    for (int i = 0; i < Data.Instance.PlayList.Count; i++)
-                    {
-                        if (Target = Data.Instance.PlayList[i])
-                        {
-                            if (PlayCount > i)
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                                PlayCount--;
-                            }
-                            else
-                            {
-                                Data.Instance.PlayList.RemoveAt(i);
-                            }
-                        }
-                    }//플레이 리스트 제거
-                    Target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);//이미지 투명화
-                    Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-                }
-                else
-                {
-                    Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
-                }
-                break;
+            ID = "000";
+            Distence = 1;
+            Direction = 0;
+            Cost = 1;
+            fullHp = 2;
+            ap = 1;
 
+            status = 0;
+            base.Awake();
         }
-    }
-    public bool Defence(int EnemyAP)
-    {
-        //방어할때
-        // true= 디스트로이 false= 데미지
-        HP -= EnemyAP;
-        if (HP <= 0)
+        
+        public override void Attack(int playCount)
         {
-            return true;
+            bool bDie = false;
+            GameObject target = GameObject.Find(moveY + "," + moveX);
+            string enemyId = Data.Instance.board[moveY, moveX];
+            Unit unit;
+            switch (enemyID)
+            {
+                case "000":
+                    unit = target.GetComponent<Unit000>();
+                    if (target.GetComponent<Unit000>().Defence(ap, hp))
+                    {
+                        //destroy된 경우
+                        if (hp == 1) hp = 2;
+                        Destroy(target.GetComponent<Unit000>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "001":
+                    unit = target.GetComponent<Unit001>();
+                    if (target.GetComponent<Unit001>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit001>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "002":
+                    unit = target.GetComponent<Unit002>();
+                    if (target.GetComponent<Unit002>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit002>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "003":
+                    unit = target.GetComponent<Unit003>();
+                    if (target.GetComponent<Unit003>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit003>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "004":
+                    unit = target.GetComponent<Unit004>();
+                    if (target.GetComponent<Unit004>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit004>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "005":
+                    unit = target.GetComponent<Unit005>();
+                    if (target.GetComponent<Unit005>().Defence(ap, hp))
+                    {
+                        if (hp == 0) { }
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit005>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "006":
+                    unit = target.GetComponent<Unit006>();
+                    if (target.GetComponent<Unit006>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit006>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "007":
+                    unit = target.GetComponent<Unit007>();
+                    if (target.GetComponent<Unit007>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit007>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "008":
+                    unit = target.GetComponent<Unit008>();
+                    if (target.GetComponent<Unit008>().Defence(ap, hp))
+                    {
+                        if (hp <= 0) { }
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit008>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "009":
+                    unit = target.GetComponent<Unit009>();
+                    if (target.GetComponent<Unit009>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit009>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "010":
+                    unit = target.GetComponent<Unit010>();
+                    if (target.GetComponent<Unit010>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit010>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "011":
+                    unit = target.GetComponent<Unit011>();
+                    if (target.GetComponent<Unit011>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit011>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "100":
+                    unit = target.GetComponent<Unit100>();
+                    if (target.GetComponent<Unit100>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit100>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "101":
+                    unit = target.GetComponent<Unit101>();
+                    if (target.GetComponent<Unit101>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit101>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "102":
+                    unit = target.GetComponent<Unit102>();
+                    if (target.GetComponent<Unit102>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit102>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "103":
+                    unit = target.GetComponent<Unit103>();
+                    if (target.GetComponent<Unit103>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit103>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "105":
+                    unit = target.GetComponent<Unit105>();
+                    if (target.GetComponent<Unit105>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit105>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "200":
+                    unit = target.GetComponent<Unit200>();
+                    if (target.GetComponent<Unit200>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit200>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "201":
+                    unit = target.GetComponent<Unit201>();
+                    if (target.GetComponent<Unit201>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit201>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                case "202":
+                    unit = target.GetComponent<Unit202>();
+                    if (target.GetComponent<Unit202>().Defence(ap, hp))
+                    {
+                        //destroy된경우
+                        if (hp == 1) { hp = 2; }
+                        Destroy(target.GetComponent<Unit202>());
+                        RemoveUnit(target, playCount);
+                        bDie = true;
+                    }
+                    break;
+                default:
+                    unit = target.GetComponent<Unit000>();
+                    break;
+            }
+            /*
+            if (unit.Defence(AP, HP))
+            {
+                //destroy된 경우
+                if (HP == 1) HP = 2;
+                Destroy(Target.GetComponent<Unit>());
+                RemoveUnit(Target, PlayCount);
+                bDie = true;
+            }
+            else
+            {
+                Data.Instance.KnockBack(gameObject, Target, MoveX, MoveY, x, y, MoveDirection);
+            }
+            */
+            if (!bDie)
+            {
+                Data.Instance.KnockBack(gameObject, target, moveX, moveY, x, y, moveDirection);
+            }
         }
-       return false;
-        
-    }
-    public void MoveRange()
-    {
-        //이동범위 표시
-        Data.Instance.MoveRange(x, y, Direction, Distence, Range, TempMoveDirection);
-    }
-    public void SaveMove()
-    {
-        //이동범위 내 이면 저장
-        //이동범위 밖이면 다시선택하게함
-        Data.Instance.SaveMove(Range, MoveDirection, MoveX, MoveY, Status);
-        
+
+        private void RemoveUnit(GameObject target, int playCount)
+        {
+            Destroy(target.GetComponent<Move>());
+
+            // Unit을 List에서 제거
+            for (int i = 0; i < Data.Instance.playList.Count; i++)
+            {
+                if (target = Data.Instance.playList[i])
+                {
+                    if (playCount > i)
+                    {
+                        Data.Instance.playList.RemoveAt(i);
+                        playCount--;
+                    }
+                    else
+                    {
+                        Data.Instance.playList.RemoveAt(i);
+                    }
+                }
+            }
+
+            target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0); // Image 투명화
+            Data.Instance.Move(gameObject, target, moveX, moveY, x, y); // 일반 이동
+        }
     }
 }
-
-

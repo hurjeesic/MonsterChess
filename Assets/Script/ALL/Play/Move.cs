@@ -1,31 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 namespace MonsterChessClient
 {
     public class Move : MonoBehaviour
     {
-        public bool play = false;
-        public Vector2 StartPosition;
-        public Vector2 EndPosition;
+        public bool bPlay = false;
+        public Vector2 startPos, endPos;
         public float speed = 10f;
         float time;
-    // Use this for initialization
-        void Start()
-        {
 
-        }
-
-    // Update is called once per frame
-         void Update()
+        void Update()
         {
-            if (play == true)
+            if (bPlay)
             {
                 time += Time.deltaTime;
-                speed = speed * time;
-                gameObject.transform.position = Vector2.MoveTowards(StartPosition, EndPosition, speed);
+                speed *= time;
+                gameObject.transform.position = Vector2.MoveTowards(startPos, endPos, speed);
             }
-           
         }
     }
 }

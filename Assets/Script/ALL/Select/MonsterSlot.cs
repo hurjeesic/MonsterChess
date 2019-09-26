@@ -1,99 +1,95 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
 namespace MonsterChessClient
 {
     public class MonsterSlot : MonoBehaviour
     {
-        bool[,] In = { { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
-        ,{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
-        ,{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }};
+        int type, index;
 
-        int N = 0;
-        int a = 0;
-        string temp;
+        bool[,] In =
+        {
+            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
+        };
 
-        static Data DataIndex = Data.Instance;
+        Data DataIndex = Data.Instance;
 
         void Start()
         {
-            a = int.Parse(this.name);
-            ChoiceImage(N);
-            Debug.Log(In[N, a]);
+            type = 0;
+            index = int.Parse(this.name);
         }
 
-        // Update is called once per frame
         void Update()
         {
-            if (DataIndex.Kind != N)
+            if (DataIndex.kind != type)
             {
-                N = DataIndex.Kind;
+                type = DataIndex.kind;
             }
-            ChoiceImage(N);
+
+            ChoiceImage(DataIndex.kind);
         }
 
         public void OnClick()
-        {   
-            if (DataIndex.StateOfMonster.Length > a)
+        {
+            if (DataIndex.StateOfMonster.Length > index)
             {
-                DataIndex.MonsterID = DataIndex.StateOfMonster[N, a].Substring(0, 3);
+                DataIndex.unitId = DataIndex.StateOfMonster[type, index].Substring(0, 3);
             }
 
-            //몬스터가 추가되어 있을 경우 제거
-            if (In[N, a] == true)
+            // 몬스터가 추가되어 있을 경우 제거
+            if (In[type, index])
             {
-                DataIndex.Cost -= int.Parse(DataIndex.StateOfMonster[N, a].Substring(6, 1));
+                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
 
                 GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
-                In[N, a] = !In[N, a];
+                In[type, index] = !In[type, index];
             }
             else
             {
                 //몬스터가 추가되지 않았을 경우 추가
-                DataIndex.Cost += int.Parse(DataIndex.StateOfMonster[N, a].Substring(6, 1));
-                if (DataIndex.Cost > DataIndex.MaxCost)
+                DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+                if (DataIndex.costSum > DataIndex.MaxCost)
                 {
                     //마나코스트의 합이 지정한 값을 넘길경우
-                    Debug.Log("마나코스트의 합이 "+ DataIndex.MaxCost+"을 넘겼습니다");
-                    DataIndex.Cost -= int.Parse(DataIndex.StateOfMonster[N, a].Substring(6, 1));
+                    Debug.Log("마나코스트의 합이 " + DataIndex.MaxCost + "을 넘겼습니다");
+                    DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
                 }
                 else
                 {
                     //히어로 두개 고를라 하면 내치는 거 해야댐
-                    if ((DataIndex.Hero == true) && (DataIndex.Kind == 2))
+                    if (DataIndex.bHero && (DataIndex.kind == 2))
                     {
                         Debug.Log("이미 히어로를 선택했대요");
                     }
                     else
                     {
                         GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
-                        In[N, a] = !In[N, a];
+                        In[type, index] = !In[type, index];
                     }
-
                 }
             }
-            Debug.Log("현재의 마나코스트는" + DataIndex.Cost + "입니다");
+
+            Debug.Log("현재의 마나코스트는" + DataIndex.costSum + "입니다");
         }
 
         public void ChoiceImage(int x)
         {
+            string path = "Image/UnitMY/" + DataIndex.StateOfMonster[type, index].Substring(0, 3);
             gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/Button_Square") as Texture;
-            temp = "Image/UnitMY/" + DataIndex.StateOfMonster[N, a].Substring(0, 3);
 
-            Object[] images = Resources.LoadAll<Object>("Image/");
-            Object image = Resources.Load<Object>(temp);
+            Object image = Resources.Load<Object>(path);
             if (image != null)
             {
-                if (In[N, a] == false)
+                if (In[type, index] == false)
                 {
-                    gameObject.GetComponent<RawImage>().texture = Resources.Load(temp) as Texture;
+                    gameObject.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
                 }
                 else
                 {
-                    gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[N, a].Substring(0, 3)) as Texture;
+                    gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[type, index].Substring(0, 3)) as Texture;
                 }
             }
         }

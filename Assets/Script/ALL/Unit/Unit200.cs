@@ -1,58 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using MonsterChessClient;
-using UnityEngine.UI;
-public class Unit200 : MonoBehaviour {
-
-    public string ID = "002";
-    public int Distence = 1;
-    public int Direction = 1;
-    public int cost = 1;
-    public int FullHP = 2;
-    public int AP = 1;
-
-    public int Order;
-    public int Status;
-    public int MoveX;
-    public int x;
-    public int y;
-    public int MoveY;
-    public int HP;
-    public int MoveDirection;
-    public string EnemyID;
-    public List<GameObject> Range = new List<GameObject>();
-    public List<int> TempMoveDirection = new List<int>();
-    int RangeNum;
-
-    public void Move()
+﻿namespace UnitType
+{
+    public class Unit200 : Unit
     {
-        GameObject Target = GameObject.Find(MoveY + "," + MoveX);
-        Data.Instance.Move(gameObject, Target, MoveX, MoveY, x, y);//일반 이동
-    }
-    public bool Defence(int EnemyAP)
-    {
-        //방어할때
-        // true= 디스트로이 false= 데미지
-        HP -= EnemyAP;
-        if (HP <= 0)
+        int RangeNum;
+
+        protected override void Awake()
         {
-            return true;
+            ID = "002";
+            Distence = 1;
+            Direction = 1;
+            Cost = 1;
+            fullHp = 2;
+            ap = 1;
+
+            base.Awake();
         }
-        return false;
 
-    }
+        public override void Attack(int playCount)
+        {
 
-    public void MoveRange()
-    {
-        //이동범위 표시
-        Data.Instance.MoveRange(x, y, Direction, Distence, Range, TempMoveDirection);
-    }
-    public void SaveMove()
-    {
-        //이동범위 내 이면 저장
-        //이동범위 밖이면 다시선택하게함
-        Data.Instance.SaveMove(Range, MoveDirection, MoveX, MoveY, Status);
+        }
     }
 }

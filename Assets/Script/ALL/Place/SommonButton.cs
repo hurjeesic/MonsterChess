@@ -1,32 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using UnityEngine.UI;
-using System.Linq;
+﻿using UnityEngine;
+
 namespace MonsterChessClient
 {
     public class SommonButton : MonoBehaviour
     {
-        // Use this for initialization
         public void OnSommon()
         {
             if (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present == SceneList.Place)
             {
-                int TempNum = int.Parse(gameObject.name);
-                string ID = Data.Instance.Unit[TempNum];
-                if (Data.Instance.SommonOn == false)
+                int tempNum = int.Parse(gameObject.name);
+                string id = Data.Instance.units[tempNum];
+                if (Data.Instance.bSommons == false)
                 {
-                    Data.Instance.SommonOn = true;
-                    Data.Instance.SommonID = ID;
+                    Data.Instance.bSommons = true;
+                    Data.Instance.sommonId = id;
+                    Debug.Log(Data.Instance.sommonId + " 선택");
                 }
                 else
                 {
-                    if (Data.Instance.SommonID == ID) { Data.Instance.SommonOn = false; }
+                    if (Data.Instance.sommonId == id)
+                    {
+                        Data.Instance.bSommons = false;
+                    }
                     else
                     {
-                        Data.Instance.SommonOn = true;
-                        Data.Instance.SommonID = ID;
+                        Data.Instance.bSommons = true;
+                        Data.Instance.sommonId = id;
                     }
                 }
             }
