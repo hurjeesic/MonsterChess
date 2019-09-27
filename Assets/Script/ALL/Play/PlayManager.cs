@@ -46,7 +46,6 @@ namespace MonsterChessClient
                     dIrection = unit.moveDirection;
                     order = unit.order;
                     CheckMove(id, dIrection, moveX, moveY, x, y, order);
-
                     if (Data.Instance.board[moveY, moveX] == null) unit.Move();
                     else unit.Attack(playListCount);
                     break;

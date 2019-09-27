@@ -50,7 +50,7 @@ namespace MonsterChessClient
                 "105112442주작", "000000000000","000000000000","000000000000","000000000000","000000000000","000000000000"
             },
             {
-                "200320053제우스", "201310053아누비스", "202210054해태", "000000000000", "000000000000",
+                "200310053제우스", "201310053아누비스", "202210054해태", "000000000000", "000000000000",
                 "000000000000", "000000000000", "000000000000", "000000000000", "000000000000",
                 "000000000000", "000000000000"
             }
@@ -249,6 +249,10 @@ namespace MonsterChessClient
 
             unit.GetComponent<Move>().bPlay = true;
             enemyUnit.GetComponent<Move>().bPlay = true;
+
+            unit.GetComponent<Unit>().x = moveX;
+            unit.GetComponent<Unit>().y = moveY;
+           
         }
 
         public void KnockBack(GameObject unit, GameObject enemyUnit, int moveX, int moveY, int x, int y, int moveDirection)
