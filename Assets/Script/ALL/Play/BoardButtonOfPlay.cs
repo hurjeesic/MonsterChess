@@ -51,6 +51,9 @@ namespace MonsterChessClient
                                 case "103": unit = gameObject.AddComponent<Unit103>(); break;
                                 case "104": unit = gameObject.AddComponent<Unit104>(); break;
                                 case "105": unit = gameObject.AddComponent<Unit105>(); break;
+                                case "200": unit = gameObject.AddComponent<Unit200>(); break;
+                                case "201": unit = gameObject.AddComponent<Unit201>(); break;
+                                case "202": unit = gameObject.AddComponent<Unit202>(); break;
                             }
 
                             if (unit != null)

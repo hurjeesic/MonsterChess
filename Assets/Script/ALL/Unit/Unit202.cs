@@ -4,12 +4,12 @@
     {
         protected override void Awake()
         {
-            ID = "002";
-            Distence = 1;
+            ID = "202";
+            Distence = 2;
             Direction = 1;
             Cost = 1;
-            fullHp = 2;
-            ap = 1;
+            fullHp =5;
+            ap = 4;
 
             base.Awake();
         }
