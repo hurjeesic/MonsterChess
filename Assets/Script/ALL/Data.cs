@@ -90,6 +90,7 @@ namespace MonsterChessClient
         //함수
         public void GetMoveRange(int x, int y, int direction, int distence, List<KeyValuePair<int, GameObject>> range)
         {
+            
             if (direction < 2)
             {
                 for (int i = 0; i < (direction == 0 ? 4 : 8); i++)
@@ -148,7 +149,7 @@ namespace MonsterChessClient
                                 }
                                 break;
                             case 7:
-                                if (y + j <= 6 || x - j >= 0)
+                                if (y + j <= 6 && x - j >= 0)
                                 {
                                     range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y + j) + "," + (x - j))));
                                 }
@@ -177,6 +178,7 @@ namespace MonsterChessClient
                 if (range[i].Value.name == moveY + "," + moveX)
                 {
                     origin.GetComponent<Unit>().status = 1;
+                    origin.GetComponent<Unit>().moveDirection = range[i].Key;
                     moveX = rangeX;
                     moveY = rangeY;
                     for (int j = 0; j < range.Count; j++)

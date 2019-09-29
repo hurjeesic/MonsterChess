@@ -8,7 +8,7 @@ namespace MonsterChessClient
     {
         int playListCount = 0;
         int tempCount = 0;
-
+        int moveX, moveY;
         void Update()
         {
             if (Data.Instance.bPlaying == true)
@@ -27,7 +27,7 @@ namespace MonsterChessClient
             yield return new WaitForSeconds(1f);
             int x = int.Parse(Data.Instance.playList[playListCount].name.Substring(2));
             int y = int.Parse(Data.Instance.playList[playListCount].name.Substring(0, 1));
-            int moveX, moveY;
+            
             string id = Data.Instance.board[y, x];
             int dIrection;
             int order;
@@ -44,8 +44,12 @@ namespace MonsterChessClient
                     moveX = unit.moveX;
                     moveY = unit.moveY;
                     dIrection = unit.moveDirection;
+                    Debug.Log("방향은" + dIrection);
                     order = unit.order;
-                    CheckMove(id, dIrection, moveX, moveY, x, y, order);
+
+                    CheckMove(id, dIrection, x, y, order);
+                    unit.moveX = moveX;
+                    unit.moveY = moveY;
                     if (Data.Instance.board[moveY, moveX] == null) unit.Move();
                     else unit.Attack(playListCount);
                     break;
@@ -67,7 +71,7 @@ namespace MonsterChessClient
             Debug.Log("끝");
         }
 
-        private void CheckMove(string id, int moveDirection, int moveX, int moveY, int x, int y, int order)
+        private void CheckMove(string id, int moveDirection, int x, int y, int order)
         {
             int tempX;
             switch (moveDirection)
@@ -79,10 +83,10 @@ namespace MonsterChessClient
                         {
                             GameObject TargetObject = GameObject.Find(y + "," + i);
                             Unit unit = TargetObject.GetComponent<Unit>();
+                            
                             if (unit != null)
                             {
                                 moveX = i - (unit.order == order ? 1 : 0);
-
                                 break;
                             }
                         }
@@ -123,14 +127,16 @@ namespace MonsterChessClient
                 case 3: // 북
                     for (int i = y + 1; i < moveY + 1; i++)
                     {
+                        Debug.Log("for안");
                         if (i < 7 && Data.Instance.board[i, x] != null)
                         {
+                            Debug.Log("들어왓따");
                             GameObject TargetObject = GameObject.Find(i + "," + x);
                             Unit unit = TargetObject.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 moveY = i - (unit.order == order ? 1 : 0);
-
+                                Debug.Log(moveY);
                                 break;
                             }
                         }
