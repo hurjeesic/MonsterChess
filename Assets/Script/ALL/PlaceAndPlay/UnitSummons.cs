@@ -1,14 +1,28 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace MonsterChessClient
 {
-    public class SommonButton : MonoBehaviour
+    public class UnitSummons : MonoBehaviour
     {
-        public void OnSommon()
+        void Start()
+        {
+            Transform[] unitBtnTrans = gameObject.GetComponentsInChildren<Transform>();
+            foreach (Transform slotTrans in unitBtnTrans)
+            {
+                Button btn = slotTrans.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.AddListener(() => SelectSummons(slotTrans));
+                }
+            }
+        }
+
+        void SelectSummons(Transform slotTrans)
         {
             if (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present == SceneList.Place)
             {
-                int tempNum = int.Parse(gameObject.name);
+                int tempNum = int.Parse(slotTrans.name);
                 string id = Data.Instance.units[tempNum];
                 if (Data.Instance.bSommons == false)
                 {
@@ -32,5 +46,4 @@ namespace MonsterChessClient
                
         }
     }
-
 }
