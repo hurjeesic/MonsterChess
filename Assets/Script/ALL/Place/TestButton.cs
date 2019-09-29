@@ -1,4 +1,5 @@
-﻿using UnitType;
+﻿using System;
+using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,32 +54,8 @@ namespace MonsterChessClient
                             Data.Instance.board[index, j] = Data.Instance.board[i, j];
                             GameObject TempUnit = GameObject.Find(index + "," + j);
                             Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[index, j]) as Texture;
-                            Unit unit = null;
-                            switch (Data.Instance.board[index, j])
-                            {
-                                case "000": unit = TempUnit.AddComponent<Unit000>(); break;
-                                case "001": unit = TempUnit.AddComponent<Unit001>(); break;
-                                case "002": unit = TempUnit.AddComponent<Unit002>(); break;
-                                case "003": unit = TempUnit.AddComponent<Unit003>(); break;
-                                case "004": unit = TempUnit.AddComponent<Unit004>(); break;
-                                case "005": unit = TempUnit.AddComponent<Unit005>(); break;
-                                case "006": unit = TempUnit.AddComponent<Unit006>(); break;
-                                case "007": unit = TempUnit.AddComponent<Unit007>(); break;
-                                case "008": unit = TempUnit.AddComponent<Unit008>(); break;
-                                case "009": unit = TempUnit.AddComponent<Unit009>(); break;
-                                case "010": unit = TempUnit.AddComponent<Unit010>(); break;
-                                case "011": unit = TempUnit.AddComponent<Unit011>(); break;
-                                case "100": unit = TempUnit.AddComponent<Unit100>(); break;
-                                case "101": unit = TempUnit.AddComponent<Unit101>(); break;
-                                case "102": unit = TempUnit.AddComponent<Unit102>(); break;
-                                case "103": unit = TempUnit.AddComponent<Unit103>(); break;
-                                case "104": unit = TempUnit.AddComponent<Unit104>(); break;
-                                case "105": unit = TempUnit.AddComponent<Unit105>(); break;
-                                case "200": unit = TempUnit.AddComponent<Unit200>(); break;
-                                case "201": unit = TempUnit.AddComponent<Unit201>(); break;
-                                case "202": unit = TempUnit.AddComponent<Unit202>(); break;
-                            }
 
+                            Unit unit = gameObject.AddComponent(Type.GetType("Unit" + Data.Instance.board[index, j])) as Unit;
                             if (unit != null)
                             {
                                 unit.order = 1;

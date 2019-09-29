@@ -1,4 +1,5 @@
-﻿using UnitType;
+﻿using System;
+using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,29 +42,7 @@ namespace MonsterChessClient
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 slotTrans.gameObject.AddComponent<Move>();
 
-                                Unit unit = null;
-                                switch (Data.Instance.sommonId)
-                                {
-                                    case "000": unit = slotTrans.gameObject.AddComponent<Unit000>(); break;
-                                    case "001": unit = slotTrans.gameObject.AddComponent<Unit001>(); break;
-                                    case "002": unit = slotTrans.gameObject.AddComponent<Unit002>(); break;
-                                    case "003": unit = slotTrans.gameObject.AddComponent<Unit003>(); break;
-                                    case "004": unit = slotTrans.gameObject.AddComponent<Unit004>(); break;
-                                    case "005": unit = slotTrans.gameObject.AddComponent<Unit005>(); break;
-                                    case "006": unit = slotTrans.gameObject.AddComponent<Unit006>(); break;
-                                    case "007": unit = slotTrans.gameObject.AddComponent<Unit007>(); break;
-                                    case "008": unit = slotTrans.gameObject.AddComponent<Unit008>(); break;
-                                    case "009": unit = slotTrans.gameObject.AddComponent<Unit009>(); break;
-                                    case "010": unit = slotTrans.gameObject.AddComponent<Unit010>(); break;
-                                    case "011": unit = slotTrans.gameObject.AddComponent<Unit011>(); break;
-                                    case "100": unit = slotTrans.gameObject.AddComponent<Unit100>(); break;
-                                    case "101": unit = slotTrans.gameObject.AddComponent<Unit101>(); break;
-                                    case "102": unit = slotTrans.gameObject.AddComponent<Unit102>(); break;
-                                    case "103": unit = slotTrans.gameObject.AddComponent<Unit103>(); break;
-                                    case "104": unit = slotTrans.gameObject.AddComponent<Unit104>(); break;
-                                    case "105": unit = slotTrans.gameObject.AddComponent<Unit105>(); break;
-                                }
-
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("Unit" + Data.Instance.sommonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;
@@ -99,32 +78,7 @@ namespace MonsterChessClient
                                 Data.Instance.bSommons = false;
                                 Data.Instance.mana -= cost;
 
-                                Unit unit = null;
-                                switch (Data.Instance.sommonId)
-                                {
-                                    case "000": unit = slotTrans.gameObject.AddComponent<Unit000>(); break;
-                                    case "001": unit = slotTrans.gameObject.AddComponent<Unit001>(); break;
-                                    case "002": unit = slotTrans.gameObject.AddComponent<Unit002>(); break;
-                                    case "003": unit = slotTrans.gameObject.AddComponent<Unit003>(); break;
-                                    case "004": unit = slotTrans.gameObject.AddComponent<Unit004>(); break;
-                                    case "005": unit = slotTrans.gameObject.AddComponent<Unit005>(); break;
-                                    case "006": unit = slotTrans.gameObject.AddComponent<Unit006>(); break;
-                                    case "007": unit = slotTrans.gameObject.AddComponent<Unit007>(); break;
-                                    case "008": unit = slotTrans.gameObject.AddComponent<Unit008>(); break;
-                                    case "009": unit = slotTrans.gameObject.AddComponent<Unit009>(); break;
-                                    case "010": unit = slotTrans.gameObject.AddComponent<Unit010>(); break;
-                                    case "011": unit = slotTrans.gameObject.AddComponent<Unit011>(); break;
-                                    case "100": unit = slotTrans.gameObject.AddComponent<Unit100>(); break;
-                                    case "101": unit = slotTrans.gameObject.AddComponent<Unit101>(); break;
-                                    case "102": unit = slotTrans.gameObject.AddComponent<Unit102>(); break;
-                                    case "103": unit = slotTrans.gameObject.AddComponent<Unit103>(); break;
-                                    case "104": unit = slotTrans.gameObject.AddComponent<Unit104>(); break;
-                                    case "105": unit = slotTrans.gameObject.AddComponent<Unit105>(); break;
-                                    case "200": unit = slotTrans.gameObject.AddComponent<Unit200>(); break;
-                                    case "201": unit = slotTrans.gameObject.AddComponent<Unit201>(); break;
-                                    case "202": unit = slotTrans.gameObject.AddComponent<Unit202>(); break;
-                                }
-
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("Unit" + Data.Instance.sommonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;

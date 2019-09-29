@@ -1,4 +1,5 @@
-﻿using UnitType;
+﻿using System;
+using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,14 +22,8 @@ namespace MonsterChessClient
             heroBtn.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[5]) as Texture;
             heroBtn.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
             Data.Instance.board[0, 3] = Data.Instance.units[5];
-            Unit unit = null;
-            switch (Data.Instance.units[5])
-            {
-                case "200": unit = heroBtn.AddComponent<Unit200>(); break;
-                case "201": unit = heroBtn.AddComponent<Unit201>(); break;
-                case "202": unit = heroBtn.AddComponent<Unit202>(); break;
-            }
 
+            Unit unit = heroBtn.AddComponent(Type.GetType("Unit" + Data.Instance.units[5])) as Unit;
             if (unit != null)
             {
                 unit.order = Data.Instance.order;
