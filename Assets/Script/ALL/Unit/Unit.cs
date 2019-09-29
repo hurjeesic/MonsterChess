@@ -47,6 +47,7 @@ namespace UnitType
         public virtual void MoveRange()
         {
             //이동범위 표시
+            range.Clear();
             Data.Instance.GetMoveRange(x, y, Direction, Distence, range);
         }
 
