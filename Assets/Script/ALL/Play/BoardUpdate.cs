@@ -1,4 +1,5 @@
-﻿using UnitType;
+﻿using FreeNet;
+using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,46 +7,26 @@ namespace MonsterChessClient
 {
     public class BoardUpdate : MonoBehaviour
     {
-        Text timeText;
+        public NetworkManager networkManager;
+        public Text timerText, manaText;
 
-        void Start()
+        public void Enter()
         {
-            timeText = GameObject.Find("Time").GetComponent<Text>();
+            networkManager.messageReceiver = this;
         }
 
         void Update()
         {
             if (Data.Instance.bPlaying == false)
             {
-                if (Data.Instance.time >= 40) //30초 시작
-                {
-                    Data.Instance.mana++;
-                    GameObject.Find("Mana").GetComponent<Text>().text = Data.Instance.mana.ToString();
-                    //================================================
-                    Data.Instance.bSummons = false;
-                    Data.Instance.bMoving = false;
-                    Data.Instance.time = 31;
-                }
-                else if (Data.Instance.time <= 0)
+                if (Data.Instance.time <= 0)
                 {
                     Data.Instance.time = 0;
-                    timeText.text = Mathf.Floor(Data.Instance.time).ToString();
                     Data.Instance.turnNum++;
                     // 30초 끝
-                    // 시간 초 초기화(재우)
                     AddList();
                     SortList();
-                    Data.Instance.time = 50;
                     Data.Instance.bPlaying = true;
-                }
-                else
-                {
-                    // 시간이 진행됨
-                    Data.Instance.time -= Time.deltaTime;
-                    timeText.text = Mathf.Floor(Data.Instance.time).ToString();
-                    // 30초 중
-                    // 소환(성준)
-                    // 이동범위 표시(성준)
                 }
             }
         }
@@ -90,6 +71,40 @@ namespace MonsterChessClient
             for (int i = 0; i < Data.Instance.playList.Count; i++)
             {
                 Debug.Log(i + "번" + Data.Instance.playList[i]);
+            }
+        }
+
+        /// <summary>
+        /// Packet을 수신 했을 때 호출됨
+        /// </summary>
+        /// <param name="msg"></param>
+        public void OnReceive(Packet msg)
+        {
+            // 제일 먼저 프로토콜 아이디를 꺼내온다.
+            PROTOCOL protocolID = (PROTOCOL)msg.PopProtocolID();
+
+            switch (protocolID)
+            {
+                case PROTOCOL.StartedTurn:
+                    Data.Instance.currentPlayer = msg.PopByte();
+                    int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
+                    Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
+                    break;
+                case PROTOCOL.Timer:
+                    Data.Instance.time = msg.PopInt32();
+                    timerText.text = Data.Instance.time.ToString();
+                    break;
+                case PROTOCOL.RequestedMoving:
+                    int result = msg.PopInt32();
+                    Debug.Log("이동 요청 " + (result == 0 ? "실패" : "성공"));
+                    break;
+                case PROTOCOL.MovedUnit:
+                    Data.Instance.mana++;
+                    manaText.text = Data.Instance.mana.ToString();
+                    //================================================
+                    Data.Instance.bSummons = false;
+                    Data.Instance.bMoving = false;
+                    break;
             }
         }
     }

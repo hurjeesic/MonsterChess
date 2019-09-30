@@ -16,6 +16,8 @@ namespace MonsterChessClient
         public GameObject matchCancleBtn;
         List<Vector2> unitPos = new List<Vector2>();
 
+        public BoardUpdate playingObj;
+
         public void Enter()
         {
             networkManager.messageReceiver = this;
@@ -47,7 +49,7 @@ namespace MonsterChessClient
             }
         }
 
-        public void StartMatching()
+        public void RequestMatching()
         {
             int count = 0;
             unitPos.Clear();
@@ -104,26 +106,37 @@ namespace MonsterChessClient
             {
                 case PROTOCOL.StartLoading:
                     {
-                        byte playerIndex = msg.PopByte();
+                        Data.Instance.myIndex = msg.PopByte();
 
                         //this.battleRoom.gameObject.SetActive(true);
                         //this.battleRoom.StartLoading(playerIndex);
                         Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
                         for (int i = 0; i < 6; i++)
                         {
+                            loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
                             loadingMsg.Push((int)unitPos[i].x);
                             loadingMsg.Push((int)unitPos[i].y);
-                            loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
                         }
                         this.networkManager.Send(loadingMsg);
                     }
                     break;
-
                 case PROTOCOL.StartedGame:
                     {
-                        // Play 씬으로 넘어가야함
                         GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
+                        for (int i = 0; i < Data.Instance.units.Length * 2; i++)
+                        {
+                            byte index = msg.PopByte();
+                            string type = msg.PopString();
+                            int x = msg.PopInt32(), y = msg.PopInt32();
+                            if (Data.Instance.currentPlayer == 1)
+                            {
+                                y = Data.ROW - y;
+                            }
+                            Data.Instance.board[y, x] = type;
+                        }
+
                         Debug.Log("게임 시작");
+                        playingObj.Enter();
                     }
                     break;
             }

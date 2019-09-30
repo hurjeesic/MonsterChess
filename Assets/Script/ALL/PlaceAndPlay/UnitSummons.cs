@@ -27,19 +27,19 @@ namespace MonsterChessClient
                 if (Data.Instance.bSummons == false)
                 {
                     Data.Instance.bSummons = true;
-                    Data.Instance.sommonId = id;
-                    Debug.Log(Data.Instance.sommonId + " 선택");
+                    Data.Instance.summonId = id;
+                    Debug.Log(Data.Instance.summonId + " 선택");
                 }
                 else
                 {
-                    if (Data.Instance.sommonId == id)
+                    if (Data.Instance.summonId == id)
                     {
                         Data.Instance.bSummons = false;
                     }
                     else
                     {
                         Data.Instance.bSummons = true;
-                        Data.Instance.sommonId = id;
+                        Data.Instance.summonId = id;
                     }
                 }
             }

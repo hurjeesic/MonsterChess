@@ -29,7 +29,7 @@ namespace MonsterChessClient
             int y = int.Parse(Data.Instance.playList[playListCount].name.Substring(0, 1));
             
             string id = Data.Instance.board[y, x];
-            int dIrection;
+            int direction;
             int order;
 
             Unit unit = Data.Instance.playList[playListCount].GetComponent<Unit>();
@@ -43,11 +43,11 @@ namespace MonsterChessClient
                     Debug.Log("이동");
                     moveX = unit.moveX;
                     moveY = unit.moveY;
-                    dIrection = unit.moveDirection;
-                    Debug.Log("방향은" + dIrection);
+                    direction = unit.moveDirection;
+                    Debug.Log("방향은" + direction);
                     order = unit.order;
 
-                    CheckMove(id, dIrection, x, y, order);
+                    CheckMove(id, direction, x, y, order);
                     unit.moveX = moveX;
                     unit.moveY = moveY;
                     if (Data.Instance.board[moveY, moveX] == null) unit.Move();

@@ -15,12 +15,12 @@ namespace MonsterChessClient
                 Button btn = slotTrans.GetComponent<Button>();
                 if (btn != null)
                 {
-                    btn.onClick.AddListener(() => SommonUnit(slotTrans));
+                    btn.onClick.AddListener(() => SummonUnit(slotTrans));
                 }
             }
         }
 
-        void SommonUnit(Transform slotTrans)
+        void SummonUnit(Transform slotTrans)
         {
             switch (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present)
             {
@@ -38,11 +38,11 @@ namespace MonsterChessClient
                             else
                             {
                                 UpdateBoard();
-                                slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.sommonId) as Texture;
+                                slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 slotTrans.gameObject.AddComponent<Move>();
 
-                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.sommonId)) as Unit;
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;
@@ -51,8 +51,8 @@ namespace MonsterChessClient
                                     unit.status = 0;
                                 }
 
-                                Debug.Log("Unit" + Data.Instance.sommonId + " 소환");
-                                Data.Instance.board[y, x] = Data.Instance.sommonId;
+                                Debug.Log("Unit" + Data.Instance.summonId + " 소환");
+                                Data.Instance.board[y, x] = Data.Instance.summonId;
                                 Data.Instance.bSummons = false;
                             }
                         }
@@ -63,7 +63,7 @@ namespace MonsterChessClient
                     {
                         int x = int.Parse(slotTrans.name.Substring(2));
                         int y = int.Parse(slotTrans.name.Substring(0, 1));
-                        int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.sommonId).Substring(6, 1));
+                        int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
                         if (Data.Instance.mana - cost >= 0)
                         {
                             if (Data.Instance.board[y, x] == null)
@@ -71,14 +71,14 @@ namespace MonsterChessClient
                                 // 소환은 즉각 적용 시키고 플레이 리스트에 제외 시킨다.
                                 x = int.Parse(slotTrans.name.Substring(2));
                                 y = int.Parse(slotTrans.name.Substring(0, 1));
-                                slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.sommonId) as Texture;
+                                slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
 
-                                Data.Instance.board[y, x] = Data.Instance.sommonId;
+                                Data.Instance.board[y, x] = Data.Instance.summonId;
                                 Data.Instance.bSummons = false;
                                 Data.Instance.mana -= cost;
 
-                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.sommonId)) as Unit;
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;
@@ -141,7 +141,7 @@ namespace MonsterChessClient
                 for (int j = 0; j < 7; j++)
                 {
                     // x값 설정
-                    if (Data.Instance.board[i, j] == Data.Instance.sommonId)
+                    if (Data.Instance.board[i, j] == Data.Instance.summonId)
                     {
                         GameObject.Find(i + "," + j).GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
                         Data.Instance.board[i, j] = null;

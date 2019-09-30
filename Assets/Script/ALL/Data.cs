@@ -58,17 +58,20 @@ namespace MonsterChessClient
         // ID(3) , 이동거리(1), 이동방향(1), 공격거리(1), 코스트(1), HP(1), AP(1), 이름
         // 0 ~ 2 ,    3     ,     4     ,    5      ,    6    ,  7   ,  8   , 9 ~
 
-        public string[,] board = new string[7, 7]; // 현재 판의 데이터 배열
+        public const int COLUMN = 7, ROW = 7;
+        public string[,] board = new string[ROW, COLUMN]; // 현재 판의 데이터 배열
         public string[] units = new string[6]; // 유닛 넣는곳(임시 데이터)
         
         public List<string> directionList = new List<string>(); // 유닛의 이동방향을 나타냄
-        public string sommonId; //소환할 ID를 가져옴
+        public string summonId; //소환할 ID를 가져옴
 
+        public byte myIndex = 0;
+        public byte currentPlayer = 0;
 
         public int mana = 10; // 소환에 필요한 마나
         public int turnNum = 0; // 턴 수
         public int order = 0; // 0 = 선공, 1 = 후공
-        public float time = 50f; // 턴의 시간
+        public int time = 50; // 턴의 시간
 
         public GameObject origin;
         public List<GameObject> playList = new List<GameObject>(); // 실제 게임 진행하는 리스트
