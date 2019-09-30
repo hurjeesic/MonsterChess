@@ -28,7 +28,7 @@ namespace MonsterChessClient
 
             if (count == 12)
             {
-                Data.Instance.bSommons = false; //다음 씬으로 넘어갈때 소환을 끈다.
+                Data.Instance.bSummons = false; //다음 씬으로 넘어갈때 소환을 끈다.
                 GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
             }
             else
@@ -55,7 +55,7 @@ namespace MonsterChessClient
                             GameObject TempUnit = GameObject.Find(index + "," + j);
                             Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[index, j]) as Texture;
 
-                            Unit unit = gameObject.AddComponent(Type.GetType("Unit" + Data.Instance.board[index, j])) as Unit;
+                            Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[index, j])) as Unit;
                             if (unit != null)
                             {
                                 unit.order = 1;

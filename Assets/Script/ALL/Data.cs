@@ -59,7 +59,7 @@ namespace MonsterChessClient
         // 0 ~ 2 ,    3     ,     4     ,    5      ,    6    ,  7   ,  8   , 9 ~
 
         public string[,] board = new string[7, 7]; // 현재 판의 데이터 배열
-        public string[] units = { "002", "005", "008", "101", "102", "201" }; // 유닛 넣는곳(임시 데이터)
+        public string[] units = new string[6]; // 유닛 넣는곳(임시 데이터)
         
         public List<string> directionList = new List<string>(); // 유닛의 이동방향을 나타냄
         public string sommonId; //소환할 ID를 가져옴
@@ -73,7 +73,7 @@ namespace MonsterChessClient
         public GameObject origin;
         public List<GameObject> playList = new List<GameObject>(); // 실제 게임 진행하는 리스트
 
-        public bool bSommons; // 소환
+        public bool bSummons; // 소환
         public bool bManaStone; // 마나스톤 생성
         public bool bMoving = false;
         public bool bPlaying = false;

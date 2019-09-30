@@ -1,5 +1,7 @@
 ﻿using FreeNet;
+using System;
 using System.Collections.Generic;
+using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +21,30 @@ namespace MonsterChessClient
             networkManager.messageReceiver = this;
             nextBtn.SetActive(true);
             matchCancleBtn.SetActive(false);
+
+            int size = Data.Instance.units.Length - 1;
+            for (int i = 0; i < size; i++)
+            {
+                RawImage summonBtnImg = GameObject.Find(i.ToString()).GetComponent<RawImage>();
+                summonBtnImg.texture = Resources.Load("Image/ButtonUnit/" + Data.Instance.units[i]) as Texture;
+                summonBtnImg.color = new Color(255, 255, 255, 255);
+                Data.Instance.bSummons = false;
+            }
+
+            GameObject heroBtn = GameObject.Find("0,3");
+            RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();
+            heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[size]) as Texture;
+            heroBtnImg.color = new Color(255, 255, 255, 255);
+            Data.Instance.board[0, 3] = Data.Instance.units[5];
+
+            Unit unit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[size])) as Unit;
+            if (unit != null)
+            {
+                unit.order = Data.Instance.order;
+                unit.x = 3;
+                unit.y = 0;
+                unit.status = 0;
+            }
         }
 
         public void StartMatching()
@@ -39,7 +65,7 @@ namespace MonsterChessClient
 
             if (count == 6)
             {
-                Data.Instance.bSommons = false; // 다음 씬으로 넘어갈때 소환을 끈다.
+                Data.Instance.bSummons = false; // 다음 씬으로 넘어갈때 소환을 끈다.
                 
                 btnTxt.text = "매칭 취소";
                 nextBtn.SetActive(false);

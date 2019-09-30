@@ -25,7 +25,7 @@ namespace MonsterChessClient
             switch (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present)
             {
                 case SceneList.Place:
-                    if (Data.Instance.bSommons == true)
+                    if (Data.Instance.bSummons == true)
                     {
                         int x = int.Parse(slotTrans.name.Substring(2));
                         int y = int.Parse(slotTrans.name.Substring(0, 1));
@@ -42,7 +42,7 @@ namespace MonsterChessClient
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 slotTrans.gameObject.AddComponent<Move>();
 
-                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("Unit" + Data.Instance.sommonId)) as Unit;
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.sommonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;
@@ -51,15 +51,15 @@ namespace MonsterChessClient
                                     unit.status = 0;
                                 }
 
-                                Debug.Log("소환");
+                                Debug.Log("Unit" + Data.Instance.sommonId + " 소환");
                                 Data.Instance.board[y, x] = Data.Instance.sommonId;
-                                Data.Instance.bSommons = false;
+                                Data.Instance.bSummons = false;
                             }
                         }
                     }
                     break;
                 case SceneList.Play:
-                    if (Data.Instance.bSommons == true && Data.Instance.time <= 30)
+                    if (Data.Instance.bSummons == true && Data.Instance.time <= 30)
                     {
                         int x = int.Parse(slotTrans.name.Substring(2));
                         int y = int.Parse(slotTrans.name.Substring(0, 1));
@@ -75,10 +75,10 @@ namespace MonsterChessClient
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
 
                                 Data.Instance.board[y, x] = Data.Instance.sommonId;
-                                Data.Instance.bSommons = false;
+                                Data.Instance.bSummons = false;
                                 Data.Instance.mana -= cost;
 
-                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("Unit" + Data.Instance.sommonId)) as Unit;
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.sommonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;

@@ -24,9 +24,9 @@ namespace MonsterChessClient
             {
                 int tempNum = int.Parse(slotTrans.name);
                 string id = Data.Instance.units[tempNum];
-                if (Data.Instance.bSommons == false)
+                if (Data.Instance.bSummons == false)
                 {
-                    Data.Instance.bSommons = true;
+                    Data.Instance.bSummons = true;
                     Data.Instance.sommonId = id;
                     Debug.Log(Data.Instance.sommonId + " 선택");
                 }
@@ -34,11 +34,11 @@ namespace MonsterChessClient
                 {
                     if (Data.Instance.sommonId == id)
                     {
-                        Data.Instance.bSommons = false;
+                        Data.Instance.bSummons = false;
                     }
                     else
                     {
-                        Data.Instance.bSommons = true;
+                        Data.Instance.bSummons = true;
                         Data.Instance.sommonId = id;
                     }
                 }
