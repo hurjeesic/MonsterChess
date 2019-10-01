@@ -25,10 +25,10 @@ namespace MonsterChessClient
         {
             Debug.Log(playListCount);
             yield return new WaitForSeconds(1f);
-            int x = int.Parse(Data.Instance.playList[playListCount].name.Substring(2));
-            int y = int.Parse(Data.Instance.playList[playListCount].name.Substring(0, 1));
+            int x = Data.Instance.playList[playListCount].name[0] - '0';
+            int y = Data.Instance.playList[playListCount].name[2] - '0';
             
-            string id = Data.Instance.board[y, x];
+            string id = Data.Instance.board[x, y];
             int direction;
             int order;
 

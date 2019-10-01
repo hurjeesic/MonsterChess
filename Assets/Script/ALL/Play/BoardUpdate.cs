@@ -10,6 +10,8 @@ namespace MonsterChessClient
         public NetworkManager networkManager;
         public Text timerText, manaText;
 
+        public Main main;
+
         public void Enter()
         {
             networkManager.messageReceiver = this;
@@ -105,7 +107,18 @@ namespace MonsterChessClient
                     Data.Instance.bSummons = false;
                     Data.Instance.bMoving = false;
                     break;
+                case PROTOCOL.RemovedGame:
+                    GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
+                    main.Enter();
+                    break;
             }
+        }
+
+        public void OnApplicationQuit()
+        {
+            Packet msg = Packet.Create((short)PROTOCOL.RemovedGame);
+            msg.Push(Data.Instance.myIndex);
+            networkManager.Send(msg);
         }
     }
 }

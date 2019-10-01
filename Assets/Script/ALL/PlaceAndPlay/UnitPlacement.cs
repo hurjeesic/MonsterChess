@@ -22,13 +22,13 @@ namespace MonsterChessClient
 
         void SummonUnit(Transform slotTrans)
         {
+            int x = slotTrans.name[0] - '0';
+            int y = slotTrans.name[2] - '0';
             switch (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present)
             {
                 case SceneList.Place:
                     if (Data.Instance.bSummons == true)
                     {
-                        int x = int.Parse(slotTrans.name.Substring(2));
-                        int y = int.Parse(slotTrans.name.Substring(0, 1));
                         if (y < 3)
                         {
                             if (x == 3 && y == 0)
@@ -51,8 +51,7 @@ namespace MonsterChessClient
                                     unit.status = 0;
                                 }
 
-                                Debug.Log("Unit" + Data.Instance.summonId + " 소환");
-                                Data.Instance.board[y, x] = Data.Instance.summonId;
+                                Data.Instance.board[x, y] = Data.Instance.summonId;
                                 Data.Instance.bSummons = false;
                             }
                         }
@@ -61,20 +60,16 @@ namespace MonsterChessClient
                 case SceneList.Play:
                     if (Data.Instance.bSummons == true && Data.Instance.time <= 30)
                     {
-                        int x = int.Parse(slotTrans.name.Substring(2));
-                        int y = int.Parse(slotTrans.name.Substring(0, 1));
                         int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
                         if (Data.Instance.mana - cost >= 0)
                         {
-                            if (Data.Instance.board[y, x] == null)
+                            if (Data.Instance.board[x, y] == null)
                             {
                                 // 소환은 즉각 적용 시키고 플레이 리스트에 제외 시킨다.
-                                x = int.Parse(slotTrans.name.Substring(2));
-                                y = int.Parse(slotTrans.name.Substring(0, 1));
                                 slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
 
-                                Data.Instance.board[y, x] = Data.Instance.summonId;
+                                Data.Instance.board[x, y] = Data.Instance.summonId;
                                 Data.Instance.bSummons = false;
                                 Data.Instance.mana -= cost;
 
@@ -100,9 +95,7 @@ namespace MonsterChessClient
                     else if (Data.Instance.bMoving == false && Data.Instance.time <= 30)
                     {
                         // 터치한 유닛의 이동 범위를 가져옴
-                        int x = int.Parse(slotTrans.name.Substring(2));
-                        int y = int.Parse(slotTrans.name.Substring(0, 1));
-                        if (Data.Instance.board[y, x] != null)
+                        if (Data.Instance.board[x, y] != null)
                         {
                             slotTrans.GetComponent<Unit>().MoveRange();
                         }
@@ -112,17 +105,14 @@ namespace MonsterChessClient
                     }
                     else
                     {
-                        int MoveX = int.Parse(slotTrans.name.Substring(2));
-                        int MoveY = int.Parse(slotTrans.name.Substring(0, 1));
-
                         // 이동범위 클릭시 무브 리스트 변경
-                        int x = int.Parse(Data.Instance.origin.name.Substring(2));
-                        int y = int.Parse(Data.Instance.origin.name.Substring(0, 1));
-                        if (Data.Instance.board[y, x] != null)
+                        int originX = Data.Instance.origin.name[0] - '0';
+                        int originY = Data.Instance.origin.name[2] - '0';
+                        if (Data.Instance.board[originX, originY] != null)
                         {
                             Unit unit = Data.Instance.origin.GetComponent<Unit>();
-                            unit.moveX = MoveX;
-                            unit.moveY = MoveY;
+                            unit.moveX = x;
+                            unit.moveY = y;
                             unit.SaveMove();
                         }
 
@@ -135,16 +125,16 @@ namespace MonsterChessClient
         void UpdateBoard()
         {
             // 소환했던 거라면 취소하고 정한위치에 재소환
-            for (int i = 0; i < 3; i++)
+            for (int x = 0; x < Data.COLUMN; x++)
             {
                 // y값 설정
-                for (int j = 0; j < 7; j++)
+                for (int y = 0; y < Data.ROW / 2; y++)
                 {
                     // x값 설정
-                    if (Data.Instance.board[i, j] == Data.Instance.summonId)
+                    if (Data.Instance.board[x, y] == Data.Instance.summonId)
                     {
-                        GameObject.Find(i + "," + j).GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-                        Data.Instance.board[i, j] = null;
+                        GameObject.Find(x + "," + y).GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                        Data.Instance.board[x, y] = null;
                     }
                 }
             }
