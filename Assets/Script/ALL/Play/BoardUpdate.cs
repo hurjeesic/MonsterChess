@@ -7,30 +7,55 @@ namespace MonsterChessClient
 {
     public class BoardUpdate : MonoBehaviour
     {
+        enum UserStage
+        {
+            ProcessTimer,
+            ProcessGame
+        }
+
         public NetworkManager networkManager;
         public Text timerText, manaText;
+        public GameObject startingTimerObj;
+        UserStage userState;
 
         public Main main;
+
+        float timer;
+        const int maxTime = 5;
 
         public void Enter()
         {
             networkManager.messageReceiver = this;
+            this.userState = UserStage.ProcessTimer;
+            startingTimerObj.SetActive(true);
         }
 
         void Update()
         {
-            if (Data.Instance.bPlaying == false)
+            switch (this.userState)
             {
-                if (Data.Instance.time <= 0)
-                {
-                    Data.Instance.time = 0;
-                    Data.Instance.turnNum++;
-                    // 30초 끝
-                    AddList();
-                    SortList();
-                    Data.Instance.bPlaying = true;
-                }
+                case UserStage.ProcessTimer:
+                    timer -= Time.deltaTime;
+                    startingTimerObj.GetComponentInChildren<Text>().text = (int)timer + "초 후 시작";
+                    if (timer <= 0)
+                    {
+                        this.userState = UserStage.ProcessGame;
+                        startingTimerObj.GetComponentInChildren<Text>().text = "게임 시작";
+                        Invoke("StartGame", 1);
+                    }
+                    break;
+                case UserStage.ProcessGame:
+                    break;
             }
+        }
+
+        private void StartGame()
+        {
+            timer = maxTime;
+            Packet msg = Packet.Create((short)PROTOCOL.StartedGame);
+            networkManager.Send(msg);
+
+            startingTimerObj.SetActive(false);
         }
 
         private void AddList()
@@ -95,6 +120,17 @@ namespace MonsterChessClient
                 case PROTOCOL.Timer:
                     Data.Instance.time = msg.PopInt32();
                     timerText.text = Data.Instance.time.ToString();
+                    if (Data.Instance.bPlaying == false)
+                    {
+                        if (Data.Instance.time == 0)
+                        {
+                            Data.Instance.turnNum++;
+                            // 30초 끝
+                            AddList();
+                            SortList();
+                            Data.Instance.bPlaying = true;
+                        }
+                    }
                     break;
                 case PROTOCOL.RequestedMoving:
                     int result = msg.PopInt32();

@@ -93,70 +93,29 @@ namespace MonsterChessClient
         //함수
         public void GetMoveRange(int x, int y, int direction, int distence, List<KeyValuePair<int, GameObject>> range)
         {
-            
             if (direction < 2)
             {
                 for (int i = 0; i < (direction == 0 ? 4 : 8); i++)
                 {
-                    // 0 = 동, 1 = 서, 2 = 남, 3 = 북 4 = 북동 5 = 남동 6 = 남서 7 = 북서
+                    // 0 = 동, 1 = 서, 2 = 남, 3 = 북, 4 = 북동, 5 = 남동, 6 = 남서, 7 = 북서
                     for (int j = 1; j < (distence + 1); j++)
                     {
+                        GameObject posObj = null;
                         switch (i)
                         {
-                            case 0:
-                                if (x + j <= 6)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find(y + "," + (x + j))));
-                                    Debug.Log("동");
-                                }
-                                break;
-                            case 1:
-                                if (x - j >= 0)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find(y + "," + (x - j))));
-                                    Debug.Log("서");
-                                }
-                                break;
-                            case 2:
-                                if (y - j >= 0)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y - j) + "," + x)));
-                                    Debug.Log("남");
-                                }
-                                break;
-                            case 3:
-                                if (y + j <= 6)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y + j) + "," + x)));
-                                    Debug.Log("북");
-                                }
-                                break;
-                            case 4:
-                                if (y + j <= 6 && x + j <= 6)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y + j) + "," + (x + j))));
-                                    Debug.Log("북동");
-                                }
-                                break;
-                            case 5:
-                                if (y - j >= 0 && x + j <= 6)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y - j) + "," + (x + j))));
-                                    Debug.Log("남동");
-                                }
-                                break;
-                            case 6:
-                                if (y - j >= 0 && x - j >= 0)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y - j) + "," + (x - j))));
-                                }
-                                break;
-                            case 7:
-                                if (y + j <= 6 && x - j >= 0)
-                                {
-                                    range.Add(new KeyValuePair<int, GameObject>(i, GameObject.Find((y + j) + "," + (x - j))));
-                                }
-                                break;
+                            case 0: if (x + j < COLUMN) posObj = GameObject.Find((x + j) + "," + y); break;
+                            case 1: if (x - j >= 0) posObj = GameObject.Find((x - j) + "," + y); break;
+                            case 2: if (y - j >= 0) posObj = GameObject.Find(x + "," + (y - j)); break;
+                            case 3: if (y + j < COLUMN) posObj = GameObject.Find(x + "," + (y + j)); break;
+                            case 4: if (y + j < COLUMN && x + j < COLUMN) posObj = GameObject.Find((x + j) + "," + (y + j)); break;
+                            case 5: if (y - j >= 0 && x + j < COLUMN) posObj = GameObject.Find((x + j) + "," + (y - j)); break;
+                            case 6: if (y - j >= 0 && x - j >= 0) posObj = GameObject.Find((x - j) + "," + (y - j)); break;
+                            case 7: if (y + j < COLUMN && x - j >= 0) posObj = GameObject.Find((x - j) + "," + (y + j)); break;
+                        }
+
+                        if (posObj != null)
+                        {
+                            range.Add(new KeyValuePair<int, GameObject>(i, posObj));
                         }
                     }
                 }
@@ -176,9 +135,9 @@ namespace MonsterChessClient
             {
                 int rangeX = range[i].Value.name[0] - '0';
                 int rangeY = range[i].Value.name[2] - '0';
-                int x = instance.origin.name[0] - '0';
-                int y = instance.origin.name[2] - '0';
-                if (range[i].Value.name == moveY + "," + moveX)
+                int x = origin.name[0] - '0';
+                int y = origin.name[2] - '0';
+                if (range[i].Value.name == moveX + "," + moveY)
                 {
                     origin.GetComponent<Unit>().status = 1;
                     origin.GetComponent<Unit>().moveDirection = range[i].Key;
@@ -235,11 +194,6 @@ namespace MonsterChessClient
 
         public void Move(GameObject unit, GameObject enemyUnit, int moveX, int moveY, int x, int y)
         {
-            // 움직일때
-            // Move Script 사용
-            unit.AddComponent<Move>();
-            enemyUnit.AddComponent<Move>();
-
             unit.GetComponent<Move>().startPos = unit.transform.position;
             unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
             enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
@@ -263,7 +217,7 @@ namespace MonsterChessClient
         public void KnockBack(GameObject unit, GameObject enemyUnit, int moveX, int moveY, int x, int y, int moveDirection)
         {
             string temp;
-            GameObject KnockBackBoard = null;
+            GameObject KnockBackUnit = null;
             int tempY = -1, tempX = -1;
             switch (moveDirection)
             {
@@ -279,18 +233,14 @@ namespace MonsterChessClient
 
             if (tempY != -1 && board[tempX, tempY] == null)
             {
-                KnockBackBoard = GameObject.Find(tempX + "," + tempY);
-
-                unit.AddComponent<Move>();
-                enemyUnit.AddComponent<Move>();
-                KnockBackBoard.AddComponent<Move>();
+                KnockBackUnit = GameObject.Find(tempX + "," + tempY);
 
                 unit.GetComponent<Move>().startPos = unit.transform.position;
                 unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
                 enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
-                enemyUnit.GetComponent<Move>().endPos = KnockBackBoard.transform.position;
-                KnockBackBoard.GetComponent<Move>().startPos = KnockBackBoard.transform.position;
-                KnockBackBoard.GetComponent<Move>().endPos = unit.transform.position;
+                enemyUnit.GetComponent<Move>().endPos = KnockBackUnit.transform.position;
+                KnockBackUnit.GetComponent<Move>().startPos = KnockBackUnit.transform.position;
+                KnockBackUnit.GetComponent<Move>().endPos = unit.transform.position;
 
                 board[tempX, tempY] = board[moveX, moveY];
                 board[moveX, moveY] = board[x, y];
@@ -298,12 +248,12 @@ namespace MonsterChessClient
 
                 temp = unit.name;
                 unit.name = enemyUnit.name;
-                enemyUnit.name = KnockBackBoard.name;
-                KnockBackBoard.name = temp;
+                enemyUnit.name = KnockBackUnit.name;
+                KnockBackUnit.name = temp;
 
                 unit.GetComponent<Move>().bPlay = true;
                 enemyUnit.GetComponent<Move>().bPlay = true;
-                KnockBackBoard.GetComponent<Move>().bPlay = true;
+                KnockBackUnit.GetComponent<Move>().bPlay = true;
             }
         }
     }

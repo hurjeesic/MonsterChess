@@ -50,7 +50,7 @@ namespace MonsterChessClient
                     CheckMove(id, direction, x, y, order);
                     unit.moveX = moveX;
                     unit.moveY = moveY;
-                    if (Data.Instance.board[moveY, moveX] == null) unit.Move();
+                    if (Data.Instance.board[moveX, moveY] == null) unit.Move();
                     else unit.Attack(playListCount);
                     break;
                 default:
@@ -74,6 +74,8 @@ namespace MonsterChessClient
         private void CheckMove(string id, int moveDirection, int x, int y, int order)
         {
             int tempX;
+            GameObject targetObj;
+            Unit unit;
             switch (moveDirection)
             {
                 case 0: // 동
@@ -81,8 +83,8 @@ namespace MonsterChessClient
                     {
                         if (i < 7 && Data.Instance.board[y, i] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(y + "," + i);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(y + "," + i);
+                            unit = targetObj.GetComponent<Unit>();
                             
                             if (unit != null)
                             {
@@ -97,8 +99,8 @@ namespace MonsterChessClient
                     {
                         if (i >= 0 && Data.Instance.board[y, i] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(y + "," + i);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(y + "," + i);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 moveX = i + (unit.order == order ? 1 : 0);
@@ -113,8 +115,8 @@ namespace MonsterChessClient
                     {
                         if (i >= 0 && Data.Instance.board[i, x] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(i + "," + x);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(i + "," + x);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 moveY = i + (unit.order == order ? 1 : 0);
@@ -131,8 +133,8 @@ namespace MonsterChessClient
                         if (i < 7 && Data.Instance.board[i, x] != null)
                         {
                             Debug.Log("들어왓따");
-                            GameObject TargetObject = GameObject.Find(i + "," + x);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(i + "," + x);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 moveY = i - (unit.order == order ? 1 : 0);
@@ -148,8 +150,8 @@ namespace MonsterChessClient
                     {
                         if (i < 7 && tempX < 7 && Data.Instance.board[i, tempX] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(i + "," + tempX);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 bool flag = unit.order == order;
@@ -169,8 +171,8 @@ namespace MonsterChessClient
                     {
                         if (i >= 0 && tempX < 7 && Data.Instance.board[i, tempX] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(i + "," + tempX);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 bool flag = unit.order == order;
@@ -190,8 +192,8 @@ namespace MonsterChessClient
                     {
                         if (i >= 0 && tempX >= 0 && Data.Instance.board[i, tempX] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(i + "," + tempX);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 bool flag = unit.order == order;
@@ -211,8 +213,8 @@ namespace MonsterChessClient
                     {
                         if (i < 7 && tempX >= 0 && Data.Instance.board[i, tempX] != null)
                         {
-                            GameObject TargetObject = GameObject.Find(i + "," + tempX);
-                            Unit unit = TargetObject.GetComponent<Unit>();
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
                             if (unit != null)
                             {
                                 bool flag = unit.order == order;
