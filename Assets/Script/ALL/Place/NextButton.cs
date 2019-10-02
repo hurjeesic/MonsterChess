@@ -144,7 +144,10 @@ namespace MonsterChessClient
                                 y = Data.ROW - y - 1;
                             }
                             Data.Instance.board[x, y] = type;
-                            DrawEnemy(x, y);
+                            if (index != Data.Instance.myIndex)
+                            {
+                                DrawEnemy(x, y);
+                            }
                         }
 
                         Debug.Log("게임 시작");
