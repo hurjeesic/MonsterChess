@@ -1,50 +1,34 @@
-﻿using UnityEngine;
+﻿using FreeNet;
+using UnitType;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MonsterChessClient
 {
     public class BoardUpdate : MonoBehaviour
     {
-        Text timeText;
+        public NetworkManager networkManager;
+        public Text timerText, manaText;
 
-        void Start()
+        public Main main;
+
+        public void Enter()
         {
-            timeText = GameObject.Find("Time").GetComponent<Text>();
+            networkManager.messageReceiver = this;
         }
 
         void Update()
         {
             if (Data.Instance.bPlaying == false)
             {
-                if (Data.Instance.time >= 40) //30초 시작
-                {
-                    Data.Instance.mana++;
-                    GameObject.Find("Mana").GetComponent<Text>().text = Data.Instance.mana.ToString();
-                    //================================================
-                    Data.Instance.bSommons = false;
-                    Data.Instance.bMoving = false;
-                    Data.Instance.time = 31;
-                }
-                else if (Data.Instance.time <= 0)
+                if (Data.Instance.time <= 0)
                 {
                     Data.Instance.time = 0;
-                    timeText.text = Mathf.Floor(Data.Instance.time).ToString();
                     Data.Instance.turnNum++;
                     // 30초 끝
-                    // 시간 초 초기화(재우)
                     AddList();
                     SortList();
-                    Data.Instance.time = 50;
                     Data.Instance.bPlaying = true;
-                }
-                else
-                {
-                    // 시간이 진행됨
-                    Data.Instance.time -= Time.deltaTime;
-                    timeText.text = Mathf.Floor(Data.Instance.time).ToString();
-                    // 30초 중
-                    // 소환(성준)
-                    // 이동범위 표시(성준)
                 }
             }
         }
@@ -65,77 +49,76 @@ namespace MonsterChessClient
 
         private void SortList()
         {
-            GameObject temp;
-            int tempX, tempY;
-
             // 항목별 정리
-            for (int i = 0; i < Data.Instance.playList.Count; i++)
+            Data.Instance.playList.Sort(delegate (GameObject first, GameObject second)
             {
-                temp = Data.Instance.playList[i];
-                tempX = int.Parse(temp.name.Substring(2));
-                tempY = int.Parse(temp.name.Substring(0, 1));
-                if (i == 0)
+                Unit firstUnit = first.GetComponent<Unit>(), secondUnit = second.GetComponent<Unit>();
+                if (firstUnit.ID[0] == secondUnit.ID[0])
                 {
-                    for (int j = i; j < Data.Instance.playList.Count; j++)
+                    if (firstUnit.Cost == secondUnit.Cost)
                     {
-                        if (Data.Instance.playList[j].name == "0,3")
-                        {
-                            Data.Instance.playList[i] = Data.Instance.playList[j];
-                            Data.Instance.playList[j] = temp;
-                            break;
-                        }
+                        return 0;
+                    }
+                    else
+                    {
+                        return firstUnit.Cost > secondUnit.Cost ? 1 : -1;
                     }
                 }
                 else
                 {
-                    for (int j = i + 1; j < Data.Instance.playList.Count; j++)
-                    {
-                        int x = int.Parse(Data.Instance.playList[j].name.Substring(2));
-                        int y = int.Parse(Data.Instance.playList[j].name.Substring(0, 1));
-                        if (int.Parse(Data.Instance.board[tempY, tempX].Substring(0, 1)) > int.Parse(Data.Instance.board[y, x].Substring(0, 1)))
-                        {
-                            Data.Instance.playList[i] = Data.Instance.playList[j];
-                            Data.Instance.playList[j] = temp;
-                            temp = Data.Instance.playList[i];
-                            tempX = int.Parse(Data.Instance.playList[i].name.Substring(2));
-                            tempY = int.Parse(Data.Instance.playList[i].name.Substring(0, 1));
-                        }
-                    }
+                    return firstUnit.ID[0] > secondUnit.ID[0] ? 1 : -1;
                 }
-            }
-
-            // 코스트별 정리
-            string UnitNum;
-            for (int i = 1; i < Data.Instance.playList.Count; i++)
-            {
-                temp = Data.Instance.playList[i];
-                tempX = int.Parse(Data.Instance.playList[i].name.Substring(2));
-                tempY = int.Parse(Data.Instance.playList[i].name.Substring(0, 1));
-                UnitNum = Data.Instance.board[tempY, tempX];
-                for (int j = i + 1; j < Data.Instance.playList.Count; j++)
-                {
-                    int x = int.Parse(Data.Instance.playList[j].name.Substring(2));
-                    int y = int.Parse(Data.Instance.playList[j].name.Substring(0, 1));
-                    if (UnitNum.Substring(0, 1) == Data.Instance.board[y, x].Substring(0, 1))
-                    {
-                        int cost = int.Parse(Data.Instance.FindStateOfMonster(UnitNum).Substring(6, 1));
-                        int TempCost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.board[y, x]).Substring(6, 1));
-                        if (cost < TempCost)
-                        {
-                            Data.Instance.playList[i] = Data.Instance.playList[j];
-                            Data.Instance.playList[j] = temp;
-                            temp = Data.Instance.playList[i];
-                            tempX = int.Parse(Data.Instance.playList[i].name.Substring(2));
-                            tempY = int.Parse(Data.Instance.playList[i].name.Substring(0, 1));
-                        }
-                    }
-                }
-            }
+            });
 
             for (int i = 0; i < Data.Instance.playList.Count; i++)
             {
                 Debug.Log(i + "번" + Data.Instance.playList[i]);
             }
+        }
+
+        /// <summary>
+        /// Packet을 수신 했을 때 호출됨
+        /// </summary>
+        /// <param name="msg"></param>
+        public void OnReceive(Packet msg)
+        {
+            // 제일 먼저 프로토콜 아이디를 꺼내온다.
+            PROTOCOL protocolID = (PROTOCOL)msg.PopProtocolID();
+
+            switch (protocolID)
+            {
+                case PROTOCOL.StartedTurn:
+                    Data.Instance.currentPlayer = msg.PopByte();
+                    int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
+                    Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
+                    break;
+                case PROTOCOL.Timer:
+                    Data.Instance.time = msg.PopInt32();
+                    timerText.text = Data.Instance.time.ToString();
+                    break;
+                case PROTOCOL.RequestedMoving:
+                    int result = msg.PopInt32();
+                    Debug.Log("이동 요청 " + (result == 0 ? "실패" : "성공"));
+                    break;
+                case PROTOCOL.MovedUnit:
+                    Data.Instance.mana++;
+                    manaText.text = Data.Instance.mana.ToString();
+                    //================================================
+                    Data.Instance.bSummons = false;
+                    Data.Instance.bMoving = false;
+                    break;
+                case PROTOCOL.RemovedGame:
+                    GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
+                    main.Enter();
+                    break;
+            }
+        }
+
+        public void OnApplicationQuit()
+        {
+            Packet msg = Packet.Create((short)PROTOCOL.RemovedGame);
+            msg.Push(Data.Instance.myIndex);
+            networkManager.Send(msg);
         }
     }
 }

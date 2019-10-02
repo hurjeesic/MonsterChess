@@ -113,13 +113,10 @@ namespace MonsterChessClient
             }
         }
 
-        static Data DataIndex = Data.Instance;
-
         // Use this for initialization
         void Start()
         {
             Present = SceneList.Login;
-                
         }
     }
 }

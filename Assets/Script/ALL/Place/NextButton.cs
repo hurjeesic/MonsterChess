@@ -1,5 +1,7 @@
 ﻿using FreeNet;
+using System;
 using System.Collections.Generic;
+using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,14 +16,40 @@ namespace MonsterChessClient
         public GameObject matchCancleBtn;
         List<Vector2> unitPos = new List<Vector2>();
 
+        public BoardUpdate playingObj;
+
         public void Enter()
         {
             networkManager.messageReceiver = this;
             nextBtn.SetActive(true);
             matchCancleBtn.SetActive(false);
+
+            int size = Data.Instance.units.Length - 1;
+            for (int i = 0; i < size; i++)
+            {
+                RawImage summonBtnImg = GameObject.Find(i.ToString()).GetComponent<RawImage>();
+                summonBtnImg.texture = Resources.Load("Image/ButtonUnit/" + Data.Instance.units[i]) as Texture;
+                summonBtnImg.color = new Color(255, 255, 255, 255);
+                Data.Instance.bSummons = false;
+            }
+
+            GameObject heroBtn = GameObject.Find("3,0");
+            RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();
+            heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[size]) as Texture;
+            heroBtnImg.color = new Color(255, 255, 255, 255);
+            Data.Instance.board[3, 0] = Data.Instance.units[5];
+
+            Unit unit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[size])) as Unit;
+            if (unit != null)
+            {
+                unit.order = Data.Instance.order;
+                unit.x = 3;
+                unit.y = 0;
+                unit.status = 0;
+            }
         }
 
-        public void StartMatching()
+        public void RequestMatching()
         {
             int count = 0;
             unitPos.Clear();
@@ -39,7 +67,7 @@ namespace MonsterChessClient
 
             if (count == 6)
             {
-                Data.Instance.bSommons = false; // 다음 씬으로 넘어갈때 소환을 끈다.
+                Data.Instance.bSummons = false; // 다음 씬으로 넘어갈때 소환을 끈다.
                 
                 btnTxt.text = "매칭 취소";
                 nextBtn.SetActive(false);
@@ -78,29 +106,73 @@ namespace MonsterChessClient
             {
                 case PROTOCOL.StartLoading:
                     {
-                        byte playerIndex = msg.PopByte();
+                        Data.Instance.myIndex = msg.PopByte();
 
-                        //this.battleRoom.gameObject.SetActive(true);
-                        //this.battleRoom.StartLoading(playerIndex);
                         Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
                         for (int i = 0; i < 6; i++)
                         {
+                            loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
                             loadingMsg.Push((int)unitPos[i].x);
                             loadingMsg.Push((int)unitPos[i].y);
-                            loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
                         }
                         this.networkManager.Send(loadingMsg);
                     }
                     break;
-
+                case PROTOCOL.FailDeploy:
+                    {
+                        int[] signal = { msg.PopByte(), msg.PopByte() };
+                        if (signal[Data.Instance.myIndex] == 0)
+                        {
+                            Debug.Log("상대방의 잘못된 배치로 인해 매칭이 취소되었습니다.");
+                        }
+                        else
+                        {
+                            Debug.Log("잘못된 배치로 인해 매칭에 실패하였습니다.");
+                        }
+                    }
+                    break;
                 case PROTOCOL.StartedGame:
                     {
-                        // Play 씬으로 넘어가야함
                         GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
+                        for (int i = 0; i < Data.Instance.units.Length * 2; i++)
+                        {
+                            byte index = msg.PopByte();
+                            string type = msg.PopString();
+                            int x = msg.PopInt32(), y = msg.PopInt32();
+                            if (Data.Instance.myIndex != 0)
+                            {
+                                y = Data.ROW - y - 1;
+                            }
+                            Data.Instance.board[x, y] = type;
+                            if (index != Data.Instance.myIndex)
+                            {
+                                DrawEnemy(x, y);
+                            }
+                        }
+
                         Debug.Log("게임 시작");
+                        playingObj.Enter();
                     }
                     break;
             }
+        }
+
+        private void DrawEnemy(int x, int y)
+        {
+            GameObject TempUnit = GameObject.Find(x + "," + y);
+            Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[x, y]) as Texture;
+
+            Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[x, y])) as Unit;
+            if (unit != null)
+            {
+                unit.order = 1;
+                unit.x = x;
+                unit.y = y;
+                unit.status = 0;
+            }
+
+            TempUnit.GetComponent<RawImage>().texture = UnitImage;
+            TempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
         }
     }
 }

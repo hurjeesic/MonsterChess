@@ -25,11 +25,11 @@ namespace MonsterChessClient
         {
             Debug.Log(playListCount);
             yield return new WaitForSeconds(1f);
-            int x = int.Parse(Data.Instance.playList[playListCount].name.Substring(2));
-            int y = int.Parse(Data.Instance.playList[playListCount].name.Substring(0, 1));
+            int x = Data.Instance.playList[playListCount].name[0] - '0';
+            int y = Data.Instance.playList[playListCount].name[2] - '0';
             
-            string id = Data.Instance.board[y, x];
-            int dIrection;
+            string id = Data.Instance.board[x, y];
+            int direction;
             int order;
 
             Unit unit = Data.Instance.playList[playListCount].GetComponent<Unit>();
@@ -43,11 +43,11 @@ namespace MonsterChessClient
                     Debug.Log("이동");
                     moveX = unit.moveX;
                     moveY = unit.moveY;
-                    dIrection = unit.moveDirection;
-                    Debug.Log("방향은" + dIrection);
+                    direction = unit.moveDirection;
+                    Debug.Log("방향은" + direction);
                     order = unit.order;
 
-                    CheckMove(id, dIrection, x, y, order);
+                    CheckMove(id, direction, x, y, order);
                     unit.moveX = moveX;
                     unit.moveY = moveY;
                     if (Data.Instance.board[moveY, moveX] == null) unit.Move();

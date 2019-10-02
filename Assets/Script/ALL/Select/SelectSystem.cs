@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 namespace MonsterChessClient
 {
@@ -16,7 +13,7 @@ namespace MonsterChessClient
         [HideInInspector]
         public List<string> monster = new List<string>();
 
-        static Data DataIndex = Data.Instance;
+        Data instance = Data.Instance;
 
         public void Enter()
         {
@@ -31,47 +28,36 @@ namespace MonsterChessClient
 
         public void AddMonster()
         {
-            if ((DataIndex.bHero == false) && (DataIndex.kind == 2))
+            if ((instance.bHero == false) && (instance.kind == 2))
             {
                 // Debug.Log("히어로를 선택했대요"); // 시각적으로 확인 가능하므로 로그 표시 삭제
-                DataIndex.bHero = true;
+                instance.bHero = true;
             }
-            monster.Add(DataIndex.unitId);
-            // Debug.Log("몬스터" + DataIndex.MonsterID + "가 추가되었습니다"); // 시각적으로 확인 가능하므로 로그 표시 삭제
+            monster.Add(instance.unitId);
         }
 
         public void RemoveMonster()
         {
-            if ((DataIndex.bHero == true) && (DataIndex.kind == 2))
+            if ((instance.bHero == true) && (instance.kind == 2))
             {
-                DataIndex.bHero = false;
+                instance.bHero = false;
             }
-            monster.Remove(DataIndex.unitId);
-            // Debug.Log("몬스터" + DataIndex.MonsterID + "가 삭제되었습니다"); // 시각적으로 확인 가능하므로 로그 표시 삭제
+            monster.Remove(instance.unitId);
         }
 
         public void Done()
         {
             if (monster.Count() == 6)
             {
-                Debug.Log("선택된 몬스터");
-                for (int x = 0; x < monster.Count(); x++)
+                Array.Sort(instance.units);
+                for (int i = 0; i < monster.Count(); i++)
                 {
+                    instance.units[i] = monster[i];
+                }
 
-                    DataIndex.units[x] = monster[x];
-                    Debug.Log(monster[x]);
-                }
-                Array.Sort(DataIndex.units);
-                Debug.Log("정렬된 몬스터");
-                for (int x = 0; x < monster.Count(); x++)
-                {
-                    Debug.Log(DataIndex.units[x]);
-                }
+                GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Place;
 
                 place.Enter();
-
-                // SceneManager.LoadScene("배치");
-                GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Place;
             }
             else if (monster.Count < 6)
             {
