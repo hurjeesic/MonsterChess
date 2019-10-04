@@ -18,8 +18,16 @@ namespace MonsterChessClient
                 speed *= time;
                 gameObject.transform.position = Vector2.MoveTowards(startPos, endPos, speed);
                 scriptEnd = "" + this.transform.position;
-                if (scriptEnd == "" + endPos) { Destroy(gameObject.GetComponent<Move>()); }
             }
+        }
+        public void Initialisation()
+        {
+            bPlay = false;
+            startPos = new Vector2();
+            endPos = new Vector2();
+            speed = 10f;
+            time = 0;
+            scriptEnd = "";
         }
     }
 }

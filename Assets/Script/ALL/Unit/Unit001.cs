@@ -9,21 +9,19 @@
             Direction = 1;
             Cost = 1;
             fullHp = 2;
+            hp = 2;
             ap = 1;
+           
 
             base.Awake();
         }
 
-        public override void Attack(int playCount)
-        {
-
-        }
-
+        bool reincarnation = true;
         public override bool Defence(int enemyAp, int enemyHp)
         {
             bool answer = base.Defence(enemyAp, enemyHp);
 
-            if (answer)
+            if (answer&& reincarnation)
             {
                 NewUnit();
             }
@@ -33,7 +31,8 @@
 
         public void NewUnit()
         {
-
+            //새로 생성
+            reincarnation = false;
         }
     }
 }

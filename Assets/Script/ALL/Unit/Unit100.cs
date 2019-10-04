@@ -15,9 +15,6 @@
             base.Awake();
         }
 
-        public override void Attack(int playCount)
-        {
-
-        }
+        
     }
 }

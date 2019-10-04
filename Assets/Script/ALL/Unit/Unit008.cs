@@ -18,13 +18,11 @@
 
         public override void Attack(int playCount)
         {
-
+            base.Attack(playCount);
         }
-
         public override bool Defence(int enemyAp, int enemyHp)
         {
             enemyHp -= ap;
-
             return base.Defence(enemyAp, enemyHp);
         }
     }

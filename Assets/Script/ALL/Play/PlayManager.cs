@@ -65,6 +65,7 @@ namespace MonsterChessClient
                 yield return new WaitForSeconds(3f);
                 tempCount = 0;
                 playListCount = 0;
+                Data.Instance.playList.Clear();
                 Data.Instance.bPlaying = false;
             }
 
