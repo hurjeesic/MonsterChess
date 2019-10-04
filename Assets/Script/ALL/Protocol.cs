@@ -26,11 +26,12 @@
         CompleteLoading,
         FailDeploy,
 
+        SetGame,
         StartedGame, // Game 시작
         Timer,
         StartedTurn,
         RequestedMoving, // Client의 이동 요청
-        MovedUnit, // 요청된 이동 중 하나가 완료
+        MovedUnit,
         FinishedTurn, // Client의 Turn 연출이 끝났음을 알림
 
         RemovedGame, // 상대방 Player가 나가 방이 삭제됨

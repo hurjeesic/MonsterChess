@@ -26,6 +26,7 @@ namespace UnitType
         protected virtual void Awake()
         {
             range = new List<KeyValuePair<int, GameObject>>();
+            gameObject.AddComponent<Move>();
         }
 
         public virtual void Wait()

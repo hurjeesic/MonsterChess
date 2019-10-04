@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FreeNet;
+using System;
 using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ namespace MonsterChessClient
 {
     public class UnitPlacement : MonoBehaviour
     {
+        public NetworkManager networkManager;
         void Start()
         {
             Transform[] boardTrans = gameObject.GetComponentsInChildren<Transform>();
@@ -114,6 +116,13 @@ namespace MonsterChessClient
                             unit.moveX = x;
                             unit.moveY = y;
                             unit.SaveMove();
+
+                            Packet msg = Packet.Create((short)PROTOCOL.RequestedMoving);
+                            msg.Push(originX);
+                            msg.Push(originY);
+                            msg.Push(x);
+                            msg.Push(y);
+                            networkManager.Send(msg);
                         }
 
                         Data.Instance.bMoving = false;

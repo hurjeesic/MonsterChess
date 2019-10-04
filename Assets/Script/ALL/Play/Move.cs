@@ -8,7 +8,7 @@ namespace MonsterChessClient
         public Vector2 startPos, endPos;
         public float speed = 10f;
         float time;
-        string scriptEnd;
+        Vector2 scriptEnd;
 
         void Update()
         {
