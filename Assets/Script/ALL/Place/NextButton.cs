@@ -14,6 +14,7 @@ namespace MonsterChessClient
         public Button cancleBtn;
         public GameObject nextBtn;
         public GameObject matchCancleBtn;
+        public GameObject stateObj;
         List<Vector2> unitPos = new List<Vector2>();
 
         public BoardUpdate playingObj;
@@ -23,6 +24,7 @@ namespace MonsterChessClient
             networkManager.messageReceiver = this;
             nextBtn.SetActive(true);
             matchCancleBtn.SetActive(false);
+            stateObj.SetActive(false);
 
             int size = Data.Instance.units.Length - 1;
             for (int i = 0; i < size; i++)
@@ -106,16 +108,12 @@ namespace MonsterChessClient
             {
                 case PROTOCOL.StartLoading:
                     {
-                        Data.Instance.myIndex = msg.PopByte();
+                        stateObj.SetActive(true);
+                        stateObj.GetComponentInChildren<Text>().text = "매칭 완료";
 
-                        Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
-                        for (int i = 0; i < 6; i++)
-                        {
-                            loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
-                            loadingMsg.Push((int)unitPos[i].x);
-                            loadingMsg.Push((int)unitPos[i].y);
-                        }
-                        this.networkManager.Send(loadingMsg);
+                        Data.Instance.myIndex = msg.PopByte();
+                        Invoke("CompleteLoading", 1);
+                        stateObj.SetActive(false);
                     }
                     break;
                 case PROTOCOL.FailDeploy:
@@ -131,7 +129,7 @@ namespace MonsterChessClient
                         }
                     }
                     break;
-                case PROTOCOL.StartedGame:
+                case PROTOCOL.SetGame:
                     {
                         GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Play;
                         for (int i = 0; i < Data.Instance.units.Length * 2; i++)
@@ -155,6 +153,18 @@ namespace MonsterChessClient
                     }
                     break;
             }
+        }
+
+        private void CompleteLoading()
+        {
+            Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
+            for (int i = 0; i < 6; i++)
+            {
+                loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
+                loadingMsg.Push((int)unitPos[i].x);
+                loadingMsg.Push((int)unitPos[i].y);
+            }
+            this.networkManager.Send(loadingMsg);
         }
 
         private void DrawEnemy(int x, int y)

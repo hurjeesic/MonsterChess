@@ -25,12 +25,13 @@ namespace UnitType
         protected virtual void Awake()
         {
             range = new List<KeyValuePair<int, GameObject>>();
+            gameObject.AddComponent<Move>();
         }
 
         public virtual void Move()
         {
             // 일반 이동
-            Data.Instance.Move(gameObject, GameObject.Find(moveY + "," + moveX), moveX, moveY, x, y);
+            Data.Instance.Move(gameObject, GameObject.Find(moveX + "," + moveY), moveX, moveY, x, y);
         }
 
         public abstract void Attack(int playCount);
