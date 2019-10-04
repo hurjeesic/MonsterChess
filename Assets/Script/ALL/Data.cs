@@ -84,6 +84,14 @@ namespace MonsterChessClient
 
         // 여기서 부터는 SelectUnit 관련 변수들
 
+        //선택되었는지 보는것
+        public bool[,] In =
+        {
+            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
+        };
+
         public int kind = 0; // 현재 선택된 탭의 번호
         public string unitId; // 선택된 몬스터의 이름
         public int costSum = 0; // 선택된 몬스터의 코스트 합
