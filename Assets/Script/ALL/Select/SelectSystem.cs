@@ -22,7 +22,7 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < 20; j++)
                 {
-                instance.In[i, j] = false;
+                    instance.In[i, j] = false;
                 }
             }
             instance.costSum = 0;

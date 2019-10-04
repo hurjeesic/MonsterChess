@@ -9,10 +9,10 @@ namespace MonsterChessClient
 
         Data DataIndex = Data.Instance;
 
-        void Start()
+        void Awake()
         {
             type = 0;
-            index = int.Parse(this.name);
+            index = int.Parse(gameObject.transform.name);
         }
 
         void Update()
