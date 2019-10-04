@@ -7,13 +7,6 @@ namespace MonsterChessClient
     {
         int type, index;
 
-        bool[,] In =
-        {
-            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
-            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
-            { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
-        };
-
         Data DataIndex = Data.Instance;
 
         void Start()
@@ -40,12 +33,12 @@ namespace MonsterChessClient
             }
 
             // 몬스터가 추가되어 있을 경우 제거
-            if (In[type, index])
+            if (DataIndex.In[type, index])
             {
                 DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
 
                 GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
-                In[type, index] = !In[type, index];
+                DataIndex.In[type, index] = !DataIndex.In[type, index];
             }
             else
             {
@@ -67,7 +60,7 @@ namespace MonsterChessClient
                     else
                     {
                         GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
-                        In[type, index] = !In[type, index];
+                        DataIndex.In[type, index] = !DataIndex.In[type, index];
                     }
                 }
             }
@@ -78,12 +71,16 @@ namespace MonsterChessClient
         public void ChoiceImage(int x)
         {
             string path = "Image/UnitMY/" + DataIndex.StateOfMonster[type, index].Substring(0, 3);
-            gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/Button_Square") as Texture;
+            RawImage img = gameObject.GetComponent<RawImage>();
+            if (img != null)
+            {
+                img.texture = Resources.Load("Image/Pan/Button_Square") as Texture;
+            }
 
             Object image = Resources.Load<Object>(path);
             if (image != null)
             {
-                if (In[type, index] == false)
+                if (DataIndex.In[type, index] == false)
                 {
                     gameObject.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
                 }

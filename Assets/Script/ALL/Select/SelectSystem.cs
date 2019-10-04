@@ -18,6 +18,15 @@ namespace MonsterChessClient
         public void Enter()
         {
             monster.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                instance.In[i, j] = false;
+                }
+            }
+            instance.costSum = 0;
+            instance.bHero = false;
         }
 
         public void MoveMain()
@@ -49,15 +58,22 @@ namespace MonsterChessClient
         {
             if (monster.Count() == 6)
             {
-                Array.Sort(instance.units);
-                for (int i = 0; i < monster.Count(); i++)
+                if (instance.bHero == false)
                 {
-                    instance.units[i] = monster[i];
+                    Debug.Log("히어로를 선택 해보세요");
                 }
+                else
+                {
+                    Array.Sort(instance.units);
+                    for (int i = 0; i < monster.Count(); i++)
+                    {
+                        instance.units[i] = monster[i];
+                    }
 
-                GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Place;
+                    GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Place;
 
-                place.Enter();
+                    place.Enter();
+                }
             }
             else if (monster.Count < 6)
             {
