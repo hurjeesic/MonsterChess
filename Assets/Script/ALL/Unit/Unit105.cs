@@ -29,7 +29,7 @@ namespace UnitType
             {
                 for (int j = y - 1; j < y + 2; j++)
                 {
-                    if (i > 0 && i < 7 && j > 0 && j < 7)
+                    if (i > -1 && i < 7 && j > -1 && j < 7)
                     {
                         GameObject tempTarget = GameObject.Find(i + "," + j);
                         Unit tempUnit = tempTarget.GetComponent<Unit>();
