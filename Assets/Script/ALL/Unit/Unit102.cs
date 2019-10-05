@@ -1,4 +1,5 @@
-﻿namespace UnitType
+﻿using UnityEngine;
+namespace UnitType
 {
     public class Unit102 : RemoteUnit
     {
@@ -15,9 +16,16 @@
             base.Awake();
         }
 
-        public override void Attack(int playCount)
+        public override void Wait(int playCount)
         {
-
+            GameObject target = GetTarget();
+            Unit unit = target.GetComponent<Unit>();
+            if (unit.Defence(ap, hp)) RemoveUnit(target, playCount);
+            else
+            {
+                unit.stateCount = 2;
+                unit.stateAp = 1;
+            }
         }
     }
 }

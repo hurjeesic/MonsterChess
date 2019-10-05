@@ -1,4 +1,5 @@
-﻿namespace UnitType
+﻿using UnityEngine;
+namespace UnitType
 {
     public class Unit100 : RemoteUnit
     {
@@ -14,10 +15,27 @@
 
             base.Awake();
         }
-
-        public override void Attack(int playCount)
+        bool battack = true; //특성상 존재
+        int plusAp = 0;
+        public override void Wait(int playCount)
         {
-
+            GameObject target = GetTarget();
+            Unit unit = target.GetComponent<Unit>();
+            if (plusAp < 2) plusAp++;
+            if (unit != null && battack && unit.Defence(ap + plusAp, hp))
+            {
+                RemoveUnit(target, playCount);
+                battack = false;
+            }
+            else battack = true;
+           
+            
         }
+        public override void Move()
+        {
+            plusAp = 0;
+            base.Move();
+        }
+
     }
 }

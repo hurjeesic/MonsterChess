@@ -9,14 +9,25 @@
             Direction = 1;
             Cost = 2;
             fullHp = 3;
+            hp = 3;
             ap = 2;
 
             base.Awake();
         }
-
+        public override void Move()
+        {
+            recovery();
+            base.Move();
+        }
+        private void recovery(){if (hp < fullHp) hp++;}
+        public override void Wait(int playCount)
+        {
+            recovery();
+        }
         public override void Attack(int playCount)
         {
-
+            recovery();
+            base.Attack(playCount);
         }
     }
 }

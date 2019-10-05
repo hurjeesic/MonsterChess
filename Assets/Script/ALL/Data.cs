@@ -80,7 +80,7 @@ namespace MonsterChessClient
         public bool bManaStone; // 마나스톤 생성
         public bool bMoving = false;
         public bool bPlaying = false;
-        public bool changeListOn; // 준비시간에 -> 의도를 모르겠네
+
 
         // 여기서 부터는 SelectUnit 관련 변수들
 

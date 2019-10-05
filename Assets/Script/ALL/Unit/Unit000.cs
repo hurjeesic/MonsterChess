@@ -14,6 +14,7 @@ namespace UnitType
             Direction = 0;
             Cost = 1;
             fullHp = 2;
+            hp = 2;
             ap = 1;
 
             status = 0;
@@ -22,44 +23,27 @@ namespace UnitType
         
         public override void Attack(int playCount)
         {
-            bool bDie = false;
-            GameObject target = GameObject.Find(moveY + "," + moveX);
-            string enemyId = Data.Instance.board[moveY, moveX];
-            Unit unit = target.GetComponent(Type.GetType("UnitType.Unit" + enemyID)) as Unit;
+            Debug.Log("어택~");
+            GameObject target = GameObject.Find(moveX + "," + moveY);
+            Unit unit = target.GetComponent<Unit>();
             if (unit.Defence(ap, hp))
             {
-                //destroy된 경우
-                if (hp == 1) hp = 2;
-                Destroy(unit);
+                if (hp < fullHp) hp++;
+                //디스트로이 = 데이터를 삭제하고 단순이동
                 RemoveUnit(target, playCount);
-                bDie = true;
+                if (hp <= 0) RemoveUnit(gameObject, playCount);//반격을 당하여 hp가 0이될경우
+                else Data.Instance.Move(gameObject, target, moveX, moveY, x, y); // 일반 이동
+
             }
-            
-            if (!bDie)
+            else
             {
-                Data.Instance.KnockBack(gameObject, target, moveX, moveY, x, y, moveDirection);
+                //넉백확인후 이동(넉백함수)
+                if (hp <= 0) RemoveUnit(gameObject, playCount);//반격을 당하여 hp가 0이될경우
+                else Data.Instance.KnockBack(gameObject, target, moveX, moveY, x, y, moveDirection); // 넉백
             }
         }
 
-        private void RemoveUnit(GameObject target, int playCount)
-        {
-            Destroy(target.GetComponent<Move>());
+       
 
-            // Unit을 List에서 제거
-            for (int i = 0; i < Data.Instance.playList.Count; i++)
-            {
-                if (target == Data.Instance.playList[i])
-                {
-                    Data.Instance.playList.RemoveAt(i);
-                    if (playCount > i)
-                    {
-                        playCount--;
-                    }
-                }
-            }
-
-            target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0); // Image 투명화
-            Data.Instance.Move(gameObject, target, moveX, moveY, x, y); // 일반 이동
-        }
     }
 }

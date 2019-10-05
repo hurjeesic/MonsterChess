@@ -40,27 +40,27 @@ namespace MonsterChessClient
         void ReverseBoard()
         {
             Debug.Log("리버스 판");
-            for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
             {
                 // y값
-                for (int j = 0; j < 7; j++)
+                for (int i = 0; i < 7; i++)
                 {
                     // x값
                     if (Data.Instance.board[i, j] != null)
                     {
-                        if (i <= 2)
+                        if (j <= 2)
                         {
-                            int index = 6 - i;
-                            Data.Instance.board[index, j] = Data.Instance.board[i, j];
-                            GameObject TempUnit = GameObject.Find(index + "," + j);
-                            Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[index, j]) as Texture;
+                            int index = 6 - j;
+                            Data.Instance.board[i,index ] = Data.Instance.board[i, j];
+                            GameObject TempUnit = GameObject.Find(i + "," + index);
+                            Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[i, index]) as Texture;
 
-                            Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[index, j])) as Unit;
+                            Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[i, index])) as Unit;
                             if (unit != null)
                             {
                                 unit.order = 1;
-                                unit.x = index;
-                                unit.y = j;
+                                unit.x = i;
+                                unit.y = index;
                                 unit.status = 0;
                             }
 

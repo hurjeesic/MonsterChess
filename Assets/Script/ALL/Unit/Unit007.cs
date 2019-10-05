@@ -14,9 +14,10 @@
             base.Awake();
         }
 
-        public override void Attack(int playCount)
+        public override bool Defence(int enemyAp, int enemyHp)
         {
-
+            ap += enemyAp;
+            return base.Defence(enemyAp, enemyHp);
         }
     }
 }
