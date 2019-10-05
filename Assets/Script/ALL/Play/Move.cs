@@ -17,7 +17,7 @@ namespace MonsterChessClient
                 time += Time.deltaTime;
                 speed *= time;
                 gameObject.transform.position = Vector2.MoveTowards(startPos, endPos, speed);
-                scriptEnd = "" + this.transform.position;
+               
             }
         }
         public void Initialisation()
@@ -27,7 +27,7 @@ namespace MonsterChessClient
             endPos = new Vector2();
             speed = 10f;
             time = 0;
-            scriptEnd = "";
+            
         }
     }
 }

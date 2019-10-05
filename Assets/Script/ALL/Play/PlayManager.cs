@@ -37,6 +37,7 @@ namespace MonsterChessClient
             {
                 case 0:
                     Debug.Log("대기");
+                    unit.Wait(playListCount);
                     break;
                 case 1:
                     //이동
@@ -51,6 +52,7 @@ namespace MonsterChessClient
                     unit.moveX = moveX;
                     unit.moveY = moveY;
                     if (Data.Instance.board[moveX, moveY] == null) unit.Move();
+                    else if (moveX == x && moveY == y) unit.Wait(playListCount);
                     else unit.Attack(playListCount);
                     break;
                 default:
@@ -62,6 +64,11 @@ namespace MonsterChessClient
             playListCount++;
             if (playListCount == Data.Instance.playList.Count - 1)
             {
+                for (int i = 0; i < Data.Instance.playList.Count; i++)
+                {
+                    Unit stateUnit = Data.Instance.playList[i].GetComponent<Unit>();
+                    if (stateUnit.stateCount > 0) stateUnit.HaveState(i);
+                }
                 yield return new WaitForSeconds(3f);
                 tempCount = 0;
                 playListCount = 0;
@@ -230,6 +237,7 @@ namespace MonsterChessClient
                     }
                     break;
             }
+            
         }
     }
 }

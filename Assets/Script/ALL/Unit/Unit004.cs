@@ -20,7 +20,7 @@
             base.Move();
         }
         private void recovery(){if (hp < fullHp) hp++;}
-        public override void Wait()
+        public override void Wait(int playCount)
         {
             recovery();
         }

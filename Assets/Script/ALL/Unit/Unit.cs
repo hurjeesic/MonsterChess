@@ -13,6 +13,8 @@ namespace UnitType
         public int Cost { get; protected set; }
         public int fullHp;
         public int ap;
+        public int attackDistance;
+       
 
         public int x, y;
         public int order;
@@ -21,6 +23,11 @@ namespace UnitType
         public int hp;
         public int moveDirection;
         public string enemyID;
+
+        //상태이상 지속 데미지
+        public int stateCount;
+        public int stateAp;
+        public bool bmove = true;//이동불가
         public List<KeyValuePair<int, GameObject>> range;
 
         protected virtual void Awake()
@@ -29,15 +36,21 @@ namespace UnitType
             gameObject.AddComponent<Move>();
         }
 
-        public virtual void Wait()
+        public virtual void Wait(int playCount)
         {
-            //
+            if (ID.Substring(0, 1) == "1")//원거리 일경우
+            {
+                GameObject target = GetTarget();
+                Unit unit = target.GetComponent<Unit>();
+                if (unit.Defence(ap, hp)) RemoveUnit(target, playCount);
+
+            }
         }
         public virtual void Move()
         {
             // 일반 이동
             Debug.Log("이동~");
-            Data.Instance.Move(gameObject, GameObject.Find(moveX + "," + moveY), moveX, moveY, x, y);
+            if(bmove)Data.Instance.Move(gameObject, GameObject.Find(moveX + "," + moveY), moveX, moveY, x, y);
         }
 
         public virtual void Attack(int playCount)
@@ -106,6 +119,37 @@ namespace UnitType
             // 이동범위 안이면 저장, 밖이면 다시 선택
             Data.Instance.SaveMove(range, moveDirection, moveX, moveY, status);
         }
-       
+
+        public void HaveState(int playCount)
+        {
+            if (stateCount > 0) hp -= stateAp;
+            if (hp > 0) RemoveUnit(gameObject, playCount);
+        }
+        //상태이상 공격, 턴이 끝날때 작동하게 해야함
+
+        public GameObject GetTarget()
+        {
+            List<GameObject> targets = new List<GameObject>();
+            targets.Clear();
+            for (int i = x - attackDistance; i < x + attackDistance + 1; i++)
+            {
+                for (int j = y - attackDistance; j < y - attackDistance + 1; j++)
+                {
+                    if (i > 0 && i < 7 && j > 0 && j < 7)
+                    {
+                        GameObject target = GameObject.Find(i + "," + j);
+                        Unit unit = target.GetComponent<Unit>();
+                        if (unit != null && gameObject.GetComponent<Unit>().order != unit.order)
+                        {
+                            targets.Add(target);//오더 값이 다른 애면 저장
+                        }
+                    }
+                }
+            }
+            //저장한 리스트에서 한놈만 가져옴
+            int tempNum = Random.Range(0, targets.Count-1);
+            return targets[tempNum];
+
+        }
     }
 }
