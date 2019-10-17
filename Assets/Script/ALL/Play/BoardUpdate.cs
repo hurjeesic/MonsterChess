@@ -58,49 +58,6 @@ namespace MonsterChessClient
             startingTimerObj.SetActive(false);
         }
 
-        private void AddList()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    if (Data.Instance.board[i, j] != null)
-                    {
-                        Data.Instance.playList.Add(GameObject.Find(i + "," + j));
-                    }
-                }
-            }
-        }
-
-        private void SortList()
-        {
-            // 항목별 정리
-            Data.Instance.playList.Sort(delegate (GameObject first, GameObject second)
-            {
-                Unit firstUnit = first.GetComponent<Unit>(), secondUnit = second.GetComponent<Unit>();
-                if (firstUnit.ID[0] == secondUnit.ID[0])
-                {
-                    if (firstUnit.Cost == secondUnit.Cost)
-                    {
-                        return 0;
-                    }
-                    else
-                    {
-                        return firstUnit.Cost > secondUnit.Cost ? 1 : -1;
-                    }
-                }
-                else
-                {
-                    return firstUnit.ID[0] > secondUnit.ID[0] ? 1 : -1;
-                }
-            });
-
-            for (int i = 0; i < Data.Instance.playList.Count; i++)
-            {
-                Debug.Log(i + "번" + Data.Instance.playList[i]);
-            }
-        }
-
         /// <summary>
         /// Packet을 수신 했을 때 호출됨
         /// </summary>
@@ -118,8 +75,8 @@ namespace MonsterChessClient
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
                         Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
 
-                        Data.Instance.bSummons = true;
-                        Data.Instance.bMoving = true;
+                        Data.Instance.bSummons = false;
+                        Data.Instance.bMoving = false;
                     }
                     break;
                 case PROTOCOL.Timer:
@@ -131,9 +88,7 @@ namespace MonsterChessClient
                             if (Data.Instance.time == 0)
                             {
                                 Data.Instance.turnNum++;
-                                // 30초 끝
-                                AddList();
-                                SortList();
+                                
                                 Data.Instance.bPlaying = true;
 
                                 Data.Instance.bSummons = false;

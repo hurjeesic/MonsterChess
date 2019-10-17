@@ -55,9 +55,9 @@ namespace MonsterChessClient
         {
             int count = 0;
             unitPos.Clear();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < Data.COLUMN; i++)
             {
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < Data.ROW; j++)
                 {
                     if (Data.Instance.board[i, j] != null)
                     {
