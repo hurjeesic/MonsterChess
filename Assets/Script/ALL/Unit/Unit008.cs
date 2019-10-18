@@ -11,19 +11,11 @@
             Direction = 1;
             Cost = 3;
             fullHp = 3;
-            ap = 2;
+            hp = fullHp;
+            ap = 1;
+            dp = 2;
 
             base.Awake();
-        }
-
-        public override void Attack(int playCount)
-        {
-            base.Attack(playCount);
-        }
-        public override bool Defence(int enemyAp, int enemyHp)
-        {
-            enemyHp -= ap;
-            return base.Defence(enemyAp, enemyHp);
         }
     }
 }

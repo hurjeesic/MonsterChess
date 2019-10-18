@@ -8,16 +8,12 @@
             Distence = 2;
             Direction = 0;
             Cost = 3;
-            fullHp = 3;
-            ap = 3;
-
+            fullHp = 2;
+            hp = fullHp; 
+            ap = 4;
+            dp = 0;
             base.Awake();
         }
 
-        public override bool Defence(int enemyAp, int enemyHp)
-        {
-            ap += enemyAp;
-            return base.Defence(enemyAp, enemyHp);
-        }
     }
 }
