@@ -6,33 +6,17 @@
         {
             ID = "001";
             Distence = 1;
-            Direction = 1;
+            Direction = 0;
             Cost = 1;
             fullHp = 2;
-            hp = 2;
+            hp = fullHp;
             ap = 1;
+            dp = 2;
            
 
             base.Awake();
         }
 
-        bool reincarnation = true;
-        public override bool Defence(int enemyAp, int enemyHp)
-        {
-            bool answer = base.Defence(enemyAp, enemyHp);
-
-            if (answer&& reincarnation)
-            {
-                NewUnit();
-            }
-
-            return answer;
-        }
-
-        public void NewUnit()
-        {
-            //새로 생성
-            reincarnation = false;
-        }
+       
     }
 }

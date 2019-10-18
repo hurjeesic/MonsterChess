@@ -10,22 +10,14 @@ namespace UnitType
             attackDistance = 2;
             Direction = 1;
             Cost = 3;
-            fullHp = 3;
-            ap = 2;
+            fullHp = 2;
+            hp = fullHp;
+            ap = 3;
+            dp = 1;
 
             base.Awake();
         }
 
-        public override void Wait(int playCount)
-        {
-            GameObject target = GetTarget();
-            Unit unit = target.GetComponent<Unit>();
-            if (unit.Defence(ap, hp)) RemoveUnit(target, playCount);
-            else
-            {
-                unit.stateCount = 2;
-                unit.stateAp = 1;
-            }
-        }
+      
     }
 }

@@ -11,9 +11,10 @@ namespace UnitType
         public int Distence { get; protected set; }
         public int Direction { get; protected set; }
         public int Cost { get; protected set; }
-        public int fullHp;
-        public int ap;
-        public int attackDistance;
+        public int fullHp { get; protected set; }
+        public int ap { get; protected set; }
+        public int dp { get; protected set; }
+        public int attackDistance { get; protected set; }
        
 
         public int x, y;
@@ -42,7 +43,7 @@ namespace UnitType
             {
                 GameObject target = GetTarget();
                 Unit unit = target.GetComponent<Unit>();
-                if (unit.Defence(ap, hp)) RemoveUnit(target, playCount);
+                if (unit.Defence(ap)) RemoveUnit(target, playCount);
 
             }
         }
@@ -58,7 +59,7 @@ namespace UnitType
             Debug.Log("어택~");
             GameObject target = GameObject.Find(moveX + "," + moveY);
             Unit unit = target.GetComponent<Unit>();
-            if (unit.Defence(ap, hp))
+            if (unit.Defence(ap))
             {
                 //디스트로이 = 데이터를 삭제하고 단순이
                 RemoveUnit(target, playCount);
@@ -97,12 +98,12 @@ namespace UnitType
         
         }
 
-        public virtual bool Defence(int enemyAp, int enemyHp)
+        public virtual bool Defence(int enemyAp)
         {
             // 방어할 때
             // true -> Destroy, false -> Damage
             Debug.Log("디펜스~");
-            hp -= enemyAp;
+            if (enemyAp - dp > 0) hp -= enemyAp - dp;
 
             return hp <= 0;
         }

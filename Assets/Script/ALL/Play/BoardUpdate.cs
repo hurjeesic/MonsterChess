@@ -118,8 +118,8 @@ namespace MonsterChessClient
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
                         Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
 
-                        Data.Instance.bSummons = true;
-                        Data.Instance.bMoving = true;
+                        Data.Instance.bSummons = false;
+                        Data.Instance.bMoving = false;
                     }
                     break;
                 case PROTOCOL.Timer:
