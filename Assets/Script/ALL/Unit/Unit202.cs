@@ -20,6 +20,6 @@ namespace UnitType
             base.Awake();
         }
 
-      
+
     }
 }

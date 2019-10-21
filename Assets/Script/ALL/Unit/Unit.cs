@@ -136,9 +136,7 @@ namespace UnitType
             {
                 for (int j = y - attackDistance; j < y - attackDistance + 1; j++)
                 {
-
                     if (i > -1 && i < 7 && j > -1 && j < 7)
-
                     {
                         GameObject target = GameObject.Find(i + "," + j);
                         Unit unit = target.GetComponent<Unit>();
