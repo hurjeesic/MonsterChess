@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Place
   - Play
+  - Monster_Slot
   layers:
   - Default
   - TransparentFX
