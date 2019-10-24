@@ -116,7 +116,7 @@ namespace MonsterChessClient
         // Use this for initialization
         void Start()
         {
-            Present = SceneList.Login;
+            Present = SceneList.Place;
         }
     }
 }

@@ -8,6 +8,9 @@ namespace MonsterChessClient
 {
     public class UnitPlacement : MonoBehaviour
     {
+        public Text manaText;
+        public Text unitText;
+
         public NetworkManager networkManager;
         void Start()
         {
@@ -43,7 +46,12 @@ namespace MonsterChessClient
                                 slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 slotTrans.gameObject.AddComponent<Move>();
-
+                                int tempUnitCount = 0;
+                                tempUnitCount = CheckUnitCount()+1;
+                                unitText.text = ""+tempUnitCount;
+                                int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
+                                Data.Instance.mana -= cost;
+                                manaText.text = Data.Instance.mana + "";
                                 Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 if (unit != null)
                                 {
@@ -74,6 +82,7 @@ namespace MonsterChessClient
                                 Data.Instance.board[x, y] = Data.Instance.summonId;
                                 Data.Instance.bSummons = false;
                                 Data.Instance.mana -= cost;
+                                
 
                                 Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 if (unit != null)
@@ -131,6 +140,21 @@ namespace MonsterChessClient
             }
         }
 
+        int CheckUnitCount()
+        {
+            int temp = 0;
+            for (int x = 0; x < Data.COLUMN; x++)
+            {
+                // y값 설정
+                for (int y = 0; y < Data.ROW / 2; y++)
+                {
+                    // x값 설정
+                    if (Data.Instance.board[x, y] != null) temp++;
+                }
+            }
+            return temp;
+        }
+
         void UpdateBoard()
         {
             // 소환했던 거라면 취소하고 정한위치에 재소환
@@ -144,6 +168,9 @@ namespace MonsterChessClient
                     {
                         GameObject.Find(x + "," + y).GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
                         Data.Instance.board[x, y] = null;
+                        int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
+                        Data.Instance.mana += cost;
+                        manaText.text = "" + Data.Instance.mana;
                     }
                 }
             }
