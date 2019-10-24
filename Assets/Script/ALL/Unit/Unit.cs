@@ -14,7 +14,6 @@ namespace UnitType
         public int fullHp { get; protected set; }
         public int ap { get; protected set; }
         public int dp { get; protected set; }
-        public int attackDistance { get; protected set; }
        
 
         public int x, y;
@@ -37,16 +36,7 @@ namespace UnitType
             gameObject.AddComponent<Move>();
         }
 
-        public virtual void Wait(int playCount)
-        {
-            if (ID.Substring(0, 1) == "1")//원거리 일경우
-            {
-                GameObject target = GetTarget();
-                Unit unit = target.GetComponent<Unit>();
-                if (unit.Defence(ap)) RemoveUnit(target, playCount);
-
-            }
-        }
+       
         public virtual void Move()
         {
             // 일반 이동
@@ -92,7 +82,7 @@ namespace UnitType
                 }
             }
 
-            Data.Instance.board[moveY, moveX] = null;// 보드에서 제거
+            Data.Instance.board[moveY, moveX] = Data.Instance.Empty;// 보드에서 제거
             Destroy(target.GetComponent<Unit>());//스크립트 제거
             target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0); // Image 투명화
         
@@ -128,29 +118,6 @@ namespace UnitType
         }
         //상태이상 공격, 턴이 끝날때 작동하게 해야함
 
-        public GameObject GetTarget()
-        {
-            List<GameObject> targets = new List<GameObject>();
-            targets.Clear();
-            for (int i = x - attackDistance; i < x + attackDistance + 1; i++)
-            {
-                for (int j = y - attackDistance; j < y - attackDistance + 1; j++)
-                {
-                    if (i > -1 && i < 7 && j > -1 && j < 7)
-                    {
-                        GameObject target = GameObject.Find(i + "," + j);
-                        Unit unit = target.GetComponent<Unit>();
-                        if (unit != null && gameObject.GetComponent<Unit>().order != unit.order)
-                        {
-                            targets.Add(target);//오더 값이 다른 애면 저장
-                        }
-                    }
-                }
-            }
-            //저장한 리스트에서 한놈만 가져옴
-            int tempNum = Random.Range(0, targets.Count-1);
-            return targets[tempNum];
-
-        }
+       
     }
 }

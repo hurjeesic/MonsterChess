@@ -31,6 +31,7 @@
         Timer,
         StartedTurn,
         RequestedMoving, // Client의 이동 요청
+        RequestedSummons,
         MovedUnit,
         FinishedTurn, // Client의 Turn 연출이 끝났음을 알림
 

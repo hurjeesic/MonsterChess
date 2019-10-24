@@ -28,7 +28,7 @@ namespace MonsterChessClient
             int x = Data.Instance.playList[playListCount].name[0] - '0';
             int y = Data.Instance.playList[playListCount].name[2] - '0';
             
-            string id = Data.Instance.board[x, y];
+            string id = Data.Instance.board[x, y].Value.ID;
             int direction;
             int order;
 
@@ -37,8 +37,7 @@ namespace MonsterChessClient
             {
                 case 0:
                     Debug.Log("대기");
-                    unit.Wait(playListCount);
-                    break;
+                             break;
                 case 1:
                     //이동
                     Debug.Log("이동");
@@ -51,8 +50,7 @@ namespace MonsterChessClient
                     CheckMove(id, direction, x, y, order);
                     unit.moveX = moveX;
                     unit.moveY = moveY;
-                    if (Data.Instance.board[moveX, moveY] == null) unit.Move();
-                    else if (moveX == x && moveY == y) unit.Wait(playListCount);
+                    if (Data.Instance.board[moveX, moveY].Value == null) unit.Move();
                     else unit.Attack(playListCount);
                     break;
                 default:
@@ -89,7 +87,7 @@ namespace MonsterChessClient
                 case 0: // 동
                     for (int i = x + 1; i < moveX + 1; i++)
                     {
-                        if (i < 7 && Data.Instance.board[y, i] != null)
+                        if (i < 7 && Data.Instance.board[y, i].Value != null)
                         {
                             targetObj = GameObject.Find(y + "," + i);
                             unit = targetObj.GetComponent<Unit>();
@@ -105,7 +103,7 @@ namespace MonsterChessClient
                 case 1: // 서
                     for (int i = x - 1; i > moveX - 1; i--)
                     {
-                        if (i >= 0 && Data.Instance.board[y, i] != null)
+                        if (i >= 0 && Data.Instance.board[y, i].Value != null)
                         {
                             targetObj = GameObject.Find(y + "," + i);
                             unit = targetObj.GetComponent<Unit>();
@@ -121,7 +119,7 @@ namespace MonsterChessClient
                 case 2: // 남
                     for (int i = y - 1; i > moveY - 1; i--)
                     {
-                        if (i >= 0 && Data.Instance.board[i, x] != null)
+                        if (i >= 0 && Data.Instance.board[i, x].Value != null)
                         {
                             targetObj = GameObject.Find(i + "," + x);
                             unit = targetObj.GetComponent<Unit>();
@@ -138,7 +136,7 @@ namespace MonsterChessClient
                     for (int i = y + 1; i < moveY + 1; i++)
                     {
                         Debug.Log("for안");
-                        if (i < 7 && Data.Instance.board[i, x] != null)
+                        if (i < 7 && Data.Instance.board[i, x].Value != null)
                         {
                             Debug.Log("들어왓따");
                             targetObj = GameObject.Find(i + "," + x);
@@ -156,7 +154,7 @@ namespace MonsterChessClient
                     tempX = x + 1;
                     for (int i = y + 1; i < moveY + 1; i++)
                     {
-                        if (i < 7 && tempX < 7 && Data.Instance.board[i, tempX] != null)
+                        if (i < 7 && tempX < 7 && Data.Instance.board[i, tempX].Value != null)
                         {
                             targetObj = GameObject.Find(i + "," + tempX);
                             unit = targetObj.GetComponent<Unit>();
@@ -177,7 +175,7 @@ namespace MonsterChessClient
                     tempX = x + 1;
                     for (int i = y - 1; i > moveY; i--)
                     {
-                        if (i >= 0 && tempX < 7 && Data.Instance.board[i, tempX] != null)
+                        if (i >= 0 && tempX < 7 && Data.Instance.board[i, tempX].Value != null)
                         {
                             targetObj = GameObject.Find(i + "," + tempX);
                             unit = targetObj.GetComponent<Unit>();
@@ -198,7 +196,7 @@ namespace MonsterChessClient
                     tempX = x - 1;
                     for (int i = y - 1; i > moveY; i--)
                     {
-                        if (i >= 0 && tempX >= 0 && Data.Instance.board[i, tempX] != null)
+                        if (i >= 0 && tempX >= 0 && Data.Instance.board[i, tempX].Value != null)
                         {
                             targetObj = GameObject.Find(i + "," + tempX);
                             unit = targetObj.GetComponent<Unit>();
@@ -219,7 +217,7 @@ namespace MonsterChessClient
                     tempX = x - 1;
                     for (int i = y + 1; i < moveY; i++)
                     {
-                        if (i < 7 && tempX >= 0 && Data.Instance.board[i, tempX] != null)
+                        if (i < 7 && tempX >= 0 && Data.Instance.board[i, tempX].Value != null)
                         {
                             targetObj = GameObject.Find(i + "," + tempX);
                             unit = targetObj.GetComponent<Unit>();

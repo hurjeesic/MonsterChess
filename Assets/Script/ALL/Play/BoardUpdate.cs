@@ -7,6 +7,7 @@ namespace MonsterChessClient
 {
     public class BoardUpdate : MonoBehaviour
     {
+        int turnCount;
         enum UserStage
         {
             ProcessTimer,
@@ -103,6 +104,7 @@ namespace MonsterChessClient
                         Debug.Log("이동 요청 " + (result == 0 ? "실패" : "성공"));
                     }
                     break;
+              
                 case PROTOCOL.MovedUnit:
                     {
                         int result = msg.PopInt32(); // -1이면 움직임이 전부 전송된 것
@@ -128,6 +130,7 @@ namespace MonsterChessClient
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
                         Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
                         manaText.text = Data.Instance.mana.ToString();
+                        turnCount = msg.PopInt32();
                     }
                     break;
                 case PROTOCOL.GameOver:

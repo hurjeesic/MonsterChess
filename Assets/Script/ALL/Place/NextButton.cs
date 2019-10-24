@@ -39,9 +39,10 @@ namespace MonsterChessClient
             RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();
             heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[size]) as Texture;
             heroBtnImg.color = new Color(255, 255, 255, 255);
-            Data.Instance.board[3, 0] = Data.Instance.units[5];
-
             Unit unit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[size])) as Unit;
+            Data.Instance.board[3, 0] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, unit);
+
+            
             if (unit != null)
             {
                 unit.order = Data.Instance.order;
@@ -59,7 +60,7 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < Data.ROW; j++)
                 {
-                    if (Data.Instance.board[i, j] != null)
+                    if (Data.Instance.board[i, j].Value != null)
                     {
                         unitPos.Add(new Vector2(i, j));
                         count++;
@@ -141,7 +142,8 @@ namespace MonsterChessClient
                             {
                                 y = Data.ROW - y - 1;
                             }
-                            Data.Instance.board[x, y] = type;
+                            GameObject unitOBJ = GameObject.Find(x + "," + y);
+                            Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(index, unitOBJ.AddComponent(Type.GetType("UnitType.Unit" + type)) as Unit);
                             if (index != Data.Instance.myIndex)
                             {
                                 DrawEnemy(x, y);
@@ -160,7 +162,7 @@ namespace MonsterChessClient
             Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
             for (int i = 0; i < 6; i++)
             {
-                loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y]);
+                loadingMsg.Push(Data.Instance.board[(int)unitPos[i].x, (int)unitPos[i].y].Value.ID);
                 loadingMsg.Push((int)unitPos[i].x);
                 loadingMsg.Push((int)unitPos[i].y);
             }

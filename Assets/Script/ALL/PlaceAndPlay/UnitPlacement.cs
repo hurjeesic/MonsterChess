@@ -3,6 +3,7 @@ using System;
 using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace MonsterChessClient
 {
@@ -60,8 +61,6 @@ namespace MonsterChessClient
                                     unit.y = y;
                                     unit.status = 0;
                                 }
-
-                                Data.Instance.board[x, y] = Data.Instance.summonId;
                                 Data.Instance.bSummons = false;
                             }
                         }
@@ -73,18 +72,15 @@ namespace MonsterChessClient
                         int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
                         if (Data.Instance.mana - cost >= 0)
                         {
-                            if (Data.Instance.board[x, y] == null)
+                            if (Data.Instance.board[x, y].Value == null)
                             {
                                 // 소환은 즉각 적용 시키고 플레이 리스트에 제외 시킨다.
                                 slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-
-                                Data.Instance.board[x, y] = Data.Instance.summonId;
+                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+                                Data.Instance.board[x, y] = new KeyValuePair<byte, Unit> (Data.Instance.myIndex, unit) ;
                                 Data.Instance.bSummons = false;
                                 Data.Instance.mana -= cost;
-                                
-
-                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 if (unit != null)
                                 {
                                     unit.order = Data.Instance.order;
@@ -106,7 +102,7 @@ namespace MonsterChessClient
                     else if (Data.Instance.bMoving == false && Data.Instance.time <= 30)
                     {
                         // 터치한 유닛의 이동 범위를 가져옴
-                        if (Data.Instance.board[x, y] != null)
+                        if (Data.Instance.board[x, y].Value != null)
                         {
                             slotTrans.GetComponent<Unit>().MoveRange();
                         }
@@ -119,7 +115,7 @@ namespace MonsterChessClient
                         // 이동범위 클릭시 무브 리스트 변경
                         int originX = Data.Instance.origin.name[0] - '0';
                         int originY = Data.Instance.origin.name[2] - '0';
-                        if (Data.Instance.board[originX, originY] != null)
+                        if (Data.Instance.board[originX, originY].Value != null)
                         {
                             Unit unit = Data.Instance.origin.GetComponent<Unit>();
                             unit.moveX = x;
@@ -149,7 +145,8 @@ namespace MonsterChessClient
                 for (int y = 0; y < Data.ROW / 2; y++)
                 {
                     // x값 설정
-                    if (Data.Instance.board[x, y] != null) temp++;
+                    Unit tempUnit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                    if (tempUnit!=null) temp++;
                 }
             }
             return temp;
@@ -164,10 +161,11 @@ namespace MonsterChessClient
                 for (int y = 0; y < Data.ROW / 2; y++)
                 {
                     // x값 설정
-                    if (Data.Instance.board[x, y] == Data.Instance.summonId)
+                    Unit tempUnit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                    if (tempUnit !=null && tempUnit.ID == Data.Instance.summonId)
                     {
                         GameObject.Find(x + "," + y).GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-                        Data.Instance.board[x, y] = null;
+                        Data.Instance.board[x, y] = Data.Instance.Empty;
                         int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
                         Data.Instance.mana += cost;
                         manaText.text = "" + Data.Instance.mana;

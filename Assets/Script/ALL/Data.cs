@@ -75,8 +75,10 @@ namespace MonsterChessClient
         // 0 ~ 2 ,    3     ,     4     ,    5      ,    6    ,  7   ,  8   , 9 ~
 
         public const int COLUMN = 7, ROW = 7;
-        public string[,] board = new string[COLUMN, ROW]; // 현재 판의 데이터 배열
-        public string[] units = { "002", "005", "008", "102", "101", "201" }; // 유닛 넣는곳(임시 데이터)
+        public KeyValuePair<byte, Unit>[,] board = new KeyValuePair<byte, Unit>[COLUMN, ROW]; // 현재 판의 데이터 배열
+        public KeyValuePair<byte, Unit> Empty = new KeyValuePair<byte, Unit>(255, null);
+
+        public string[] units = new string[6]; // 유닛 넣는곳(임시 데이터)
         
         public List<string> directionList = new List<string>(); // 유닛의 이동방향을 나타냄
         public string summonId; //소환할 ID를 가져옴
@@ -174,7 +176,7 @@ namespace MonsterChessClient
                         anim.Stop("LightUnit");
                         rangeX = range[j].Value.name[0] - '0';
                         rangeY = range[j].Value.name[2] - '0';
-                        range[j].Value.GetComponent<RawImage>().color = new Color(255, 255, 255, board[rangeX, rangeY] == null ? 0 : 255);
+                        range[j].Value.GetComponent<RawImage>().color = new Color(255, 255, 255, board[rangeX, rangeY].Value == null ? 0 : 255);
                         if (j == range.Count - 1)
                         {
                             return;
@@ -190,7 +192,7 @@ namespace MonsterChessClient
                             anim.Stop("LightUnit");
                             rangeX = range[j].Value.name[0] - '0';
                             rangeY = range[j].Value.name[2] - '0';
-                            range[j].Value.GetComponent<RawImage>().color = new Color(255, 255, 255, board[rangeY, rangeX] == null ? 0 : 255);
+                            range[j].Value.GetComponent<RawImage>().color = new Color(255, 255, 255, board[rangeY, rangeX].Value == null ? 0 : 255);
                             
                             if (j == range.Count - 1)
                             {
@@ -225,7 +227,7 @@ namespace MonsterChessClient
             enemyUnit.GetComponent<Move>().endPos = unit.transform.position;
      
             board[moveX, moveY] = board[x, y];
-            board[x, y] = null;
+            board[x, y] = Empty;
 
             string temp = unit.name;
             unit.name = enemyUnit.name;
@@ -256,7 +258,7 @@ namespace MonsterChessClient
                 case 7: tempX = moveX - 1; tempY = moveY + 1; break;
             }
 
-            if (tempY != -1 && board[tempX, tempY] == null)
+            if (tempY != -1 && board[tempX, tempY].Value == null)
             {
                 KnockBackUnit = GameObject.Find(tempX + "," + tempY);
 
@@ -269,7 +271,7 @@ namespace MonsterChessClient
 
                 board[tempX, tempY] = board[moveX, moveY];
                 board[moveX, moveY] = board[x, y];
-                board[x, y] = null;
+                board[x, y] = Empty;
 
                 temp = unit.name;
                 unit.name = enemyUnit.name;

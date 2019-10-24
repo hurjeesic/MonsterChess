@@ -15,7 +15,7 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    if (Data.Instance.board[i, j] != null)
+                    if (Data.Instance.board[i, j].Value != null)
                     {
                         if (i < 3)
                         {
@@ -46,7 +46,7 @@ namespace MonsterChessClient
                 for (int i = 0; i < 7; i++)
                 {
                     // x값
-                    if (Data.Instance.board[i, j] != null)
+                    if (Data.Instance.board[i, j].Value != null)
                     {
                         if (j <= 2)
                         {
