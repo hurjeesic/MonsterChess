@@ -7,6 +7,9 @@ namespace MonsterChessClient
     {
         int type, index;
 
+        public Text manaText;
+        public Text heroText;
+        public Text uniText;
         Data DataIndex = Data.Instance;
 
         void Awake()
@@ -30,6 +33,9 @@ namespace MonsterChessClient
             if (DataIndex.StateOfMonster.Length > index)
             {
                 DataIndex.unitId = DataIndex.StateOfMonster[type, index].Substring(0, 3);
+                int tempCount = int.Parse(uniText.text);
+                tempCount++;
+                uniText.text = ""+tempCount;
             }
 
             // 몬스터가 추가되어 있을 경우 제거
@@ -64,8 +70,8 @@ namespace MonsterChessClient
                     }
                 }
             }
-
-            Debug.Log("현재의 마나코스트는" + DataIndex.costSum + "입니다");
+            manaText.text = DataIndex.costSum+"/15";
+           
         }
 
         public void ChoiceImage(int x)
