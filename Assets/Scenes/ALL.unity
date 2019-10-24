@@ -937,7 +937,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &88647885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2320,9 +2320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &259908198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4986,8 +4986,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00000081602707}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00012207031}
+  m_SizeDelta: {x: 0, y: -2375.7}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &491894789
 MonoBehaviour:
@@ -5599,7 +5599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &545942545
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11887,8 +11887,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -527.8, y: 1470.5}
-  m_SizeDelta: {x: 312.4, y: 222.32}
+  m_AnchoredPosition: {x: 94, y: 1476}
+  m_SizeDelta: {x: 438, y: 526}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &652603752
 MonoBehaviour:
@@ -11911,11 +11911,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 150
+    m_FontSize: 300
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
-    m_MaxSize: 150
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -12080,8 +12080,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 731.6, y: 1470.5}
-  m_SizeDelta: {x: 444.6, y: 222.35}
+  m_AnchoredPosition: {x: 731.6, y: 1476}
+  m_SizeDelta: {x: 445, y: 526.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &661942562
 MonoBehaviour:
@@ -12170,9 +12170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &675042647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13949,9 +13949,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &822222567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14373,9 +14373,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &865179638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20229,9 +20229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &968847421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20876,9 +20876,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1045821676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22914,9 +22914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1212101847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23119,9 +23119,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1219675341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23446,9 +23446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1256060656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25397,9 +25397,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1428614980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26285,8 +26285,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 106.19985, y: 1470.5004}
-  m_SizeDelta: {x: 312.4, y: 222.32}
+  m_AnchoredPosition: {x: -489, y: 1470}
+  m_SizeDelta: {x: 417, y: 410}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1501486393
 MonoBehaviour:
@@ -26309,18 +26309,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 150
+    m_FontSize: 300
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
-    m_MaxSize: 150
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: X
 --- !u!222 &1501486394
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26375,9 +26375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1526845695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26515,7 +26515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1533527086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27085,9 +27085,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!1 &1599560150
 GameObject:
   m_ObjectHideFlags: 0
@@ -28764,9 +28764,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1790428142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28899,9 +28899,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1795765359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29684,9 +29684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &1844501788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30298,9 +30298,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!1 &1908179223
 GameObject:
   m_ObjectHideFlags: 0
@@ -30995,9 +30995,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!1 &1975293505
 GameObject:
   m_ObjectHideFlags: 0
@@ -31412,9 +31412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!1 &2027593664
 GameObject:
   m_ObjectHideFlags: 0
@@ -32015,9 +32015,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &2078583662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32116,7 +32116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2084631068
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37349,9 +37349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97b5038cbdb0c449b795448d2344f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaText: {fileID: 661942562}
-  heroText: {fileID: 1501486393}
-  uniText: {fileID: 652603752}
+  ManaText: {fileID: 661942562}
+  HeroText: {fileID: 1501486393}
+  UnitText: {fileID: 652603752}
 --- !u!114 &2142563987
 MonoBehaviour:
   m_ObjectHideFlags: 0

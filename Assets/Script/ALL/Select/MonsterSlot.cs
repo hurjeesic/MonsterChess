@@ -7,9 +7,10 @@ namespace MonsterChessClient
     {
         int type, index;
 
-        public Text manaText;
-        public Text heroText;
-        public Text uniText;
+        public Text ManaText;
+        public Text HeroText;
+        public Text UnitText;
+
         Data DataIndex = Data.Instance;
 
         void Awake()
@@ -33,9 +34,9 @@ namespace MonsterChessClient
             if (DataIndex.StateOfMonster.Length > index)
             {
                 DataIndex.unitId = DataIndex.StateOfMonster[type, index].Substring(0, 3);
-                int tempCount = int.Parse(uniText.text);
+                int tempCount = int.Parse(UnitText.text);
                 tempCount++;
-                uniText.text = ""+tempCount;
+                UnitText.text = ""+tempCount;
             }
 
             // 몬스터가 추가되어 있을 경우 제거
@@ -70,8 +71,17 @@ namespace MonsterChessClient
                     }
                 }
             }
-            manaText.text = DataIndex.costSum+"/15";
-           
+            ManaText.text = DataIndex.costSum+"/15";
+            UnitText.text = DataIndex.MonsterCount + "";
+            if (DataIndex.bHero)
+            {
+                HeroText.text = "O";
+            }
+            else
+            {
+                HeroText.text = "X";
+            }
+
         }
 
         public void ChoiceImage(int x)
