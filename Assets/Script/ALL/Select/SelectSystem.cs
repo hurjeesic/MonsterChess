@@ -39,10 +39,14 @@ namespace MonsterChessClient
         {
             if ((instance.bHero == false) && (instance.kind == 2))
             {
-                // Debug.Log("히어로를 선택했대요"); // 시각적으로 확인 가능하므로 로그 표시 삭제
+                //히어로를 선택하지 않았을 경우 선택함
                 instance.bHero = true;
             }
             monster.Add(instance.unitId);
+            if(instance.kind != 2)
+            {
+                instance.MonsterCount++;
+            }
         }
 
         public void RemoveMonster()
@@ -52,6 +56,10 @@ namespace MonsterChessClient
                 instance.bHero = false;
             }
             monster.Remove(instance.unitId);
+            if (instance.kind != 2)
+            {
+                instance.MonsterCount--;
+            }
         }
 
         public void Done()

@@ -109,6 +109,7 @@ namespace MonsterChessClient
         };
 
         public int kind = 0; // 현재 선택된 탭의 번호
+        public int MonsterCount = 0;//선택된 몬스터의 수
         public string unitId; // 선택된 몬스터의 이름
         public int costSum = 0; // 선택된 몬스터의 코스트 합
         public bool bHero = false; // 히어로가 선택 되었는지
