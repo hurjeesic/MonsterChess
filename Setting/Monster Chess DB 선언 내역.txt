@@ -1,0 +1,26 @@
+create database monsterchess;
+
+create table user(
+num int not null auto_increment,
+id varchar(15) not null unique,
+pwd varchar(15) not null,
+nick varchar(15) not null unique,
+score int default 0,
+rank int default 1,
+win int default 0,
+primary key(num)
+)engine=innodb;
+
+create table friend(
+userNick varchar(15) not null,
+friendNick varchar(15) not null,
+foreign key (userNick) references user (nick),
+foreign key (friendNick) references user (nick)
+)engine=innodb;
+
+create table requestFriend(
+requestUser varchar(15) not null,
+requestedUser varchar(15) not null,
+foreign key (requestUser) references user (nick),
+foreign key (requestedUser) references user (nick)
+)engine=innodb;
