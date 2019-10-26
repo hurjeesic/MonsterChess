@@ -92,7 +92,6 @@ namespace MonsterChessClient
         public int time = 50; // 턴의 시간
 
         public GameObject origin;
-        public List<GameObject> playList = new List<GameObject>(); // 실제 게임 진행하는 리스트
 
         public bool bSummons; // 소환
         public bool bManaStone; // 마나스톤 생성

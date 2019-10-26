@@ -44,11 +44,11 @@ namespace MonsterChessClient
                             else
                             {
                                 UpdateBoard();
+                                if (slotTrans.GetComponent<Unit>() != null) DestroyImmediate(slotTrans.GetComponent<Unit>());
                                 slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-                                slotTrans.gameObject.AddComponent<Move>();
                                 int tempUnitCount = 0;
-                                tempUnitCount = CheckUnitCount()+1;
+                                tempUnitCount = CheckUnitCount();
                                 unitText.text = ""+tempUnitCount;
                                 int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
                                 Data.Instance.mana -= cost;
@@ -164,14 +164,16 @@ namespace MonsterChessClient
                     Unit tempUnit = GameObject.Find(x + "," + y).GetComponent<Unit>();
                     if (tempUnit !=null && tempUnit.ID == Data.Instance.summonId)
                     {
-                        GameObject.Find(x + "," + y).GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                        tempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
                         Data.Instance.board[x, y] = Data.Instance.Empty;
+                        DestroyImmediate(tempUnit.GetComponent<Unit>());
                         int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
                         Data.Instance.mana += cost;
                         manaText.text = "" + Data.Instance.mana;
                     }
                 }
             }
+          
         }
     }
 }

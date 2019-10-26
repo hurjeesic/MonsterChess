@@ -14,7 +14,7 @@ namespace UnitType
             {
                 GameObject target = GetTarget();
                 Unit unit = target.GetComponent<Unit>();
-                if (unit.Defence(ap)) RemoveUnit(target, playCount);
+                if (unit.Defence(ap)) RemoveUnit(target);
 
             }
         }

@@ -46,6 +46,8 @@ namespace MonsterChessClient
                     }
                     break;
                 case UserStage.ProcessGame:
+                    //여기부터 유닛들이 진짜 움직이기 시작함
+
                     break;
             }
         }
@@ -104,22 +106,65 @@ namespace MonsterChessClient
                         Debug.Log("이동 요청 " + (result == 0 ? "실패" : "성공"));
                     }
                     break;
-              
+                case PROTOCOL.RequestedSummons:
+                    {
+                        //소환을 할려면 ID x,y,
+                        if (msg.PopInt32() == 1)
+                        {
+                            //소환을 하지 않음
+                        }
+                        else
+                        {
+                            msg.PopInt32();
+                            //소환을 함
+                            Data.Instance.summonId = msg.PopString();//summonID를 받아옴
+
+
+                        }
+                    }
+                    break;
                 case PROTOCOL.MovedUnit:
                     {
                         int result = msg.PopInt32(); // -1이면 움직임이 전부 전송된 것
-                        if (result == 0) // 0이면 공격당한 유닛이 있는 것
+                        if (result == 0) 
                         {
+                            string id = msg.PopString();
                             int x = msg.PopInt32(), y = msg.PopInt32();
                             int moveX = msg.PopInt32(), moveY = msg.PopInt32();
+                            int myUnitHP = msg.PopInt32();
                             result = msg.PopInt32();
-                            if (result == 0)
+                            Debug.Log(id);
+                            Debug.Log(x);
+                            Debug.Log(y);
+                            Debug.Log(moveX);
+                            Debug.Log(moveY);
+                            Debug.Log(myUnitHP);
+
+                            if (result == 0)// 0이면 공격당한 유닛이 있는 것
                             {
                                 int enemyX = msg.PopInt32(), enemyY = msg.PopInt32();
                                 int enemyMoveX = msg.PopInt32(), enemyMoveY = msg.PopInt32();
+                                int enemyHP = msg.PopInt32();
+
+                                Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                                unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY = moveY; unit.hp = myUnitHP;
+
+                                Unit enemyUnit = GameObject.Find(enemyX + "," + enemyY).GetComponent<Unit>();
+                                enemyUnit.x = x; enemyUnit.y = y; enemyUnit.moveX = moveX; enemyUnit.moveY = moveY;
+                                enemyUnit.hp = enemyHP;
+
+                                unit.Attack();
+                            }
+                            else //단순이동
+                            {
+                                
+                                Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                                unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY=moveY;
+                                unit.hp = myUnitHP;
+                                unit.Move();
                             }
                         }
-                        else
+                        else//이동안함
                         {
                             Data.Instance.currentPlayer = (byte)msg.PopInt32();
                         }
@@ -157,6 +202,167 @@ namespace MonsterChessClient
                     break;
             }
         }
+
+        /*private void CheckMove(string id, int moveDirection, int x, int y, int order)
+        {
+            int tempX;
+            GameObject targetObj;
+            Unit unit;
+            switch (moveDirection)
+            {
+                case 0: // 동
+                    for (int i = x + 1; i < moveX + 1; i++)
+                    {
+                        if (i < 7 && Data.Instance.board[y, i].Value != null)
+                        {
+                            targetObj = GameObject.Find(y + "," + i);
+                            unit = targetObj.GetComponent<Unit>();
+
+                            if (unit != null)
+                            {
+                                moveX = i - (unit.order == order ? 1 : 0);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case 1: // 서
+                    for (int i = x - 1; i > moveX - 1; i--)
+                    {
+                        if (i >= 0 && Data.Instance.board[y, i].Value != null)
+                        {
+                            targetObj = GameObject.Find(y + "," + i);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                moveX = i + (unit.order == order ? 1 : 0);
+
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case 2: // 남
+                    for (int i = y - 1; i > moveY - 1; i--)
+                    {
+                        if (i >= 0 && Data.Instance.board[i, x].Value != null)
+                        {
+                            targetObj = GameObject.Find(i + "," + x);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                moveY = i + (unit.order == order ? 1 : 0);
+
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case 3: // 북
+                    for (int i = y + 1; i < moveY + 1; i++)
+                    {
+                        Debug.Log("for안");
+                        if (i < 7 && Data.Instance.board[i, x].Value != null)
+                        {
+                            Debug.Log("들어왓따");
+                            targetObj = GameObject.Find(i + "," + x);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                moveY = i - (unit.order == order ? 1 : 0);
+                                Debug.Log(moveY);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case 4: // 북동
+                    tempX = x + 1;
+                    for (int i = y + 1; i < moveY + 1; i++)
+                    {
+                        if (i < 7 && tempX < 7 && Data.Instance.board[i, tempX].Value != null)
+                        {
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                bool flag = unit.order == order;
+                                moveY = i - (flag ? 1 : 0);
+                                moveX = tempX - (flag ? 1 : 0);
+
+                                break;
+                            }
+                        }
+
+                        tempX++;
+                    }
+                    break;
+                case 5: // 남동
+                    tempX = x + 1;
+                    for (int i = y - 1; i > moveY; i--)
+                    {
+                        if (i >= 0 && tempX < 7 && Data.Instance.board[i, tempX].Value != null)
+                        {
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                bool flag = unit.order == order;
+                                moveY = i + (flag ? 1 : 0);
+                                moveX = tempX - (flag ? 1 : 0);
+
+                                break;
+                            }
+                        }
+
+                        tempX++;
+                    }
+                    break;
+                case 6: // 남서
+                    tempX = x - 1;
+                    for (int i = y - 1; i > moveY; i--)
+                    {
+                        if (i >= 0 && tempX >= 0 && Data.Instance.board[i, tempX].Value != null)
+                        {
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                bool flag = unit.order == order;
+                                moveY = i + (flag ? 1 : 0);
+                                moveX = tempX + (flag ? 1 : 0);
+
+                                break;
+                            }
+                        }
+
+                        tempX--;
+                    }
+                    break;
+                case 7: // 북서
+                    tempX = x - 1;
+                    for (int i = y + 1; i < moveY; i++)
+                    {
+                        if (i < 7 && tempX >= 0 && Data.Instance.board[i, tempX].Value != null)
+                        {
+                            targetObj = GameObject.Find(i + "," + tempX);
+                            unit = targetObj.GetComponent<Unit>();
+                            if (unit != null)
+                            {
+                                bool flag = unit.order == order;
+                                moveY = i - (flag ? 1 : 0);
+                                moveX = tempX + (flag ? 1 : 0);
+
+                                break;
+                            }
+                        }
+
+                        tempX--;
+                    }
+                    break;
+            }
+
+        }*/
 
         public void OnApplicationQuit()
         {

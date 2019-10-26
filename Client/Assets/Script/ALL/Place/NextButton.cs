@@ -30,7 +30,7 @@ namespace MonsterChessClient
             for (int i = 0; i < size; i++)
             {
                 RawImage summonBtnImg = GameObject.Find(i.ToString()).GetComponent<RawImage>();
-                summonBtnImg.texture = Resources.Load("Image/ButtonUnit/" + Data.Instance.units[i]) as Texture;
+                summonBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[i]) as Texture;
                 summonBtnImg.color = new Color(255, 255, 255, 255);
                 Data.Instance.bSummons = false;
             }
@@ -60,7 +60,8 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < Data.ROW; j++)
                 {
-                    if (Data.Instance.board[i, j].Value != null)
+                    Unit unit = GameObject.Find(i + "," + j).GetComponent<Unit>();
+                    if (unit !=null)
                     {
                         unitPos.Add(new Vector2(i, j));
                         count++;
@@ -115,6 +116,17 @@ namespace MonsterChessClient
                         Data.Instance.myIndex = msg.PopByte();
                         Invoke("CompleteLoading", 1);
                         stateObj.SetActive(false);
+                        byte tempMyIndex = Data.Instance.myIndex;
+                        for (int x = 0; x < Data.COLUMN; x++)
+                        {
+                            // y값 설정
+                            for (int y = 0; y < Data.ROW / 2; y++)
+                            {
+                                // x값 설정
+                                Unit tempUnit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                                if (tempUnit != null) Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(tempMyIndex, tempUnit);
+                            }
+                        }
                     }
                     break;
                 case PROTOCOL.FailDeploy:
@@ -138,14 +150,14 @@ namespace MonsterChessClient
                             byte index = msg.PopByte();
                             string type = msg.PopString();
                             int x = msg.PopInt32(), y = msg.PopInt32();
-                            if (Data.Instance.myIndex != 0)
+                            if (index != Data.Instance.myIndex)//적표시
                             {
-                                y = Data.ROW - y - 1;
-                            }
-                            GameObject unitOBJ = GameObject.Find(x + "," + y);
-                            Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(index, unitOBJ.AddComponent(Type.GetType("UnitType.Unit" + type)) as Unit);
-                            if (index != Data.Instance.myIndex)
-                            {
+                                if (Data.Instance.myIndex != 0)//내가 1일경우 반전
+                                {
+                                    y = Data.ROW - y - 1;
+                                }
+                                GameObject unitOBJ = GameObject.Find(x + "," + y);
+                                Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(index, unitOBJ.AddComponent(Type.GetType("UnitType.Unit" + type)) as Unit);
                                 DrawEnemy(x, y);
                             }
                         }
@@ -159,6 +171,8 @@ namespace MonsterChessClient
 
         private void CompleteLoading()
         {
+           
+            
             Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
             for (int i = 0; i < 6; i++)
             {
@@ -172,8 +186,7 @@ namespace MonsterChessClient
         private void DrawEnemy(int x, int y)
         {
             GameObject TempUnit = GameObject.Find(x + "," + y);
-            Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[x, y]) as Texture;
-
+            Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[x, y].Value.ID) as Texture;
             Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[x, y])) as Unit;
             if (unit != null)
             {
