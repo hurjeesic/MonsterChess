@@ -21,6 +21,8 @@ namespace MonsterChessClient
 
         public void Enter()
         {
+            PlaceInitialization();
+
             networkManager.messageReceiver = this;
             nextBtn.SetActive(true);
             matchCancleBtn.SetActive(false);
@@ -199,5 +201,35 @@ namespace MonsterChessClient
             TempUnit.GetComponent<RawImage>().texture = UnitImage;
             TempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
         }
+
+        public void PlaceInitialization()
+        {
+            Data.Instance.mana = 15;
+            Text text = GameObject.Find("ManaText").GetComponent<Text>();
+            text.text = ""+Data.Instance.mana;
+            for (int i = 0; i < Data.COLUMN; i++)
+            {
+                for (int j = 0; j < Data.ROW; j++)
+                {
+
+                    GameObject tempBoard = GameObject.Find(i + "," + j);
+                    Unit unit = tempBoard.GetComponent<Unit>();
+                    if (unit != null) DestroyImmediate(unit);
+                    tempBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                    Data.Instance.board[i, j] = Data.Instance.Empty;
+                    if (i == 3 && j == 0)
+                    {
+                        GameObject heroBtn = GameObject.Find("3,0");
+                        RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();
+                        heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[5]) as Texture;
+                        heroBtnImg.color = new Color(255, 255, 255, 255);
+                        Unit heroUnit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[5])) as Unit;
+                        Data.Instance.board[3, 0] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, heroUnit);
+
+                    }
+                }
+            }
+        }
+
     }
 }

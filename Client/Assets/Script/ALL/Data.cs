@@ -116,9 +116,26 @@ namespace MonsterChessClient
         public bool bHero = false; // 히어로가 선택 되었는지
         public readonly int MaxCost = 15;
 
+        public void AnimStop()
+        {
+            for (int i = 0; i < COLUMN; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    GameObject temp = GameObject.Find(i + "," + j);
+                    Animation anim = temp.GetComponent<Animation>();
+                    anim.Stop("LightUnit");
+                    Unit unit = temp.GetComponent<Unit>();
+                    if (unit != null) temp.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                    else temp.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                }
+            }
+
+        }
         //함수
         public void GetMoveRange(int x, int y, int direction, int distence, List<KeyValuePair<int, GameObject>> range)
         {
+            AnimStop();
             if (direction < 2)
             {
                 for (int i = 0; i < (direction == 0 ? 4 : 8); i++)

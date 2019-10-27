@@ -118,16 +118,32 @@ namespace MonsterChessClient
                         if (Data.Instance.board[originX, originY].Value != null)
                         {
                             Unit unit = Data.Instance.origin.GetComponent<Unit>();
-                            unit.moveX = x;
-                            unit.moveY = y;
-                            unit.SaveMove();
+                            for (int i = 0; i < unit.range.Count; i++)
+                            {
+                                if (unit.range[i].Value == GameObject.Find(x + "," + y))
+                                {
+                                    //일치하는 것을 찾음
+                                    unit.moveX = x;
+                                    unit.moveY = y;
+                                    unit.SaveMove();
 
-                            Packet msg = Packet.Create((short)PROTOCOL.RequestedMoving);
-                            msg.Push(originX);
-                            msg.Push(originY);
-                            msg.Push(x);
-                            msg.Push(y);
-                            networkManager.Send(msg);
+                                    Packet msg = Packet.Create((short)PROTOCOL.RequestedMoving);
+                                    msg.Push(originX);
+                                    msg.Push(originY);
+                                    msg.Push(x);
+                                    msg.Push(y);
+                                    networkManager.Send(msg);
+
+                                    break;
+                                }
+                                if (i == unit.range.Count - 1)
+                                {
+                                    Debug.Log("알맞은 이동범위를 선택하시기 바랍니다.");
+                                    Data.Instance.AnimStop();
+                                }
+                               
+                            }
+                           
                         }
 
                         Data.Instance.bMoving = false;

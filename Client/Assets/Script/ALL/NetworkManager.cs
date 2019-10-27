@@ -31,7 +31,7 @@ namespace MonsterChessClient
 
         public void Connect()
         {
-            this.gameServer.Connect("192.168.0.30", 7979);
+            this.gameServer.Connect("192.168.0.4", 7979);
         }
 
         public bool IsConnected()

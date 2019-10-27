@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using FreeNet;
+using System;
+using System.Collections.Generic;
+using UnitType;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace MonsterChessClient
 {
@@ -73,6 +78,8 @@ namespace MonsterChessClient
                         Friend.SetActive(false);
                         break;
                     case SceneList.Select:
+
+
                         Login.SetActive(false);
                         Main.SetActive(false);
                         Select.SetActive(true);
@@ -80,6 +87,7 @@ namespace MonsterChessClient
                         Friend.SetActive(false);
                         break;
                     case SceneList.Place:
+                      
                         Login.SetActive(false);
                         Main.SetActive(false);
                         Select.SetActive(false);
@@ -112,6 +120,10 @@ namespace MonsterChessClient
                 }
             }
         }
+
+      
+
+       
 
         // Use this for initialization
         void Start()

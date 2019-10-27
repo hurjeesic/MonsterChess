@@ -2,6 +2,8 @@
 using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
 
 namespace MonsterChessClient
 {
@@ -75,8 +77,10 @@ namespace MonsterChessClient
                 case PROTOCOL.StartedTurn:
                     {
                         Data.Instance.currentPlayer = msg.PopByte();
+                        Debug.Log("바뀌기전 마나" + Data.Instance.mana);
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
                         Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
+                        Debug.Log("바뀐후 마나" + Data.Instance.mana);
 
                         Data.Instance.bSummons = false;
                         Data.Instance.bMoving = false;
@@ -118,8 +122,29 @@ namespace MonsterChessClient
                             msg.PopInt32();
                             //소환을 함
                             Data.Instance.summonId = msg.PopString();//summonID를 받아옴
+                            int x = msg.PopInt32();
+                            int y = msg.PopInt32();
+                            Data.Instance.mana = msg.PopInt32();
+                            GameObject summonBoard = GameObject.Find(x + "," + y);
 
+                            Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+                            summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
+                            summonBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
 
+                            if (y > 3)
+                            {
+                                unit.x = x;
+                                unit.y = y;
+                                unit.status = 2;
+                                unit.order = 1;
+                            }
+                            else
+                            {
+                                unit.x = x;
+                                unit.y = y;
+                                unit.status = 2;
+                                unit.order = Data.Instance.order;
+                            }
                         }
                     }
                     break;
@@ -173,7 +198,10 @@ namespace MonsterChessClient
                 case PROTOCOL.FinishedTurn:
                     {
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
+                        Debug.Log("바뀌기전 마나" + Data.Instance.mana);
                         Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
+                        Debug.Log("바뀐후 마나" + Data.Instance.mana);
+
                         manaText.text = Data.Instance.mana.ToString();
                         turnCount = msg.PopInt32();
                     }
