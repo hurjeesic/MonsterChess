@@ -112,32 +112,26 @@ namespace MonsterChessClient
                     break;
                 case PROTOCOL.RequestedSummons:
                     {
-                        Debug.Log("리퀘스티드 서먼");
                         //소환을 할려면 ID x,y,
-                        int temp = msg.PopInt32();
-                        Debug.Log(temp);
-                        if (temp == 1)
-                        {
-                            //소환을 하지 않음
-                            Debug.Log("소환을 하지 않음");
-                        }
-                        else
+                        int signal = msg.PopInt32();
+                        if (signal == 0)
                         {
                             //소환을 함
                             int summonIdex = msg.PopByte();
-                            if (summonIdex == Data.Instance.myIndex)//내소환
+                            // 내 소환
+                            if (summonIdex == Data.Instance.myIndex)
                             {
                                 int x, y;
-                                Data.Instance.summonId = msg.PopString();//summonID를 받아옴
-                                if (Data.Instance.myIndex == 0)//내 인덱스가 0일때
+                                Data.Instance.summonId = msg.PopString(); // summonID를 받아옴
+                                if (Data.Instance.myIndex == 0) //내 인덱스가 0일때
                                 {
                                     x = msg.PopInt32();
                                     y = msg.PopInt32();
                                 }
-                                else//내 인덱스가 1일때
+                                else // 내 인덱스가 1일 때
                                 {
                                     x = msg.PopInt32();
-                                    y = 6-msg.PopInt32();
+                                    y = 6 - msg.PopInt32();
                                 }
                                 GameObject summonBoard = GameObject.Find(x + "," + y);
 
@@ -151,7 +145,8 @@ namespace MonsterChessClient
                                 unit.status = 2;
                                 unit.order = Data.Instance.order;
                             }
-                            else//적소환
+                            // 적 소환
+                            else
                             {
                                 int x, y;
                                 string tempID = msg.PopString();//summonID를 받아옴
@@ -176,7 +171,11 @@ namespace MonsterChessClient
                                 unit.status = 2;
                                 unit.order = 1;
                             }
-                           
+                            Debug.Log("소환 성공");
+                        }
+                        else
+                        {
+                            Debug.Log("소환 실패");
                         }
                     }
                     break;
@@ -185,17 +184,11 @@ namespace MonsterChessClient
                         int result = msg.PopInt32(); // -1이면 움직임이 전부 전송된 것
                         if (result == 0) 
                         {
-                            string id = msg.PopString();
                             int x = msg.PopInt32(), y = msg.PopInt32();
                             int moveX = msg.PopInt32(), moveY = msg.PopInt32();
                             int myUnitHP = msg.PopInt32();
                             result = msg.PopInt32();
-                            Debug.Log(id);
-                            Debug.Log(x);
-                            Debug.Log(y);
-                            Debug.Log(moveX);
-                            Debug.Log(moveY);
-                            Debug.Log(myUnitHP);
+                            Debug.Log(Data.Instance.board[x, y].Value.ID + "(" + myUnitHP + ") : " + x + ", " + y + " -> " + moveX + ", " + moveY);
 
                             if (result == 0)// 0이면 공격당한 유닛이 있는 것
                             {
@@ -206,8 +199,10 @@ namespace MonsterChessClient
                                 Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
                                 unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY = moveY; unit.hp = myUnitHP;
 
+                                Debug.Log(Data.Instance.board[enemyX, enemyX].Value.ID + "(" + enemyHP + ") : " + enemyX + ", " + enemyY + " -> " + enemyMoveX + ", " + enemyMoveY);
+
                                 Unit enemyUnit = GameObject.Find(enemyX + "," + enemyY).GetComponent<Unit>();
-                                enemyUnit.x = x; enemyUnit.y = y; enemyUnit.moveX = moveX; enemyUnit.moveY = moveY;
+                                enemyUnit.x = enemyX; enemyUnit.y = enemyY; enemyUnit.moveX = enemyMoveX; enemyUnit.moveY = enemyMoveY;
                                 enemyUnit.hp = enemyHP;
 
                                 unit.Attack();
@@ -221,9 +216,13 @@ namespace MonsterChessClient
                                 unit.Move();
                             }
                         }
-                        else//이동안함
+                        else // "이동안함"이 아니라 움직이는 게 다 끝나서 다음 턴으로 넘어가야함
                         {
                             Data.Instance.currentPlayer = (byte)msg.PopInt32();
+
+                            Packet finishMsg = Packet.Create((short)PROTOCOL.FinishedTurn);
+
+                            this.networkManager.Send(finishMsg);
                         }
                     }
                     break;

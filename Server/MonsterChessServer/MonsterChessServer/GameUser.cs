@@ -363,8 +363,8 @@ namespace MonsterChessServer
 
         private KeyValuePair<Vector2, Vector2> GetMoving(Packet msg)
         {
-            Vector2 beginPos = new Vector2(msg.PopInt16(), msg.PopInt16());
-            Vector2 targetPos = new Vector2(msg.PopInt16(), msg.PopInt16());
+            Vector2 beginPos = new Vector2(msg.PopInt32(), msg.PopInt32());
+            Vector2 targetPos = new Vector2(msg.PopInt32(), msg.PopInt32());
             if (player.playerIndex != 0)
             {
                 beginPos = Helper.GetReversePosition(beginPos, GameRoom.ROW);

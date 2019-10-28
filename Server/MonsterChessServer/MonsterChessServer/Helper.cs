@@ -26,13 +26,35 @@ namespace MonsterChessServer
         /// <returns></returns>
         public static bool CheckMoving(Unit unit, Vector2 pos1, Vector2 pos2, int column, int row)
         {
-            bool answer;
+            bool answer = false;
             Vector2 moving = pos1 - pos2;
 
             short x = (short)Math.Abs(moving.x);
             short y = (short)Math.Abs(moving.y);
+            
+            if (unit.Direction < 2)
+            {
+                if (unit.Direction >= 0)
+                {
+                    if ((unit.Distance >= moving.x && moving.x >= -unit.Distance && moving.y == 0) || // 서 -> 동
+                        (moving.x == 0 && unit.Distance >= moving.y && moving.y >= -unit.Distance)) // 북 -> 남
+                    {
+                        answer = true;
+                    }
+                }
 
-            answer = unit.CheckMoving(moving);
+                if (unit.Direction >= 1)
+                {
+                    if (Math.Abs(moving.x) == Math.Abs(moving.y) &&
+                       (0 > moving.x && moving.x >= -unit.Distance && moving.y > 0) || // 북서
+                       (unit.Distance >= moving.x && moving.x > 0 && moving.y > 0) || // 북동
+                       (0 > moving.x && moving.x >= -unit.Distance && moving.y < 0) || // 남서
+                       (unit.Distance >= moving.x && moving.x > 0 && moving.y < 0)) // 남동
+                    {
+                        answer = true;
+                    }
+                }
+            }
 
             return answer;
         }
