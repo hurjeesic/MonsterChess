@@ -322,26 +322,26 @@ namespace MonsterChessServer
         {
             bool answer = false;
 
+            // 이동 범위 안에 있다면
             if (COLUMN > moving.Key.x && moving.Key.x >= 0 && ROW > moving.Key.y && moving.Key.y >= 0 &&
                 COLUMN > moving.Value.x && moving.Value.x >= 0 && ROW > moving.Value.y && moving.Value.y >= 0)
             {
-                answer = true;
-            }
+                Unit unit = gameBoard[moving.Key.x, moving.Key.y].Value;
 
-            // 이동하려는 Unit이 board에 없거나 해당 플레이어의 것이 아님
-            // 이동을 안하거나 Unit의 이동범위를 벗어남
-            Unit unit = gameBoard[moving.Key.x, moving.Key.y].Value;
-            if (answer && unit != null && gameBoard[moving.Key.x, moving.Key.y].Key == sender.playerIndex && Helper.CheckMoving(unit, moving.Key, moving.Value, COLUMN, ROW))
-            {
-                int index = sender.playerIndex, posIndex = movingLst[index].FindIndex(currentMoving => currentMoving.Key == moving.Key);
-                if (posIndex == -1)
+                if (unit != null && gameBoard[moving.Key.x, moving.Key.y].Key == sender.playerIndex && Helper.CheckMoving(unit, moving.Key, moving.Value, COLUMN, ROW))
                 {
-                    movingLst[index].Add(moving);
+                    int index = sender.playerIndex, posIndex = movingLst[index].FindIndex(currentMoving => currentMoving.Key == moving.Key);
+                    if (posIndex == -1)
+                    {
+                        movingLst[index].Add(moving);
+                    }
+                    else
+                    {
+                        movingLst[index][posIndex] = moving;
+                    }
                 }
-                else
-                {
-                    movingLst[index][posIndex] = moving;
-                }
+
+                answer = true;
             }
 
             // 이동 요청에 대한 처리 결과를 전송
@@ -362,13 +362,10 @@ namespace MonsterChessServer
         {
             bool answer = false;
 
-            if (COLUMN > summons.Key.x && summons.Key.x >= 0 && ROW > summons.Key.y && summons.Key.y >= 0)
+            if (COLUMN > summons.Key.x && summons.Key.x >= 0 && ROW > summons.Key.y && summons.Key.y >= 0 &&
+                gameBoard[summons.Key.x, summons.Key.y].Value == null && summons.Value.Cost <= sender.mana)
             {
                 answer = true;
-            }
-
-            if (answer && gameBoard[summons.Key.x, summons.Key.y].Value == null && summons.Value.Cost <= sender.mana)
-            {
                 gameBoard[summons.Key.x, summons.Key.y] = new KeyValuePair<byte, Unit>(sender.playerIndex, summons.Value);
                 sender.mana -= summons.Value.Cost;
             }
@@ -403,6 +400,17 @@ namespace MonsterChessServer
         {
             ChangePlayerState(players[0], PlayerState.ProcessTurn);
             ChangePlayerState(players[1], PlayerState.ProcessTurn);
+
+            Console.WriteLine("이동 요청 목록");
+            for (byte index = 0; index < players.Length; index++)
+            {
+                for (int i = 0; i < movingLst[index].Count; i++)
+                {
+                    Console.WriteLine(gameBoard[movingLst[index][i].Key.x, movingLst[index][i].Key.y].Value.ID + " " +
+                        movingLst[index][i].Key.x + ", " + movingLst[index][i].Key.y + " -> " +
+                        movingLst[index][i].Value.x + ", " + movingLst[index][i].Value.y);
+                }
+            }
 
             // 움직일 순서 정렬
             for (byte index = 0; index < players.Length; index++)

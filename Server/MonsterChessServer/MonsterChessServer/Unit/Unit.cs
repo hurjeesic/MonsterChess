@@ -42,35 +42,5 @@ namespace UnitType
         {
             return HP < 0;
         }
-
-        public bool CheckMoving(Vector2 movingPos)
-        {
-            bool answer = false;
-            if (Direction < 2)
-            {
-                if (Direction >= 0)
-                {
-                    if ((Distance >= movingPos.x && movingPos.x >= -Distance && movingPos.y == 0) || // 서 -> 동
-                        (movingPos.x == 0 && Distance >= movingPos.y && movingPos.y >= -Distance)) // 북 -> 남
-                    {
-                        answer = true;
-                    }
-                }
-
-                if (Direction >= 1)
-                {
-                    if (Math.Abs(movingPos.x) == Math.Abs(movingPos.y) &&
-                       (0 > movingPos.x && movingPos.x >= -Distance && movingPos.y > 0) || // 북서
-                       (Distance >= movingPos.x && movingPos.x > 0 && movingPos.y > 0) || // 북동
-                       (0 > movingPos.x && movingPos.x >= -Distance && movingPos.y < 0) || // 남서
-                       (Distance >= movingPos.x && movingPos.x > 0 && movingPos.y < 0)) // 남동
-                    {
-                        answer = true;
-                    }
-                }
-            }
-
-            return answer;
-        }
     }
 }

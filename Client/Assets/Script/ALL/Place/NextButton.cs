@@ -63,7 +63,7 @@ namespace MonsterChessClient
                 for (int j = 0; j < Data.ROW; j++)
                 {
                     Unit unit = GameObject.Find(i + "," + j).GetComponent<Unit>();
-                    if (unit !=null)
+                    if (unit != null)
                     {
                         unitPos.Add(new Vector2(i, j));
                         count++;
