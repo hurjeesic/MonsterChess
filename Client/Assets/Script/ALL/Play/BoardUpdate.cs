@@ -219,6 +219,10 @@ namespace MonsterChessClient
                         else // "이동안함"이 아니라 움직이는 게 다 끝나서 다음 턴으로 넘어가야함
                         {
                             Data.Instance.currentPlayer = (byte)msg.PopInt32();
+
+                            Packet finishMsg = Packet.Create((short)PROTOCOL.FinishedTurn);
+
+                            this.networkManager.Send(finishMsg);
                         }
                     }
                     break;
