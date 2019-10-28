@@ -377,17 +377,19 @@ namespace MonsterChessServer
             Packet msg = Packet.Create((short)PROTOCOL.RequestedSummons);
             if (answer)
             {
-                msg.Push(1);
-            }
-            else
-            {
                 msg.Push(0);
+                msg.Push(sender.playerIndex);
                 msg.Push(summons.Value.ID);
                 msg.Push(summons.Key.x);
                 msg.Push(summons.Key.y);
                 msg.Push(sender.mana);
+
             }
-            sender.Send(msg);
+            else
+            {
+                msg.Push(1);
+            }
+            Broadcast(msg);
         }
 
         /// <summary>

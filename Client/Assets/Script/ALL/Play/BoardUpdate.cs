@@ -77,11 +77,11 @@ namespace MonsterChessClient
                 case PROTOCOL.StartedTurn:
                     {
                         Data.Instance.currentPlayer = msg.PopByte();
-                        Debug.Log("바뀌기전 마나" + Data.Instance.mana);
+                        
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();
                         Data.Instance.mana = Data.Instance.myIndex == 0 ? firstMana : secondMana;
-                        Debug.Log("바뀐후 마나" + Data.Instance.mana);
-
+                   
+                        manaText.text = ""+Data.Instance.mana;
                         Data.Instance.bSummons = false;
                         Data.Instance.bMoving = false;
                     }
@@ -112,39 +112,71 @@ namespace MonsterChessClient
                     break;
                 case PROTOCOL.RequestedSummons:
                     {
+                        Debug.Log("리퀘스티드 서먼");
                         //소환을 할려면 ID x,y,
-                        if (msg.PopInt32() == 1)
+                        int temp = msg.PopInt32();
+                        Debug.Log(temp);
+                        if (temp == 1)
                         {
                             //소환을 하지 않음
+                            Debug.Log("소환을 하지 않음");
                         }
                         else
                         {
-                            msg.PopInt32();
                             //소환을 함
-                            Data.Instance.summonId = msg.PopString();//summonID를 받아옴
-                            int x = msg.PopInt32();
-                            int y = msg.PopInt32();
-                            Data.Instance.mana = msg.PopInt32();
-                            GameObject summonBoard = GameObject.Find(x + "," + y);
-
-                            Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
-                            summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
-                            summonBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-
-                            if (y > 3)
+                            int summonIdex = msg.PopByte();
+                            if (summonIdex == Data.Instance.myIndex)//내소환
                             {
-                                unit.x = x;
-                                unit.y = y;
-                                unit.status = 2;
-                                unit.order = 1;
-                            }
-                            else
-                            {
+                                int x, y;
+                                Data.Instance.summonId = msg.PopString();//summonID를 받아옴
+                                if (Data.Instance.myIndex == 0)//내 인덱스가 0일때
+                                {
+                                    x = msg.PopInt32();
+                                    y = msg.PopInt32();
+                                }
+                                else//내 인덱스가 1일때
+                                {
+                                    x = msg.PopInt32();
+                                    y = 6-msg.PopInt32();
+                                }
+                                GameObject summonBoard = GameObject.Find(x + "," + y);
+
+                                Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+                                summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
+                                summonBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                                Data.Instance.mana = msg.PopInt32();
+                                manaText.text = "" + Data.Instance.mana;
                                 unit.x = x;
                                 unit.y = y;
                                 unit.status = 2;
                                 unit.order = Data.Instance.order;
                             }
+                            else//적소환
+                            {
+                                int x, y;
+                                string tempID = msg.PopString();//summonID를 받아옴
+                                if (Data.Instance.myIndex == 0)//내 인덱스가 0일때 상대방 소환
+                                {
+                                    x = msg.PopInt32();
+                                    y = msg.PopInt32();
+                                }
+                                else
+                                {
+                                    x = msg.PopInt32();
+                                    y = 6 - msg.PopInt32();
+                                }
+                                GameObject summonBoard = GameObject.Find(x + "," + y);
+
+                                Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + tempID)) as Unit;
+                                summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + tempID) as Texture;
+                                summonBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                                msg.PopInt32();
+                                unit.x = x;
+                                unit.y = y;
+                                unit.status = 2;
+                                unit.order = 1;
+                            }
+                           
                         }
                     }
                     break;

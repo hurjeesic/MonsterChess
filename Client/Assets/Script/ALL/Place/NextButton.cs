@@ -173,8 +173,6 @@ namespace MonsterChessClient
 
         private void CompleteLoading()
         {
-           
-            
             Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
             for (int i = 0; i < 6; i++)
             {

@@ -67,37 +67,31 @@ namespace MonsterChessClient
                     }
                     break;
                 case SceneList.Play:
+                    Debug.Log("플레이 입니다.");
                     if (Data.Instance.bSummons == true && Data.Instance.time <= 30)
                     {
-                        int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));
-                        if (Data.Instance.mana - cost >= 0)
+                        Debug.Log("소환준비");
+
+                        Vector2 unitPos;
+                        x = slotTrans.name[0] - '0';
+                        y = slotTrans.name[2] - '0';
+                        Unit unit = slotTrans.gameObject.GetComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+                        if (unit == null)
                         {
-                            if (Data.Instance.board[x, y].Value == null)
-                            {
-                                // 소환은 즉각 적용 시키고 플레이 리스트에 제외 시킨다.
-                                slotTrans.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
-                                slotTrans.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-                                Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
-                                Data.Instance.board[x, y] = new KeyValuePair<byte, Unit> (Data.Instance.myIndex, unit) ;
-                                Data.Instance.bSummons = false;
-                                Data.Instance.mana -= cost;
-                                if (unit != null)
-                                {
-                                    unit.order = Data.Instance.order;
-                                    unit.x = x;
-                                    unit.y = y;
-                                    unit.status = 2;
-                                }
-                            }
-                            else
-                            {
-                                Debug.Log("배치할려는 칸에 유닛 존재");
-                            }
+                            Packet summon = Packet.Create((short)PROTOCOL.RequestedSummons);
+                            unitPos = new Vector2(x, y);
+                            summon.Push((int)unitPos.x);
+                            summon.Push((int)unitPos.y);
+                            summon.Push(Data.Instance.summonId);
+                            this.networkManager.Send(summon);
+
+                            Data.Instance.bSummons = false;
                         }
                         else
                         {
-                            Debug.Log("마나부족");
+                            Debug.Log("소환하려는 칸에 유닛이 있습니다..");
                         }
+                       
                     }
                     else if (Data.Instance.bMoving == false && Data.Instance.time <= 30)
                     {
