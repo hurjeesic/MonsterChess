@@ -21,6 +21,16 @@ namespace MonsterChessClient
 
         void Update()
         {
+            ManaText.text = DataIndex.costSum + "/15";
+            UnitText.text = DataIndex.MonsterCount + "";
+            if (DataIndex.bHero)
+            {
+                HeroText.text = "O";
+            }
+            else
+            {
+                HeroText.text = "X";
+            }
             if (DataIndex.kind != type)
             {
                 type = DataIndex.kind;
@@ -71,17 +81,7 @@ namespace MonsterChessClient
                     }
                 }
             }
-            ManaText.text = DataIndex.costSum+"/15";
-            UnitText.text = DataIndex.MonsterCount + "";
-            if (DataIndex.bHero)
-            {
-                HeroText.text = "O";
-            }
-            else
-            {
-                HeroText.text = "X";
-            }
-
+            
         }
 
         public void ChoiceImage(int x)
