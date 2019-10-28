@@ -26,6 +26,7 @@ namespace MonsterChessClient
                 }
             }
             instance.costSum = 0;
+            instance.MonsterCount = 0;
             instance.bHero = false;
         }
 
