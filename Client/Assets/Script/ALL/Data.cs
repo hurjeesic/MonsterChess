@@ -71,8 +71,8 @@ namespace MonsterChessClient
                 "000000000000", "000000000000"
             }
         };
-        // ID(3) , 이동거리(1), 이동방향(1), 공격거리(1), 코스트(1), HP(1), AP(1), 이름
-        // 0 ~ 2 ,    3     ,     4     ,    5      ,    6    ,  7   ,  8   , 9 ~
+        // ID(3) , 이동거리(1), 이동방향(1), 공격거리(1), 코스트(1), HP(1), AP(1), DP(1) 이름
+        // 0 ~ 2 ,    3     ,       4     ,     5      ,     6    ,    7   ,  8   ,  9 ,  10 ~
 
         public const int COLUMN = 7, ROW = 7;
         public KeyValuePair<byte, Unit>[,] board = new KeyValuePair<byte, Unit>[COLUMN, ROW]; // 현재 판의 데이터 배열

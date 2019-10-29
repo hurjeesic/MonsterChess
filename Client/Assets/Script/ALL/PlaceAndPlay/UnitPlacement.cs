@@ -104,6 +104,8 @@ namespace MonsterChessClient
                         // 터치한 유닛의 이동 범위를 가져옴
                         if (Data.Instance.board[x, y].Value != null)
                         {
+                           
+                          
                             slotTrans.GetComponent<Unit>().MoveRange();
                         }
 
@@ -118,6 +120,9 @@ namespace MonsterChessClient
                         if (Data.Instance.board[originX, originY].Value != null)
                         {
                             Unit unit = Data.Instance.origin.GetComponent<Unit>();
+                            //여기에 UI바 들어갈거에요
+                            UIBar uiBar = new UIBar();
+                            uiBar.Place_UiBar(unit);
                             for (int i = 0; i < unit.range.Count; i++)
                             {
                                 if (unit.range[i].Value == GameObject.Find(x + "," + y))

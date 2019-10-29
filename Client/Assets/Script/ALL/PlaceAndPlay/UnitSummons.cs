@@ -24,6 +24,9 @@ namespace MonsterChessClient
             {
                 int tempNum = int.Parse(slotTrans.name);
                 string id = Data.Instance.units[tempNum];
+                //소환할때 UI바 에 유닛정보 표시하는것
+                UIBar uiBar = new UIBar();
+                uiBar.Summon_UiBar(id);
                 if (Data.Instance.bSummons == false)
                 {
                     Data.Instance.bSummons = true;
