@@ -62,14 +62,14 @@ namespace MonsterChessClient
                 "1031123321대포",
                 "1041124241히드라",
                 "1051124331주작",
-                "000000000000","000000000000","000000000000","000000000000","000000000000","000000000000"
+                "300000000000","300000000000","300000000000","300000000000","300000000000","300000000000"
             },
             {
                 "2003100533제우스",
                 "2013100443아누비스",
                 "2022100353해태",
-                "000000000000", "000000000000","000000000000", "000000000000", "000000000000", "000000000000", "000000000000",
-                "000000000000", "000000000000"
+                "300000000000", "300000000000","300000000000", "300000000000", "300000000000", "300000000000", "300000000000",
+                "300000000000", "300000000000"
             }
         };
         // ID(3) , 이동거리(1), 이동방향(1), 공격거리(1), 코스트(1), HP(1), AP(1), 이름
@@ -255,12 +255,20 @@ namespace MonsterChessClient
             moveUnit.bPlay = true;
             moveEnemy.bPlay = true;
 
-            Data.instance.board[moveX, moveY] = Data.instance.board[x, y];
-            Data.instance.board[x, y] = Data.instance.Empty;
-            Data.instance.board[moveX, moveY].Value.x = moveX;
-            Data.instance.board[moveX, moveY].Value.y = moveY;
-            Debug.Log("이동보드값"+x + "," + y + "\t" + Data.instance.board[moveX, moveY]);
-            Debug.Log("이동보드값" + moveX + "," + moveY + "\t" + Data.instance.board[x, y]);
+            if (moveX == x && moveY == y)
+            {
+
+            }
+            else
+            {
+                Data.instance.board[moveX, moveY] = Data.instance.board[x, y];
+                Data.instance.board[x, y] = Data.instance.Empty;
+                Data.instance.board[moveX, moveY].Value.x = moveX;
+                Data.instance.board[moveX, moveY].Value.y = moveY;
+                Debug.Log("이동보드값" + x + "," + y + "\t" + Data.instance.board[moveX, moveY]);
+                Debug.Log("이동보드값" + moveX + "," + moveY + "\t" + Data.instance.board[x, y]);
+            }
+           
 
 
 

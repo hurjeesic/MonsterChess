@@ -45,7 +45,7 @@ namespace MonsterChessClient
             {
                 DataIndex.unitId = DataIndex.StateOfMonster[type, index].Substring(0, 3);
                 int tempCount = int.Parse(UnitText.text);
-                tempCount++;
+                if(DataIndex.unitId !="300") tempCount++;
                 UnitText.text = ""+tempCount;
             }
 
@@ -86,7 +86,8 @@ namespace MonsterChessClient
 
         public void ChoiceImage(int x)
         {
-            string path = "Image/UnitMY/" + DataIndex.StateOfMonster[type, index].Substring(0, 3);
+            string id = DataIndex.StateOfMonster[type, index].Substring(0, 3) == "300" ? "" : DataIndex.StateOfMonster[type, index].Substring(0, 3);
+            string path = "Image/UnitMY/" + id;
             RawImage img = gameObject.GetComponent<RawImage>();
             if (img != null)
             {
