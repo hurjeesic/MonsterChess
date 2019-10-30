@@ -13,7 +13,7 @@ namespace MonsterChessClient
 
         void Effect(int x, int y)
         {
-            Instantiate(prefab, new vector2(x, y), Quaternion.identity);
+            //Instantiate(prefab, new vector2(x, y), Quaternion.identity);
             //원형의 소환 이펙트가 그냥 막 존나 돌아야 해요
             gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/SummonEffect") as Texture;
             transform.Rotate(new Vector2(15, 0) * Time.deltaTime);

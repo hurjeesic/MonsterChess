@@ -36,7 +36,7 @@ namespace MonsterChessClient
                 type = DataIndex.kind;
             }
 
-            ChoiceImage(DataIndex.kind);
+            ChoiceImage();
         }
 
         public void OnClick()
@@ -84,7 +84,7 @@ namespace MonsterChessClient
             
         }
 
-        public void ChoiceImage(int x)
+        public void ChoiceImage()
         {
             string path = "Image/UnitMY/" + DataIndex.StateOfMonster[type, index].Substring(0, 3);
             RawImage img = gameObject.GetComponent<RawImage>();
@@ -92,7 +92,6 @@ namespace MonsterChessClient
             {
                 img.texture = Resources.Load("Image/Pan/Button_Square") as Texture;
             }
-
             Object image = Resources.Load<Object>(path);
             if (image != null)
             {
