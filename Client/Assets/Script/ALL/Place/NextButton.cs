@@ -41,7 +41,7 @@ namespace MonsterChessClient
             RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();
             heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[size]) as Texture;
             heroBtnImg.color = new Color(255, 255, 255, 255);
-            Unit unit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[size])) as Unit;
+            Unit unit = heroBtn.GetComponent<Unit>();
             Data.Instance.board[3, 0] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, unit);
 
             
@@ -169,6 +169,15 @@ namespace MonsterChessClient
                                 GameObject unitOBJ = GameObject.Find(x + "," + y);
                                 Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(index, unitOBJ.AddComponent(Type.GetType("UnitType.Unit" + type)) as Unit);
                                 DrawEnemy(x, y);
+                                Unit unit = unitOBJ.GetComponent<Unit>();
+                                unit.order = 1;
+                                unit.x = x;
+                                unit.y = y;
+                                unit.status = 0;
+                                Data.Instance.board[x, y].Value.x = x;
+                                Data.Instance.board[x, y].Value.y = y;
+                                Data.Instance.board[x, y].Value.status = 0;
+                                Data.Instance.board[x, y].Value.order = 1;
                             }
                         }
 
@@ -202,6 +211,12 @@ namespace MonsterChessClient
                 unit.x = x;
                 unit.y = y;
                 unit.status = 0;
+                Data.Instance.board[x, y].Value.x = x;
+                Data.Instance.board[x, y].Value.y = y;
+                Data.Instance.board[x, y].Value.status = 0;
+                Data.Instance.board[x, y].Value.order = 1;
+
+
             }
 
             TempUnit.GetComponent<RawImage>().texture = UnitImage;

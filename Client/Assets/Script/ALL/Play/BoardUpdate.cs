@@ -193,11 +193,12 @@ namespace MonsterChessClient
                             {
                                 Debug.Log("단순이동");
                                 Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
-                                unit.x = moveX; unit.y = moveY; unit.moveX = moveX; unit.moveY=moveY;
-                                unit.hp = myUnitHP;
+                                unit.moveX = moveX; unit.moveY = moveY;
                                 unit.Move();
-                               
-                               
+                                unit.x = moveX; unit.y = moveY;
+                                unit.hp = myUnitHP;
+
+
 
                             }
                         }

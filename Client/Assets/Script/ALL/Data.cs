@@ -124,7 +124,7 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    Debug.Log(i + "," + j);
+                 
                     GameObject temp = GameObject.Find(i+","+j);
                     Animation anim = temp.GetComponent<Animation>();
                     anim.Stop("LightUnit");
@@ -257,6 +257,10 @@ namespace MonsterChessClient
 
             Data.instance.board[moveX, moveY] = Data.instance.board[x, y];
             Data.instance.board[x, y] = Data.instance.Empty;
+            Data.instance.board[moveX, moveY].Value.x = moveX;
+            Data.instance.board[moveX, moveY].Value.y = moveY;
+            Debug.Log("이동보드값"+x + "," + y + "\t" + Data.instance.board[moveX, moveY]);
+            Debug.Log("이동보드값" + moveX + "," + moveY + "\t" + Data.instance.board[x, y]);
 
 
 

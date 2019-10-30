@@ -15,7 +15,7 @@ public class Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("무브중");
+       
         time += Time.deltaTime;
         speed += time / 2;
 

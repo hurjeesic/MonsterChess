@@ -96,14 +96,17 @@ namespace MonsterChessClient
                     }
                     else if (Data.Instance.bMoving == false && Data.Instance.time <= 30 && Data.Instance.order == slotTrans.GetComponent<Unit>().order)
                     {
+                        Debug.Log("무브");
                         // 터치한 유닛의 이동 범위를 가져옴
                         if (Data.Instance.board[x, y].Value != null)
                         {
+                            Debug.Log("가져옴");
                             slotTrans.GetComponent<Unit>().MoveRange();
+                            Data.Instance.origin = slotTrans.gameObject;
+                            Data.Instance.bMoving = true;
                         }
 
-                        Data.Instance.origin = slotTrans.gameObject;
-                        Data.Instance.bMoving = true;
+                        
                     }
                     else if (Data.Instance.bMoving ==true)
                     {

@@ -244,6 +244,7 @@ namespace MonsterChessServer
                         msg.Push(unit.Value.ID);
                         msg.Push(unit.Key.x);
                         msg.Push(unit.Key.y);
+                        Console.WriteLine(unit.Key.x + "," + unit.Key.y+":보내는 x,y값");
                     }
                 }
 
