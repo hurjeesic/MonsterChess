@@ -300,7 +300,12 @@ namespace MonsterChessClient
             if (tempY != -1 && board[tempX, tempY].Value == null)
             {
                 KnockBackUnit = GameObject.Find(tempX + "," + tempY);
-                /*
+
+                unit.AddComponent<Move>();
+                enemyUnit.AddComponent<Move>();
+                KnockBackUnit.AddComponent<Move>();
+
+
                 unit.GetComponent<Move>().startPos = unit.transform.position;
                 unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
                 enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
@@ -320,7 +325,7 @@ namespace MonsterChessClient
                 unit.GetComponent<Move>().bPlay = true;
                 enemyUnit.GetComponent<Move>().bPlay = true;
                 KnockBackUnit.GetComponent<Move>().bPlay = true;
-                */
+             
             }
         }
     }

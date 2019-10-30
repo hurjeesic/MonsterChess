@@ -1,4 +1,4 @@
-﻿using FreeNet;
+using FreeNet;
 using UnitType;
 using System;
 using System.Collections.Generic;
@@ -542,14 +542,6 @@ namespace MonsterChessServer
                 msg.Push(enemyUnit.Value.MovedPos.x);
                 msg.Push(enemyUnit.Value.MovedPos.y);
                 msg.Push(enemyUnit.Value.HP);
-                Console.WriteLine("ID : " + enemyUnit.Value.ID);
-                Console.WriteLine(enemyUnit.Value.Pos.x + " : 샌드 적x값");
-                Console.WriteLine(enemyUnit.Value.Pos.y + " : 샌드적y값");
-                Console.WriteLine(enemyUnit.Value.MovedPos.x + " :샌드 적movex값");
-                Console.WriteLine(enemyUnit.Value.MovedPos.y + " : 샌드적movex값");
-                Console.WriteLine(enemyUnit.Value.HP + " : 샌드적 HP값");
-
-
                 if (enemyUnit.Value.HP <= 0)
                 {
                     gameBoard[enemyUnit.Value.Pos.x, enemyUnit.Value.Pos.y] = EMPTY;
@@ -586,94 +578,73 @@ namespace MonsterChessServer
             int temp = Helper.GetDistance(moving.Key, moving.Value);
             int ditance = temp > 0 ? temp : (-1) * temp;
             Console.WriteLine(temp+": 디스텐스");
-            int result=-1;
-            Vector2 savePos = new Vector2();
             for (int i = 1; i <= temp; i++)
             {
+               
                 Vector2 knockbackPos = moving.Key + direction * (i + 1), movingPos = knockbackPos - direction;
                 Console.WriteLine(knockbackPos.x + "," + knockbackPos.y + ": 넉백좌표");
                 Console.WriteLine(movingPos.x + "," + movingPos.y + ": 무빙좌표");
 
+                enemyUnit = gameBoard[movingPos.x, movingPos.y];
                 // 이동 중간 위치가 비어있으면 넘기고 이동 위치가 비어있으면 그 위치에 이동
-                if (gameBoard[movingPos.x, movingPos.y].Value == EMPTY.Value)
+
+                if (enemyUnit.Value == EMPTY.Value)
                 {
-                    //비어있는경우(다음 좌표는 비어있어)
                     Console.WriteLine("1번 if");
-                    savePos = movingPos;
-                    result = 0;
+                    
+
+                    myUnit.Value.MovedPos = movingPos;
+
+                    gameBoard[moving.Value.x, moving.Value.y] = myUnit;
+                    gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
+                    Console.WriteLine(myUnit.Value.Pos.x + " : x값");
+                    Console.WriteLine(myUnit.Value.Pos.y + " : y값");
+                    Console.WriteLine(myUnit.Value.MovedPos.x + " : movex값");
+                    Console.WriteLine(myUnit.Value.MovedPos.y + " : movex값");
                 }
-                else if (myUnit.Key == gameBoard[movingPos.x, movingPos.y].Key)
+                // 이동 (중간) 위치에 아군 Unit이 있으면 그 앞으로 이동
+                else if (myUnit.Key == enemyUnit.Key)
                 {
-                    //아군인경우
+                    
                     Console.WriteLine("2번 if");
+                    Console.WriteLine(myUnit.Key);
+                    Console.WriteLine(enemyUnit.Key);
+                    Console.WriteLine(myUnit.Value.ID);
                     movingPos -= direction;
-                    savePos = movingPos;
-                    if (movingPos != moving.Key)//시작값이 아닌경우
+                    if (movingPos != moving.Key)
                     {
                         gameBoard[movingPos.x, movingPos.y] = myUnit;
                         gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
                     }
-                    else//시작값인경우
-                    {
-                        result = 3;
-                        break;
-                    }
 
-                    result = 1;
+                    enemyUnit = EMPTY;
+
                     break;
-                    
                 }
+                // 이동 (중간) 위치에 적 Unit이 있으면 밀어내고 공격함
                 else
                 {
                     Console.WriteLine("3번 if");
-                    //적군인경우
+
+                    myUnit.Value.MovedPos = new Vector2(movingPos.x, movingPos.y);
                     if (COLUMN > knockbackPos.x && knockbackPos.x >= 0 && ROW > knockbackPos.y && knockbackPos.y >= 0 && gameBoard[knockbackPos.x, knockbackPos.y].Value == EMPTY.Value)
                     {
-                        enemyUnit = gameBoard[movingPos.x, movingPos.y];
                         enemyUnit.Value.MovedPos = new Vector2(knockbackPos.x, knockbackPos.y); ;
+
                         gameBoard[knockbackPos.x, knockbackPos.y] = enemyUnit;
+
                         myUnit.Value.Attack(enemyUnit.Value);
                     }
 
-                    if (movingPos != moving.Key)//시작위치가 아니면
+                    if (movingPos != moving.Key)
                     {
-                        savePos = movingPos;
                         gameBoard[movingPos.x, movingPos.y] = myUnit;
                         gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
                     }
-                    result = 2;
+
                     break;
                 }
-
             }
-            Console.WriteLine("결과값은" + result);
-            switch (result)
-            {
-                case 0://단순이동
-                    myUnit.Value.MovedPos = savePos;
-                    gameBoard[moving.Value.x, moving.Value.y] = myUnit;
-                    gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
-                    break;
-                case 1://아군뒤로 이동
-                    myUnit.Value.MovedPos = savePos;
-                    gameBoard[moving.Value.x, moving.Value.y] = myUnit;
-                    gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
-                    break;
-                case 2://공격
-                    myUnit.Value.MovedPos = savePos;
-
-
-                    break;
-                case 3://이동을 하지못함
-                    break;
-
-                default:
-                    break;
-            }
-           
-
-
-
         }
 
         /// <summary>
