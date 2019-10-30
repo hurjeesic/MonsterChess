@@ -1,33 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace MonsterChessClient
-{
-    public class Move : MonoBehaviour
-    {
-        public bool bPlay = false;
-        public Vector2 startPos, endPos;
-        public float speed = 10f;
-        float time;
-        Vector2 scriptEnd;
+public class Move : MonoBehaviour {
+    float time = 0;
+    float speed = 0;
+    public Vector3 startPos;
+    public Vector3 endPos;
+    public bool bPlay = false;
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        Debug.Log("무브중");
+        time += Time.deltaTime;
+        speed += time / 2;
 
-        void Update()
+        gameObject.transform.position = Vector3.MoveTowards(startPos, endPos, speed);
+        if (gameObject.transform.position.x == endPos.x && gameObject.transform.position.y == endPos.y)
         {
-            if (bPlay)
-            {
-                time += Time.deltaTime;
-                speed += time;
-                gameObject.transform.position = Vector2.MoveTowards(startPos, endPos, speed);
-            }
-        }
-        public void Initialisation()
-        {
-            bPlay = false;
-            startPos = gameObject.transform.position;
-            endPos = gameObject.transform.position;
-            speed = 10f;
-            time = 0;
-            
+            Debug.Log("종료!");
+            DestroyImmediate(gameObject.GetComponent<Move>());
         }
     }
 }
-

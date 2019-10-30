@@ -66,7 +66,7 @@ namespace UnitType
 
         public void RemoveUnit(GameObject target)
         {
-            Destroy(target.GetComponent<Move>());
+            
 
             // Unit을 List에서 제거
             Data.Instance.board[moveY, moveX] = Data.Instance.Empty;// 보드에서 제거

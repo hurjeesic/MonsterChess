@@ -92,9 +92,9 @@ namespace MonsterChessClient
                         {
                             Debug.Log("소환하려는 칸에 유닛이 있습니다..");
                         }
-                       
+
                     }
-                    else if (Data.Instance.bMoving == false && Data.Instance.time <= 30)
+                    else if (Data.Instance.bMoving == false && Data.Instance.time <= 30 && Data.Instance.order == slotTrans.GetComponent<Unit>().order)
                     {
                         // 터치한 유닛의 이동 범위를 가져옴
                         if (Data.Instance.board[x, y].Value != null)
@@ -105,7 +105,7 @@ namespace MonsterChessClient
                         Data.Instance.origin = slotTrans.gameObject;
                         Data.Instance.bMoving = true;
                     }
-                    else
+                    else if (Data.Instance.bMoving ==true)
                     {
                         // 이동범위 클릭시 무브 리스트 변경
                         int originX = Data.Instance.origin.name[0] - '0';
