@@ -212,6 +212,8 @@ namespace MonsterChessClient
                         }
                     }
                     break;
+                case PROTOCOL.WaitedUnit:
+                    break;
                 case PROTOCOL.FinishedTurn:
                     {
                         int firstMana = msg.PopInt32(), secondMana = msg.PopInt32();

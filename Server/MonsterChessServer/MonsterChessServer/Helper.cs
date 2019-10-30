@@ -59,6 +59,15 @@ namespace MonsterChessServer
             return answer;
         }
 
+        public static List<Vector2> GetMoving(Vector2 pos, int distance)
+        {
+            List<Vector2> answer = new List<Vector2>();
+
+            
+
+            return answer;
+        }
+
         /// <summary>
         /// 0 = 동, 1 = 서, 2 = 남, 3 = 북, 4 = 북동, 5 = 남동, 6 = 남서, 7 = 북서
         /// 움직이는 방향이 어디인지 확인
@@ -88,17 +97,16 @@ namespace MonsterChessServer
         /// <returns></returns>
         public static int GetDistance(Vector2 begin, Vector2 after)
         {
-          
             int answer = 0;
-            Vector2 cal =after-begin;
+            Vector2 cal = after - begin;
+
             Console.WriteLine(cal.x+","+cal.y + ": cal");
-            int x = cal.x >= 0 ? cal.x:(-1)*cal.x;
-            int y = cal.y >= 0 ? cal.y : (-1) * cal.y;
+
+            int x = cal.x >= 0 ? cal.x : -cal.x;
+            int y = cal.y >= 0 ? cal.y : -cal.y;
             answer = x >= y ? x : y;
+
             return answer;
-           
-           
-            
         }
 
         /// <summary>

@@ -1,17 +1,17 @@
 ﻿namespace UnitType
 {
-    public class Unit006 : Unit
+    public class Unit108 : Unit
     {
-        public Unit006()
+        public Unit108()
         {
-            ID = "006";
-            Distance = 2;
+            ID = "108";
+            Distance = 1;
             Direction = 1;
             Cost = 3;
             fullHp = 3;
             HP = fullHp;
-            AP = 3;
-            DP = 0;
+            AP = 1;
+            DP = 2;
         }
     }
 }

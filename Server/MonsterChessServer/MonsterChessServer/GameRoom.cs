@@ -372,6 +372,10 @@ namespace MonsterChessServer
                 gameBoard[summons.Key.x, summons.Key.y].Value == null && summons.Value.Cost <= sender.mana)
             {
                 answer = true;
+
+                sender.AddUnit(summons);
+                sender.units[summons.Key].MovedPos = summons.Key;
+                sender.units[summons.Key].Move();
                 gameBoard[summons.Key.x, summons.Key.y] = new KeyValuePair<byte, Unit>(sender.playerIndex, summons.Value);
                 sender.mana -= summons.Value.Cost;
             }
@@ -385,7 +389,6 @@ namespace MonsterChessServer
                 msg.Push(summons.Key.x);
                 msg.Push(summons.Key.y);
                 msg.Push(sender.mana);
-
             }
             else
             {
@@ -475,7 +478,22 @@ namespace MonsterChessServer
                 Thread.Sleep(1000);
             }
 
+            for (byte index = 0; index < 1; index++)
+            {
+                foreach (Unit unit in players[index].units.Values)
+                {
+                    if (!unit.bMoving || unit.ID[0] == '1')
+                    {
+                        RemoteUnit remoteUnit = (RemoteUnit)unit;
+                        
+                        //remoteUnit.Wait(null);
+                    }
+                }
+            }
+
             midTurn = (byte)Math.Abs(midTurn - 1);
+
+            Thread.Sleep(2000);
 
             // 계산 결과 전송 코드
             Packet msg = Packet.Create((short)PROTOCOL.MovedUnit);

@@ -1,18 +1,17 @@
 ﻿namespace UnitType
 {
-    public class Unit104 : RemoteUnit
+    public class Unit104 : Unit
     {
         public Unit104()
         {
             ID = "104";
-            Distance = 1;
-            attackDistance = 2;
+            Distance = 2;
             Direction = 1;
-            Cost = 4;
-            fullHp = 2;
+            Cost = 2;
+            fullHp = 3;
             HP = fullHp;
-            AP = 4;
-            DP = 1;
+            AP = 2;
+            DP = 0;
         }
     }
 }
