@@ -112,6 +112,7 @@ namespace MonsterChessClient
                     break;
                 case PROTOCOL.RequestedSummons:
                     {
+                        //소환 이펙트를 넣어봅시다
                         //소환을 할려면 ID x,y,
                         int signal = msg.PopInt32();
                         if (signal == 0)
