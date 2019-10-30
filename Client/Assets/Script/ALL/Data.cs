@@ -18,6 +18,7 @@ namespace MonsterChessClient
     /// </summary>
     public class Data
     {
+        
         private static Data instance = null;
         public static Data Instance
         {
@@ -79,7 +80,8 @@ namespace MonsterChessClient
         public KeyValuePair<byte, Unit> Empty = new KeyValuePair<byte, Unit>(255, null);
 
         public string[] units = new string[6]; // 유닛 넣는곳(임시 데이터)
-        
+
+        public List<GameObject> playList = new List<GameObject>();
         public List<string> directionList = new List<string>(); // 유닛의 이동방향을 나타냄
         public string summonId; //소환할 ID를 가져옴
 
@@ -122,7 +124,8 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    GameObject temp = GameObject.Find(i + "," + j);
+                    Debug.Log(i + "," + j);
+                    GameObject temp = GameObject.Find(i+","+j);
                     Animation anim = temp.GetComponent<Animation>();
                     anim.Stop("LightUnit");
                     Unit unit = temp.GetComponent<Unit>();
@@ -238,24 +241,31 @@ namespace MonsterChessClient
 
         public void Move(GameObject unit, GameObject enemyUnit, int moveX, int moveY, int x, int y)
         {
-            unit.GetComponent<Move>().startPos = unit.transform.position;
-            unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
-            enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
-            enemyUnit.GetComponent<Move>().endPos = unit.transform.position;
-     
-            board[moveX, moveY] = board[x, y];
-            board[x, y] = Empty;
+            Vector3 startPos= unit.transform.position;
+            Vector3 endPos = enemyUnit.transform.position;
+
+            Move moveUnit = unit.AddComponent<Move>();
+            Move moveEnemy = enemyUnit.AddComponent<Move>();
+
+            moveUnit.startPos = startPos;
+            moveUnit.endPos = endPos;
+            moveEnemy.startPos = endPos;
+            moveEnemy.endPos = startPos;
+
+            moveUnit.bPlay = true;
+            moveEnemy.bPlay = true;
+
+            Data.instance.board[moveX, moveY] = Data.instance.board[x, y];
+            Data.instance.board[x, y] = Data.instance.Empty;
+
+
 
             string temp = unit.name;
             unit.name = enemyUnit.name;
             enemyUnit.name = temp;
+          
+          
 
-            unit.GetComponent<Move>().bPlay = true;
-            enemyUnit.GetComponent<Move>().bPlay = true;
-
-            unit.GetComponent<Unit>().x = moveX;
-            unit.GetComponent<Unit>().y = moveY;
-           
         }
 
         public void KnockBack(GameObject unit, GameObject enemyUnit, int moveX, int moveY, int x, int y, int moveDirection)
@@ -278,7 +288,7 @@ namespace MonsterChessClient
             if (tempY != -1 && board[tempX, tempY].Value == null)
             {
                 KnockBackUnit = GameObject.Find(tempX + "," + tempY);
-
+                /*
                 unit.GetComponent<Move>().startPos = unit.transform.position;
                 unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
                 enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
@@ -298,6 +308,7 @@ namespace MonsterChessClient
                 unit.GetComponent<Move>().bPlay = true;
                 enemyUnit.GetComponent<Move>().bPlay = true;
                 KnockBackUnit.GetComponent<Move>().bPlay = true;
+                */
             }
         }
     }

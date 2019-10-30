@@ -48,6 +48,7 @@ namespace MonsterChessClient
                     }
                     break;
                 case UserStage.ProcessGame:
+
                     //여기부터 유닛들이 진짜 움직이기 시작함
 
                     break;
@@ -59,7 +60,6 @@ namespace MonsterChessClient
             timer = maxTime;
             Packet msg = Packet.Create((short)PROTOCOL.StartedGame);
             networkManager.Send(msg);
-
             startingTimerObj.SetActive(false);
         }
 
@@ -193,15 +193,12 @@ namespace MonsterChessClient
                             else //단순이동
                             {
                                 Debug.Log("단순이동");
-                                /*
                                 Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
-                                unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY=moveY;
+                                unit.x = moveX; unit.y = moveY; unit.moveX = moveX; unit.moveY=moveY;
                                 unit.hp = myUnitHP;
                                 unit.Move();
-                                */
-                                Vector2 temp = GameObject.Find(x + ","+y).transform.position;
-                                GameObject.Find(x + "," + y).transform.position = GameObject.Find(moveX + "," + moveY).transform.position;
-                                GameObject.Find(moveX + "," + moveY).transform.position = temp;
+                               
+                               
 
                             }
                         }
