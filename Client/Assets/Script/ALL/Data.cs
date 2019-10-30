@@ -229,7 +229,7 @@ namespace MonsterChessClient
         {
             // ID를 통해 몬스터 전체 데이터를 가져옴
             int x = int.Parse(id.Substring(0, 1));
-            for (int i = 0; i < 24 / ((x + 1) * 2); i++)
+            for (int i = 0; i < 12; i++)
             {
                 if (StateOfMonster[x, i].Substring(0, 3) == id)
                 {

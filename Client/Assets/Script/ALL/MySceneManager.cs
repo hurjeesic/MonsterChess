@@ -129,7 +129,7 @@ namespace MonsterChessClient
         void Start()
         {
 
-            Present = SceneList.Main;
+            Present = SceneList.Login;
 
         }
     }

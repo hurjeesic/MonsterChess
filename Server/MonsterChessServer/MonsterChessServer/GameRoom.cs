@@ -482,7 +482,7 @@ namespace MonsterChessServer
             {
                 foreach (Unit unit in players[index].units.Values)
                 {
-                    if (!unit.bMoving || unit.ID[0] == '1')
+                    if (!unit.bMoving && unit.ID[0] == '0')
                     {
                         RemoteUnit remoteUnit = (RemoteUnit)unit;
                         

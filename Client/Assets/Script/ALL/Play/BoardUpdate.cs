@@ -181,13 +181,12 @@ namespace MonsterChessClient
                                 Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
                                 unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY = moveY; unit.hp = myUnitHP;
 
-                                Debug.Log(Data.Instance.board[enemyX, enemyX].Value.ID + "(" + enemyHP + ") : " + enemyX + ", " + enemyY + " -> " + enemyMoveX + ", " + enemyMoveY);
+                                Debug.Log(Data.Instance.board[enemyX, enemyX].Key + "(" + enemyHP + ") : " + enemyX + ", " + enemyY + " -> " + enemyMoveX + ", " + enemyMoveY);
 
                                 Unit enemyUnit = GameObject.Find(enemyX + "," + enemyY).GetComponent<Unit>();
                                 enemyUnit.x = enemyX; enemyUnit.y = enemyY; enemyUnit.moveX = enemyMoveX; enemyUnit.moveY = enemyMoveY;
                                 enemyUnit.hp = enemyHP;
-
-                                unit.Attack();
+                                if (enemyUnit.hp <= 0) enemyUnit.RemoveUnit(GameObject.Find(enemyX + "," + enemyY));
                             }
                             else //단순이동
                             {

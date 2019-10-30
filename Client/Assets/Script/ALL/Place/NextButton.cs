@@ -162,15 +162,7 @@ namespace MonsterChessClient
                                 GameObject unitOBJ = GameObject.Find(x + "," + y);
                                 Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(index, unitOBJ.AddComponent(Type.GetType("UnitType.Unit" + type)) as Unit);
                                 DrawEnemy(x, y);
-                                Unit unit = unitOBJ.GetComponent<Unit>();
-                                unit.order = 1;
-                                unit.x = x;
-                                unit.y = y;
-                                unit.status = 0;
-                                Data.Instance.board[x, y].Value.x = x;
-                                Data.Instance.board[x, y].Value.y = y;
-                                Data.Instance.board[x, y].Value.status = 0;
-                                Data.Instance.board[x, y].Value.order = 1;
+                                
                             }
                         }
 
@@ -197,7 +189,7 @@ namespace MonsterChessClient
         {
             GameObject TempUnit = GameObject.Find(x + "," + y);
             Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[x, y].Value.ID) as Texture;
-            Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[x, y])) as Unit;
+            Unit unit = TempUnit.GetComponent<Unit>();
             if (unit != null)
             {
                 unit.order = 1;
@@ -208,6 +200,8 @@ namespace MonsterChessClient
                 Data.Instance.board[x, y].Value.y = y;
                 Data.Instance.board[x, y].Value.status = 0;
                 Data.Instance.board[x, y].Value.order = 1;
+
+                Debug.Log(x+","+y+": 적 좌표값");
 
 
             }

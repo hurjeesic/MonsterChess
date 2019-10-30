@@ -43,26 +43,7 @@ namespace UnitType
             if(bmove)Data.Instance.Move(gameObject, GameObject.Find(moveX + "," + moveY), moveX, moveY, x, y);
         }
 
-        public virtual void Attack()
-        {
-            Debug.Log("어택~");
-            GameObject target = GameObject.Find(moveX + "," + moveY);
-            Unit unit = target.GetComponent<Unit>();
-            if (unit.Defence(ap))
-            {
-                //디스트로이 = 데이터를 삭제하고 단순이동
-                RemoveUnit(target);
-                if (hp <= 0) RemoveUnit(gameObject);//반격을 당하여 hp가 0이될경우
-                else Data.Instance.Move(gameObject, target, moveX, moveY, x, y); // 일반 이동
-
-            }
-            else
-            {
-                //넉백확인후 이동(넉백함수)
-                if (hp <= 0) RemoveUnit(gameObject);//반격을 당하여 hp가 0이될경우
-                else Data.Instance.KnockBack(gameObject, target, moveX, moveY, x, y, moveDirection); // 넉백
-            }
-        }
+       
 
         public void RemoveUnit(GameObject target)
         {
@@ -75,15 +56,7 @@ namespace UnitType
         
         }
 
-        public virtual bool Defence(int enemyAp)
-        {
-            // 방어할 때
-            // true -> Destroy, false -> Damage
-            Debug.Log("디펜스~");
-            if (enemyAp - dp > 0) hp -= enemyAp - dp;
-
-            return hp <= 0;
-        }
+      
 
         public virtual void MoveRange()
         {
