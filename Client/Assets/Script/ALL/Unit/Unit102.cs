@@ -1,23 +1,22 @@
-﻿using UnityEngine;
+﻿using MonsterChessClient;
+using UnityEngine;
+
 namespace UnitType
 {
-    public class Unit102 : RemoteUnit
+    public class Unit102 : Unit
     {
         protected override void Awake()
         {
             ID = "102";
             Distence = 1;
-            attackDistance = 2;
             Direction = 1;
-            Cost = 3;
+            Cost = 1;
             fullHp = 2;
             hp = fullHp;
-            ap = 3;
-            dp = 1;
+            ap = 2;
+            dp = 0;
 
             base.Awake();
         }
-
-      
     }
 }

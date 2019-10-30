@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-namespace UnitType
+﻿namespace UnitType
 {
-    public class Unit101 : RemoteUnit
+    public class Unit101 : Unit
     {
         protected override void Awake()
         {
             ID = "101";
             Distence = 1;
-            attackDistance = 2;
-            Direction = 1;
-            Cost = 2;
+            Direction = 0;
+            Cost = 1;
             fullHp = 2;
             hp = fullHp;
-            ap = 2;
-            dp = 0;
+            ap = 1;
+            dp = 2;
+           
+
             base.Awake();
         }
 
+       
     }
 }

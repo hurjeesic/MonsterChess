@@ -1,19 +1,23 @@
-﻿namespace UnitType
+﻿using UnityEngine;
+namespace UnitType
 {
-    public class Unit005 : Unit
+    public class Unit005 : RemoteUnit
     {
         protected override void Awake()
         {
             ID = "005";
             Distence = 1;
-            Direction = 0;
-            Cost = 2;
+            attackDistance = 2;
+            Direction = 1;
+            Cost = 4;
             fullHp = 3;
             hp = fullHp;
-            ap = 1;
-            dp = 2;
+            ap = 3;
+            dp = 1;
 
             base.Awake();
         }
+
+
     }
 }
