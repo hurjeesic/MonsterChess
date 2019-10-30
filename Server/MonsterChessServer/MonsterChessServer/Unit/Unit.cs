@@ -17,8 +17,16 @@ namespace UnitType
         protected Vector2 pos;
         public Vector2 Pos { get { return pos; } }
         protected Vector2 movedPos;
-        public Vector2 MovedPos { get { return movedPos; } set { if (value.x > 0 && value.y > 0) movedPos = value; } }
+        public Vector2 MovedPos { get { return movedPos; } set { if (value.x > -1 && value.y > -1) movedPos = value; } }
         public int status;
+        public virtual void SavePos(Vector2 tempPos)
+        {
+            pos = tempPos;
+        }
+        public virtual void SaveMovePos(Vector2 tempPos)
+        {
+            MovedPos = tempPos;
+        }
 
         public virtual void Move()
         {
@@ -41,36 +49,6 @@ namespace UnitType
         public bool CheckDeath()
         {
             return HP < 0;
-        }
-
-        public bool CheckMoving(Vector2 movingPos)
-        {
-            bool answer = false;
-            if (Direction < 2)
-            {
-                if (Direction >= 0)
-                {
-                    if ((Distance >= movingPos.x && movingPos.x >= -Distance && movingPos.y == 0) || // 서 -> 동
-                        (movingPos.x == 0 && Distance >= movingPos.y && movingPos.y >= -Distance)) // 북 -> 남
-                    {
-                        answer = true;
-                    }
-                }
-
-                if (Direction >= 1)
-                {
-                    if (Math.Abs(movingPos.x) == Math.Abs(movingPos.y) &&
-                       (0 > movingPos.x && movingPos.x >= -Distance && movingPos.y > 0) || // 북서
-                       (Distance >= movingPos.x && movingPos.x > 0 && movingPos.y > 0) || // 북동
-                       (0 > movingPos.x && movingPos.x >= -Distance && movingPos.y < 0) || // 남서
-                       (Distance >= movingPos.x && movingPos.x > 0 && movingPos.y < 0)) // 남동
-                    {
-                        answer = true;
-                    }
-                }
-            }
-
-            return answer;
         }
     }
 }

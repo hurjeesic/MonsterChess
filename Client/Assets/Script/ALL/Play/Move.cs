@@ -15,16 +15,15 @@ namespace MonsterChessClient
             if (bPlay)
             {
                 time += Time.deltaTime;
-                speed *= time;
+                speed += time;
                 gameObject.transform.position = Vector2.MoveTowards(startPos, endPos, speed);
-               
             }
         }
         public void Initialisation()
         {
             bPlay = false;
-            startPos = new Vector2();
-            endPos = new Vector2();
+            startPos = gameObject.transform.position;
+            endPos = gameObject.transform.position;
             speed = 10f;
             time = 0;
             

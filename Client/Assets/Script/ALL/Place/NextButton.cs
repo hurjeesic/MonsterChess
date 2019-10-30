@@ -63,7 +63,7 @@ namespace MonsterChessClient
                 for (int j = 0; j < Data.ROW; j++)
                 {
                     Unit unit = GameObject.Find(i + "," + j).GetComponent<Unit>();
-                    if (unit !=null)
+                    if (unit != null)
                     {
                         unitPos.Add(new Vector2(i, j));
                         count++;
@@ -116,9 +116,8 @@ namespace MonsterChessClient
                         stateObj.GetComponentInChildren<Text>().text = "매칭 완료";
 
                         Data.Instance.myIndex = msg.PopByte();
-                        Invoke("CompleteLoading", 1);
+                        
                         stateObj.SetActive(false);
-                        byte tempMyIndex = Data.Instance.myIndex;
                         for (int x = 0; x < Data.COLUMN; x++)
                         {
                             // y값 설정
@@ -126,9 +125,18 @@ namespace MonsterChessClient
                             {
                                 // x값 설정
                                 Unit tempUnit = GameObject.Find(x + "," + y).GetComponent<Unit>();
-                                if (tempUnit != null) Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(tempMyIndex, tempUnit);
+                                if (tempUnit != null)
+                                {
+                                    tempUnit.order = Data.Instance.order;
+                                    tempUnit.x = x;
+                                    tempUnit.y = y;
+                                    tempUnit.status = 0;
+                                    Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, tempUnit);
+                                }
+
                             }
                         }
+                        Invoke("CompleteLoading", 1);
                     }
                     break;
                 case PROTOCOL.FailDeploy:
@@ -173,8 +181,6 @@ namespace MonsterChessClient
 
         private void CompleteLoading()
         {
-           
-            
             Packet loadingMsg = Packet.Create((short)PROTOCOL.CompleteLoading);
             for (int i = 0; i < 6; i++)
             {

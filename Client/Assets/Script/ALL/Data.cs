@@ -159,6 +159,7 @@ namespace MonsterChessClient
                         if (posObj != null)
                         {
                             range.Add(new KeyValuePair<int, GameObject>(i, posObj));
+                            Debug.Log(range[range.Count() - 1]);
                         }
                     }
                 }

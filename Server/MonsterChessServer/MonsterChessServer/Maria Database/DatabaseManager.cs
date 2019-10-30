@@ -62,7 +62,7 @@ namespace MonsterChessServer
 
             try
             {
-                conn = new OdbcConnection("Server=localhost;UID=root;PWD=JSHUR2015108211;Dsn=monsterchess;Port=3306"); // Connection
+                conn = new OdbcConnection("Server=localhost;UID=root;PWD=tjdwns960@;Dsn=monsterchess;Port=3306"); // Connection
                 conn.Open();
 
                 if (conn.State == ConnectionState.Open) return true;
