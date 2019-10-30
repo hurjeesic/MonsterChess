@@ -117,24 +117,13 @@ namespace MonsterChessClient
                         if (signal == 0)
                         {
                             //소환을 함
-                            int summonIdex = msg.PopByte();
+                            Data.Instance.summonId = msg.PopString(); // summonID를 받아옴
+                            int x = msg.PopInt32(), y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
                             // 내 소환
-                            if (summonIdex == Data.Instance.myIndex)
+                            if (y<3)
                             {
-                                int x, y;
-                                Data.Instance.summonId = msg.PopString(); // summonID를 받아옴
-                                if (Data.Instance.myIndex == 0) //내 인덱스가 0일때
-                                {
-                                    x = msg.PopInt32();
-                                    y = msg.PopInt32();
-                                }
-                                else // 내 인덱스가 1일 때
-                                {
-                                    x = msg.PopInt32();
-                                    y = 6 - msg.PopInt32();
-                                }
-                                GameObject summonBoard = GameObject.Find(x + "," + y);
 
+                                GameObject summonBoard = GameObject.Find(x + "," + y);
                                 Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + Data.Instance.summonId) as Texture;
                                 summonBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
@@ -144,32 +133,24 @@ namespace MonsterChessClient
                                 unit.y = y;
                                 unit.status = 2;
                                 unit.order = Data.Instance.order;
+                                Data.Instance.board[x,y] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, unit);
                             }
                             // 적 소환
                             else
                             {
-                                int x, y;
-                                string tempID = msg.PopString();//summonID를 받아옴
-                                if (Data.Instance.myIndex == 0)//내 인덱스가 0일때 상대방 소환
-                                {
-                                    x = msg.PopInt32();
-                                    y = msg.PopInt32();
-                                }
-                                else
-                                {
-                                    x = msg.PopInt32();
-                                    y = 6 - msg.PopInt32();
-                                }
+                               
                                 GameObject summonBoard = GameObject.Find(x + "," + y);
 
-                                Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + tempID)) as Unit;
-                                summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + tempID) as Texture;
+                                Unit unit = summonBoard.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+                                summonBoard.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + Data.Instance.summonId) as Texture;
                                 summonBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
                                 msg.PopInt32();
                                 unit.x = x;
                                 unit.y = y;
                                 unit.status = 2;
                                 unit.order = 1;
+                                byte enemy = Data.Instance.myIndex == 0 ? (byte)1 : (byte)0;
+                                Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(enemy, unit);
                             }
                             Debug.Log("소환 성공");
                         }
@@ -184,16 +165,17 @@ namespace MonsterChessClient
                         int result = msg.PopInt32(); // -1이면 움직임이 전부 전송된 것
                         if (result == 0) 
                         {
-                            int x = msg.PopInt32(), y = msg.PopInt32();
-                            int moveX = msg.PopInt32(), moveY = msg.PopInt32();
+                            int x = msg.PopInt32(), y = Data.Instance.myIndex == 0 ? msg.PopInt32():6-msg.PopInt32();
+                            int moveX = msg.PopInt32(), moveY = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
+                            Debug.Log("x는"+x+"y는"+y);
                             int myUnitHP = msg.PopInt32();
                             result = msg.PopInt32();
                             Debug.Log(Data.Instance.board[x, y].Value.ID + "(" + myUnitHP + ") : " + x + ", " + y + " -> " + moveX + ", " + moveY);
 
                             if (result == 0)// 0이면 공격당한 유닛이 있는 것
                             {
-                                int enemyX = msg.PopInt32(), enemyY = msg.PopInt32();
-                                int enemyMoveX = msg.PopInt32(), enemyMoveY = msg.PopInt32();
+                                int enemyX = msg.PopInt32(), enemyY = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
+                                int enemyMoveX = msg.PopInt32(), enemyMoveY = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
                                 int enemyHP = msg.PopInt32();
 
                                 Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
@@ -209,11 +191,17 @@ namespace MonsterChessClient
                             }
                             else //단순이동
                             {
-                                
+                                Debug.Log("단순이동");
+                                /*
                                 Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
                                 unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY=moveY;
                                 unit.hp = myUnitHP;
                                 unit.Move();
+                                */
+                                Vector2 temp = GameObject.Find(x + ","+y).transform.position;
+                                GameObject.Find(x + "," + y).transform.position = GameObject.Find(moveX + "," + moveY).transform.position;
+                                GameObject.Find(moveX + "," + moveY).transform.position = temp;
+
                             }
                         }
                         else // "이동안함"이 아니라 움직이는 게 다 끝나서 다음 턴으로 넘어가야함

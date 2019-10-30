@@ -68,7 +68,7 @@ namespace MonsterChessServer
         /// <returns></returns>
         public static Vector2 GetDirection(Vector2 begin, Vector2 after)
         {
-            Vector2 answer = begin - after;
+            Vector2 answer = after - begin;
 
             if (answer.x > 0) answer.x = 1;
             else if (answer.x < 0) answer.x = -1;
@@ -77,6 +77,28 @@ namespace MonsterChessServer
             else if (answer.y < 0) answer.y = -1;
 
             return answer;
+        }
+
+        /// <summary>
+        /// 0 = 동, 1 = 서, 2 = 남, 3 = 북, 4 = 북동, 5 = 남동, 6 = 남서, 7 = 북서
+        /// 움직이는 방향이 어디인지 확인
+        /// </summary>
+        /// <param name="begin"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        public static int GetDistance(Vector2 begin, Vector2 after)
+        {
+          
+            int answer = 0;
+            Vector2 cal =after-begin;
+            Console.WriteLine(cal.x+","+cal.y + ": cal");
+            int x = cal.x >= 0 ? cal.x:(-1)*cal.x;
+            int y = cal.y >= 0 ? cal.y : (-1) * cal.y;
+            answer = x >= y ? x : y;
+            return answer;
+           
+           
+            
         }
 
         /// <summary>

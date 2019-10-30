@@ -17,8 +17,16 @@ namespace UnitType
         protected Vector2 pos;
         public Vector2 Pos { get { return pos; } }
         protected Vector2 movedPos;
-        public Vector2 MovedPos { get { return movedPos; } set { if (value.x > 0 && value.y > 0) movedPos = value; } }
+        public Vector2 MovedPos { get { return movedPos; } set { if (value.x > -1 && value.y > -1) movedPos = value; } }
         public int status;
+        public virtual void SavePos(Vector2 tempPos)
+        {
+            pos = tempPos;
+        }
+        public virtual void SaveMovePos(Vector2 tempPos)
+        {
+            MovedPos = tempPos;
+        }
 
         public virtual void Move()
         {

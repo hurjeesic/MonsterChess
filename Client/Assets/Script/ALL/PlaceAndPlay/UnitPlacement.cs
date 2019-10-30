@@ -68,6 +68,7 @@ namespace MonsterChessClient
                     break;
                 case SceneList.Play:
                     Debug.Log("플레이 입니다.");
+                    Debug.Log("내 인덱스는" + Data.Instance.myIndex);
                     if (Data.Instance.bSummons == true && Data.Instance.time <= 30)
                     {
                         Debug.Log("소환준비");
@@ -126,6 +127,7 @@ namespace MonsterChessClient
                                     msg.Push(originY);
                                     msg.Push(x);
                                     msg.Push(y);
+                                    Debug.Log("이동좌표는" + originX + "" + originY);
                                     networkManager.Send(msg);
 
                                     break;

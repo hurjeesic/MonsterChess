@@ -165,6 +165,7 @@ namespace MonsterChessServer
         /// <param name="sender">요청한 유저</param>
         public void CompleteLoading(Player player, Dictionary<Vector2, Unit> units)
         {
+           
             bool bDeployment = true;
             if (units.Count == 6)
             {
@@ -219,6 +220,8 @@ namespace MonsterChessServer
                 foreach (KeyValuePair<Vector2, Unit> unit in players[index].units)
                 {
                     gameBoard[unit.Key.x, unit.Key.y] = new KeyValuePair<byte, Unit>(players[index].playerIndex, unit.Value);
+                    unit.Value.MovedPos = new Vector2(unit.Key.x, unit.Key.y);
+                    unit.Value.Move();
                     players[index].mana -= unit.Value.Cost;
                 }
 
@@ -226,6 +229,8 @@ namespace MonsterChessServer
                 foreach (KeyValuePair<Vector2, Unit> unit in players[index].units)
                 {
                     gameBoard[unit.Key.x, unit.Key.y] = new KeyValuePair<byte, Unit>(players[index].playerIndex, unit.Value);
+                    unit.Value.MovedPos = new Vector2(unit.Key.x, unit.Key.y);
+                    unit.Value.Move();
                     players[index].mana -= unit.Value.Cost;
                 }
 
@@ -375,7 +380,6 @@ namespace MonsterChessServer
             if (answer)
             {
                 msg.Push(0);
-                msg.Push(sender.playerIndex);
                 msg.Push(summons.Value.ID);
                 msg.Push(summons.Key.x);
                 msg.Push(summons.Key.y);
@@ -401,17 +405,6 @@ namespace MonsterChessServer
             ChangePlayerState(players[0], PlayerState.ProcessTurn);
             ChangePlayerState(players[1], PlayerState.ProcessTurn);
 
-            Console.WriteLine("이동 요청 목록");
-            for (byte index = 0; index < players.Length; index++)
-            {
-                for (int i = 0; i < movingLst[index].Count; i++)
-                {
-                    Console.WriteLine(gameBoard[movingLst[index][i].Key.x, movingLst[index][i].Key.y].Value.ID + " " +
-                        movingLst[index][i].Key.x + ", " + movingLst[index][i].Key.y + " -> " +
-                        movingLst[index][i].Value.x + ", " + movingLst[index][i].Value.y);
-                }
-            }
-
             // 움직일 순서 정렬
             for (byte index = 0; index < players.Length; index++)
             {
@@ -433,6 +426,19 @@ namespace MonsterChessServer
                         return gameBoard[first.Key.x, first.Key.y].Value.ID[0] > gameBoard[first.Key.x, first.Key.y].Value.ID[0] ? 1 : -1;
                     }
                 });
+            }
+
+            Console.WriteLine("이동 요청 목록");
+            for (byte index = 0; index < players.Length; index++)
+            {
+                for (int i = 0; i < movingLst[index].Count; i++)
+                {
+                    Console.WriteLine(gameBoard[movingLst[index][i].Key.x, movingLst[index][i].Key.y].Value.ID + " " +
+                        movingLst[index][i].Key.x + ", " + movingLst[index][i].Key.y + " -> " +
+                        movingLst[index][i].Value.x + ", " + movingLst[index][i].Value.y);
+                }
+
+                Console.WriteLine();
             }
 
             // 계산 후 결과 전송
@@ -492,14 +498,22 @@ namespace MonsterChessServer
             msg.Push(0);
 
             KeyValuePair<byte, Unit> myUnit, enemyUnit;
-            MoveUnit(movingLst[index][0], out myUnit, out enemyUnit);
 
+            MoveUnit(movingLst[index][0], out myUnit, out enemyUnit);
+         
+            Console.WriteLine("index : " + index);
+            Console.WriteLine(myUnit.Value.Pos.x + " : 샌드 x값");
+            Console.WriteLine(myUnit.Value.Pos.y + " : 샌드y값");
+            Console.WriteLine(myUnit.Value.MovedPos.x + " :샌드 movex값");
+            Console.WriteLine(myUnit.Value.MovedPos.y + " : 샌드movex값");
+         
             // 이동 또는 공격한 유닛의 현재 좌표와 이동된 좌표, 그리고 HP
             msg.Push(myUnit.Value.Pos.x);
             msg.Push(myUnit.Value.Pos.y);
             msg.Push(myUnit.Value.MovedPos.x);
             msg.Push(myUnit.Value.MovedPos.y);
             msg.Push(myUnit.Value.HP);
+            Console.WriteLine(myUnit.Value.HP + " : hp값");
             // Unit의 위치가 변경 되었으므로 해당 좌표의 Unit 정보 삭제
             players[index].units.Remove(myUnit.Value.Pos);
             if (myUnit.Value.HP <= 0)
@@ -536,9 +550,10 @@ namespace MonsterChessServer
                     enemyUnit.Value.Move();
                 }
             }
-            movingLst[index].RemoveAt(0);
 
             Broadcast(msg);
+
+            movingLst[index].RemoveAt(0);
         }
 
         /// <summary>
@@ -549,26 +564,47 @@ namespace MonsterChessServer
         /// <param name="enemyUnit"></param>
         private void MoveUnit(KeyValuePair<Vector2, Vector2> moving, out KeyValuePair<byte, Unit> myUnit, out KeyValuePair<byte, Unit> enemyUnit)
         {
+            Console.WriteLine("Move다!!");
             Vector2 direction = Helper.GetDirection(moving.Key, moving.Value);
+            Console.WriteLine(direction.x + "," + direction.y+" : 디렉션");
             myUnit = gameBoard[moving.Key.x, moving.Key.y];
+            myUnit.Value.SavePos(moving.Key);
+            Console.WriteLine(moving.Key.x + "," + moving.Key.y +": 내유닛좌표");
+            // 이동 또는 공격한 유닛의 현재 좌표와 이동된 좌표, 그리고 HP
+
+            //moving.Key, moving.Value의 거리
             enemyUnit = EMPTY;
-            for (int i = 1; i <= myUnit.Value.Distance; i++)
+            int temp = Helper.GetDistance(moving.Key, moving.Value);
+            int ditance = temp > 0 ? temp : (-1) * temp;
+            Console.WriteLine(temp+": 디스텐스");
+            for (int i = 1; i <= temp; i++)
             {
+               
                 Vector2 knockbackPos = moving.Key + direction * (i + 1), movingPos = knockbackPos - direction;
+                Console.WriteLine(knockbackPos.x + "," + knockbackPos.y + ": 넉백좌표");
+                Console.WriteLine(movingPos.x + "," + movingPos.y + ": 무빙좌표");
+
                 enemyUnit = gameBoard[movingPos.x, movingPos.y];
                 // 이동 중간 위치가 비어있으면 넘기고 이동 위치가 비어있으면 그 위치에 이동
                 if (enemyUnit.Value == EMPTY.Value)
                 {
-                    if (i != myUnit.Value.Distance) continue;
+                    Console.WriteLine("1번 if");
+                    
 
-                    myUnit.Value.MovedPos = moving.Value;
+                    myUnit.Value.MovedPos = movingPos;
 
                     gameBoard[moving.Value.x, moving.Value.y] = myUnit;
                     gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
+                    Console.WriteLine(myUnit.Value.Pos.x + " : x값");
+                    Console.WriteLine(myUnit.Value.Pos.y + " : y값");
+                    Console.WriteLine(myUnit.Value.MovedPos.x + " : movex값");
+                    Console.WriteLine(myUnit.Value.MovedPos.y + " : movex값");
                 }
                 // 이동 (중간) 위치에 아군 Unit이 있으면 그 앞으로 이동
                 else if (myUnit.Key == enemyUnit.Key)
                 {
+                    Console.WriteLine("2번 if");
+
                     movingPos -= direction;
                     if (movingPos != moving.Key)
                     {
@@ -583,10 +619,12 @@ namespace MonsterChessServer
                 // 이동 (중간) 위치에 적 Unit이 있으면 밀어내고 공격함
                 else
                 {
-                    myUnit.Value.MovedPos = movingPos;
+                    Console.WriteLine("3번 if");
+
+                    myUnit.Value.MovedPos = new Vector2(movingPos.x, movingPos.y);
                     if (COLUMN > knockbackPos.x && knockbackPos.x >= 0 && ROW > knockbackPos.y && knockbackPos.y >= 0 && gameBoard[knockbackPos.x, knockbackPos.y].Value == EMPTY.Value)
                     {
-                        enemyUnit.Value.MovedPos = knockbackPos;
+                        enemyUnit.Value.MovedPos = new Vector2(knockbackPos.x, knockbackPos.y); ;
 
                         gameBoard[knockbackPos.x, knockbackPos.y] = enemyUnit;
 
