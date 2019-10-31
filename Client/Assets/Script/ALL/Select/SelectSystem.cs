@@ -73,8 +73,6 @@ namespace MonsterChessClient
                 }
                 else
                 {
-                    
-                    
                     for (int i = 0; i < monster.Count(); i++)
                     {
                         instance.units[i] = monster[i];

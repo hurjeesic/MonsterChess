@@ -50,38 +50,15 @@ namespace MonsterChessClient
             }
 
             // 몬스터가 추가되어 있을 경우 제거
-            if (DataIndex.In[type, index])
-            {
-                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
 
-                GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
-                DataIndex.In[type, index] = !DataIndex.In[type, index];
+            if(type == 2)
+            {
+                ChoiceHero();
             }
             else
             {
-                //몬스터가 추가되지 않았을 경우 추가
-                DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
-                if (DataIndex.costSum > DataIndex.MaxCost)
-                {
-                    //마나코스트의 합이 지정한 값을 넘길경우
-                    Debug.Log("마나코스트의 합이 " + DataIndex.MaxCost + "을 넘겼습니다");
-                    DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
-                }
-                else
-                {
-                    //히어로 두개 고를라 하면 내치는 거 해야댐
-                    if (DataIndex.bHero && (DataIndex.kind == 2))
-                    {
-                        Debug.Log("이미 히어로를 선택했대요");
-                    }
-                    else
-                    {
-                        GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
-                        DataIndex.In[type, index] = !DataIndex.In[type, index];
-                    }
-                }
+                ChoiceMonster();
             }
-            
         }
 
         public void ChoiceImage()
@@ -102,6 +79,64 @@ namespace MonsterChessClient
                 else
                 {
                     gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[type, index].Substring(0, 3)) as Texture;
+                }
+            }
+        }
+
+        void ChoiceMonster()
+        {
+            //이미 추가된유닛 선택시 삭제
+            if (DataIndex.In[type, index])
+            {
+                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+
+                GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
+                DataIndex.In[type, index] = !DataIndex.In[type, index];
+            }
+            else
+            {
+                //몬스터가 추가되지 않았을 경우 추가
+                if (DataIndex.costSum > DataIndex.MaxCost)
+                {
+                    //마나코스트의 합이 지정한 값을 넘길경우
+                    Debug.Log("마나코스트의 합이 " + DataIndex.MaxCost + "을 넘겼습니다");
+                }
+                else
+                {
+                    //선택된 몬스터가 5마리 이하일 경우 몬스터 추가
+                    if (DataIndex.MonsterCount <= 4)
+                    {
+                        GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
+                        DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+                        DataIndex.In[type, index] = !DataIndex.In[type, index];
+                    }
+                }
+            }
+        }
+
+        void ChoiceHero()
+        {
+            // 몬스터가 추가되어 있을 경우 제거
+            if (DataIndex.In[type, index])
+            {
+                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+
+                GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
+                DataIndex.In[type, index] = !DataIndex.In[type, index];
+            }
+            else
+            {
+                //몬스터가 추가되지 않았을 경우 추가
+                DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+                //히어로 두개 고를라 하면 내치는 거 해야댐
+                if (DataIndex.bHero && (DataIndex.kind == 2))
+                {
+                    Debug.Log("이미 히어로를 선택했대요");
+                }
+                else
+                {
+                    GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
+                    DataIndex.In[type, index] = !DataIndex.In[type, index];
                 }
             }
         }
