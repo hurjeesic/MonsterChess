@@ -13,6 +13,7 @@ namespace UnitType
         public int HP { get; protected set; }
         public int AP { get; protected set; } // Attack Point
         public int DP { get; protected set; } // Defence Point
+        public bool bMoving;
 
         protected Vector2 pos;
         public Vector2 Pos { get { return pos; } }

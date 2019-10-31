@@ -42,20 +42,17 @@ namespace MonsterChessClient
         public string[,] StateOfMonster =
         {
             {
-                "0001101211고블린",
-                "0011001212벤시",
-                "0021001220놀",
-                "0032102221드레이크",
-                "0042102320오크",
-                "0051002312골렘",
-                "0062103330트윈헤드오우거",
-                "0072003240광전사",
-                "0081103312웜",
-                "0092104223데스나이트",
-                "0102104331발키리",
-                "0112104322용사"
+                "0001122121사냥꾼",
+                "0011122220정령궁수",
+                "0021123231마법사",
+                "0031123321대포",
+                "0041124241히드라",
+                "0051124331주작",
+                "300000000000","300000000000","300000000000","300000000000","300000000000","300000000000"
+               
             },
             {
+<<<<<<< HEAD
                 "1001122121사냥꾼",
                 "1011122220정령궁수",
                 "1021123231마법사",
@@ -63,13 +60,32 @@ namespace MonsterChessClient
                 "1041124241히드라",
                 "1051124331주작",
                 "999000000000","999000000000","999000000000","999000000000","999000000000","999000000000"
+=======
+                "1001101211고블린",
+                "1011001212벤시",
+                "1021001220놀",
+                "1032102221드레이크",
+                "1042102320오크",
+                "1051002312골렘",
+                "1062103330트윈헤드오우거",
+                "1072003240광전사",
+                "1081103312웜",
+                "1092104223데스나이트",
+                "1102104331발키리",
+                "1112104322용사"
+>>>>>>> develop
             },
             {
                 "2003100533제우스",
                 "2013100443아누비스",
                 "2022100353해태",
+<<<<<<< HEAD
                 "999000000000", "999000000000","999000000000", "999000000000", "999000000000", "999000000000", "999000000000",
                 "999000000000", "999000000000"
+=======
+                "300000000000", "300000000000","300000000000", "300000000000", "300000000000", "300000000000", "300000000000",
+                "300000000000", "300000000000"
+>>>>>>> develop
             }
         };
         // ID(3) , 이동거리(1), 이동방향(1), 공격거리(1), 코스트(1), HP(1), AP(1), DP(1) 이름
@@ -124,7 +140,7 @@ namespace MonsterChessClient
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    Debug.Log(i + "," + j);
+                 
                     GameObject temp = GameObject.Find(i+","+j);
                     Animation anim = temp.GetComponent<Animation>();
                     anim.Stop("LightUnit");
@@ -228,7 +244,7 @@ namespace MonsterChessClient
         {
             // ID를 통해 몬스터 전체 데이터를 가져옴
             int x = int.Parse(id.Substring(0, 1));
-            for (int i = 0; i < 24 / ((x + 1) * 2); i++)
+            for (int i = 0; i < 12; i++)
             {
                 if (StateOfMonster[x, i].Substring(0, 3) == id)
                 {
@@ -255,8 +271,20 @@ namespace MonsterChessClient
             moveUnit.bPlay = true;
             moveEnemy.bPlay = true;
 
-            Data.instance.board[moveX, moveY] = Data.instance.board[x, y];
-            Data.instance.board[x, y] = Data.instance.Empty;
+            if (moveX == x && moveY == y)
+            {
+
+            }
+            else
+            {
+                Data.instance.board[moveX, moveY] = Data.instance.board[x, y];
+                Data.instance.board[x, y] = Data.instance.Empty;
+                Data.instance.board[moveX, moveY].Value.x = moveX;
+                Data.instance.board[moveX, moveY].Value.y = moveY;
+                Debug.Log("이동보드값" + x + "," + y + "\t" + Data.instance.board[moveX, moveY]);
+                Debug.Log("이동보드값" + moveX + "," + moveY + "\t" + Data.instance.board[x, y]);
+            }
+           
 
 
 
@@ -288,7 +316,12 @@ namespace MonsterChessClient
             if (tempY != -1 && board[tempX, tempY].Value == null)
             {
                 KnockBackUnit = GameObject.Find(tempX + "," + tempY);
-                /*
+
+                unit.AddComponent<Move>();
+                enemyUnit.AddComponent<Move>();
+                KnockBackUnit.AddComponent<Move>();
+
+
                 unit.GetComponent<Move>().startPos = unit.transform.position;
                 unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
                 enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
@@ -308,7 +341,7 @@ namespace MonsterChessClient
                 unit.GetComponent<Move>().bPlay = true;
                 enemyUnit.GetComponent<Move>().bPlay = true;
                 KnockBackUnit.GetComponent<Move>().bPlay = true;
-                */
+             
             }
         }
     }

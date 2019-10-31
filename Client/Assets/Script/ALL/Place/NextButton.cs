@@ -37,21 +37,10 @@ namespace MonsterChessClient
                 Data.Instance.bSummons = false;
             }
 
-            GameObject heroBtn = GameObject.Find("3,0");
-            RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();
-            heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[size]) as Texture;
-            heroBtnImg.color = new Color(255, 255, 255, 255);
-            Unit unit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[size])) as Unit;
-            Data.Instance.board[3, 0] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, unit);
+            
 
             
-            if (unit != null)
-            {
-                unit.order = Data.Instance.order;
-                unit.x = 3;
-                unit.y = 0;
-                unit.status = 0;
-            }
+           
         }
 
         public void RequestMatching()
@@ -132,6 +121,10 @@ namespace MonsterChessClient
                                     tempUnit.y = y;
                                     tempUnit.status = 0;
                                     Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, tempUnit);
+                                    Data.Instance.board[x, y].Value.order = Data.Instance.order;
+                                    Data.Instance.board[x, y].Value.x = x;
+                                    Data.Instance.board[x, y].Value.y = y;
+                                    Data.Instance.board[x, y].Value.status = 0;
                                 }
 
                             }
@@ -169,6 +162,7 @@ namespace MonsterChessClient
                                 GameObject unitOBJ = GameObject.Find(x + "," + y);
                                 Data.Instance.board[x, y] = new KeyValuePair<byte, Unit>(index, unitOBJ.AddComponent(Type.GetType("UnitType.Unit" + type)) as Unit);
                                 DrawEnemy(x, y);
+                                
                             }
                         }
 
@@ -195,13 +189,21 @@ namespace MonsterChessClient
         {
             GameObject TempUnit = GameObject.Find(x + "," + y);
             Texture UnitImage = Resources.Load("Image/UnitEnemy/" + Data.Instance.board[x, y].Value.ID) as Texture;
-            Unit unit = gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.board[x, y])) as Unit;
+            Unit unit = TempUnit.GetComponent<Unit>();
             if (unit != null)
             {
                 unit.order = 1;
                 unit.x = x;
                 unit.y = y;
                 unit.status = 0;
+                Data.Instance.board[x, y].Value.x = x;
+                Data.Instance.board[x, y].Value.y = y;
+                Data.Instance.board[x, y].Value.status = 0;
+                Data.Instance.board[x, y].Value.order = 1;
+
+                Debug.Log(x+","+y+": 적 좌표값");
+
+
             }
 
             TempUnit.GetComponent<RawImage>().texture = UnitImage;
@@ -221,6 +223,7 @@ namespace MonsterChessClient
                     GameObject tempBoard = GameObject.Find(i + "," + j);
                     Unit unit = tempBoard.GetComponent<Unit>();
                     if (unit != null) DestroyImmediate(unit);
+                    tempBoard.GetComponent<RawImage>().texture = null;
                     tempBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
                     Data.Instance.board[i, j] = Data.Instance.Empty;
                     if (i == 3 && j == 0)
@@ -231,7 +234,19 @@ namespace MonsterChessClient
                         heroBtnImg.color = new Color(255, 255, 255, 255);
                         Unit heroUnit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[5])) as Unit;
                         Data.Instance.board[3, 0] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, heroUnit);
+                        Data.Instance.board[3, 0].Value.x = 3;
+                        Data.Instance.board[3, 0].Value.y = 0;
+                        Data.Instance.board[3, 0].Value.moveX = 3;
+                        Data.Instance.board[3, 0].Value.moveY = 0;
+                        Data.Instance.board[3, 0].Value.status = 0;
+                        Data.Instance.board[3, 0].Value.order = Data.Instance.order;
 
+                        heroUnit.x = 3;
+                        heroUnit.y = 0;
+                        heroUnit.moveX = 3;
+                        heroUnit.moveY = 0;
+                        heroUnit.status = 0;
+                        heroUnit.order = Data.Instance.order;
                     }
                 }
             }

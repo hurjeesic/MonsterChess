@@ -1,10 +1,10 @@
 ﻿namespace UnitType
 {
-    public class Unit007 : Unit
+    public class Unit107 : Unit
     {
         protected override void Awake()
         {
-            ID = "007";
+            ID = "107";
             Distence = 2;
             Direction = 0;
             Cost = 3;

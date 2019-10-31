@@ -1,10 +1,10 @@
 ﻿namespace UnitType
 {
-    public class Unit007 : Unit
+    public class Unit107 : Unit
     {
-        public Unit007()
+        public Unit107()
         {
-            ID = "007";
+            ID = "107";
             Distance = 2;
             Direction = 0;
             Cost = 3;

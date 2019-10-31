@@ -1,12 +1,12 @@
 ﻿namespace UnitType
 {
-    public class Unit008 : Unit
+    public class Unit108 : Unit
     {
         int RangeNum;
 
         protected override void Awake()
         {
-            ID = "008";
+            ID = "108";
             Distence = 1;
             Direction = 1;
             Cost = 3;

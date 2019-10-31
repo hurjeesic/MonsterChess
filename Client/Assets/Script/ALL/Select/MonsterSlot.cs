@@ -45,7 +45,7 @@ namespace MonsterChessClient
             {
                 DataIndex.unitId = DataIndex.StateOfMonster[type, index].Substring(0, 3);
                 int tempCount = int.Parse(UnitText.text);
-                tempCount++;
+                if(DataIndex.unitId !="300") tempCount++;
                 UnitText.text = ""+tempCount;
             }
 
@@ -116,8 +116,15 @@ namespace MonsterChessClient
 
         void ChoiceHero()
         {
+<<<<<<< HEAD
             // 몬스터가 추가되어 있을 경우 제거
             if (DataIndex.In[type, index])
+=======
+            string id = DataIndex.StateOfMonster[type, index].Substring(0, 3) == "300" ? "" : DataIndex.StateOfMonster[type, index].Substring(0, 3);
+            string path = "Image/UnitMY/" + id;
+            RawImage img = gameObject.GetComponent<RawImage>();
+            if (img != null)
+>>>>>>> develop
             {
                 DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
 

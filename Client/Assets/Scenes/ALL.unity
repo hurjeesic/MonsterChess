@@ -21882,7 +21882,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC6D0\uAC70\uB9AC"
+  m_Text: "\uADFC\uAC70\uB9AC"
 --- !u!222 &1096142643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24226,7 +24226,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uADFC\uAC70\uB9AC"
+  m_Text: "\uC6D0\uAC70\uB9AC"
 --- !u!222 &1266849191
 CanvasRenderer:
   m_ObjectHideFlags: 0

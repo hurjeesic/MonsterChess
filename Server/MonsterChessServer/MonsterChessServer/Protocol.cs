@@ -33,6 +33,7 @@
         RequestedMoving, // Client의 이동 요청
         RequestedSummons,
         MovedUnit,
+        WaitedUnit,
         FinishedTurn, // Client의 Turn 연출이 끝났음을 알림
 
         RemovedGame, // 상대방 Player가 나가 방이 삭제됨

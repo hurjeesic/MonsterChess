@@ -1,24 +1,26 @@
-﻿
+﻿using MonsterChessClient;
+using System.Collections.Generic;
 using UnityEngine;
-using MonsterChessClient;
+using UnityEngine.UI;
 
 namespace UnitType
 {
-    public class Unit006 : Unit
+    public class Unit109 : Unit
     {
         protected override void Awake()
         {
-            ID = "006";
+            ID = "109";
             Distence = 2;
             Direction = 1;
-            Cost = 3;
-            fullHp = 3;
+            Cost = 4;
+            fullHp = 2;
             hp = fullHp;
             ap = 3;
-            dp = 0;
+            dp = 3;
 
             base.Awake();
         }
-       
+
+      
     }
 }

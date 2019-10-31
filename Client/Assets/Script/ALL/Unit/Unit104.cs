@@ -1,24 +1,20 @@
-﻿using UnityEngine;
-namespace UnitType
+﻿namespace UnitType
 {
-    public class Unit104 : RemoteUnit
+    public class Unit104 : Unit
     {
-        int RangeNum;
-
         protected override void Awake()
         {
             ID = "104";
-            Distence = 1;
-            attackDistance = 2;
+            Distence = 2;
             Direction = 1;
-            Cost = 4;
-            fullHp = 2;
+            Cost = 2;
+            fullHp = 3;
             hp = fullHp;
-            ap = 4;
-            dp = 1;
+            ap = 2;
+            dp = 0;
 
             base.Awake();
         }
-
+     
     }
 }

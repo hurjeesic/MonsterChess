@@ -1,19 +1,21 @@
 ﻿namespace UnitType
 {
-    public class Unit103 : Unit
+    public class Unit110 : Unit
     {
+
         protected override void Awake()
         {
-            ID = "103";
+            ID = "110";
             Distence = 2;
             Direction = 1;
-            Cost = 2;
-            fullHp = 2;
+            Cost = 4;
+            fullHp = 3;
             hp = fullHp;
-            ap = 2;
+            ap = 3;
             dp = 1;
 
             base.Awake();
         }
+       
     }
 }
