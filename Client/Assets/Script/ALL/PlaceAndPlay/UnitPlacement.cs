@@ -100,12 +100,7 @@ namespace MonsterChessClient
                         // 터치한 유닛의 이동 범위를 가져옴
                         if (Data.Instance.board[x, y].Value != null)
                         {
-<<<<<<< HEAD
-                           
-                          
-=======
                             Debug.Log("가져옴");
->>>>>>> develop
                             slotTrans.GetComponent<Unit>().MoveRange();
                             Data.Instance.origin = slotTrans.gameObject;
                             Data.Instance.bMoving = true;
