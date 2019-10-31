@@ -53,12 +53,10 @@ namespace MonsterChessClient
 
             if(type == 2)
             {
-                Debug.Log("히어로 초이스");
                 ChoiceHero();
             }
             else
             {
-                Debug.Log("몬스터 초이스");
                 ChoiceMonster();
             }
         }
@@ -118,15 +116,27 @@ namespace MonsterChessClient
 
         void ChoiceHero()
         {
+<<<<<<< HEAD
+            // 몬스터가 추가되어 있을 경우 제거
             if (DataIndex.In[type, index])
+=======
+            string id = DataIndex.StateOfMonster[type, index].Substring(0, 3) == "300" ? "" : DataIndex.StateOfMonster[type, index].Substring(0, 3);
+            string path = "Image/UnitMY/" + id;
+            RawImage img = gameObject.GetComponent<RawImage>();
+            if (img != null)
+>>>>>>> develop
             {
+                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+
                 GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
                 DataIndex.In[type, index] = !DataIndex.In[type, index];
             }
             else
             {
+                //몬스터가 추가되지 않았을 경우 추가
+                DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
                 //히어로 두개 고를라 하면 내치는 거 해야댐
-                if (DataIndex.bHero)
+                if (DataIndex.bHero && (DataIndex.kind == 2))
                 {
                     Debug.Log("이미 히어로를 선택했대요");
                 }
@@ -134,7 +144,6 @@ namespace MonsterChessClient
                 {
                     GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
                     DataIndex.In[type, index] = !DataIndex.In[type, index];
-
                 }
             }
         }

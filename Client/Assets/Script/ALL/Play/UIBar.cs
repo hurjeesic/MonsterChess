@@ -76,7 +76,7 @@ namespace MonsterChessClient
             temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(7, 1);
 
             temp = GameObject.Find("APtext");
-            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(8, 1);
+            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(5, 1);
 
             temp = GameObject.Find("DPtext");
             temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(9, 1);
