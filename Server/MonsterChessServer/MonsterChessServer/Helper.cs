@@ -59,11 +59,36 @@ namespace MonsterChessServer
             return answer;
         }
 
-        public static List<Vector2> GetMoving(Vector2 pos, int distance)
+        public static List<Vector2> GetMoving(Vector2 pos, int distance, int direction, int column, int row)
         {
             List<Vector2> answer = new List<Vector2>();
 
-            
+            short x = (short)pos.x;
+            short y = (short)pos.y;
+
+            for (int i = 1; i <= distance; i++)
+            {
+                if (direction < 2)
+                {
+                    if (direction >= 0)
+                    {
+                        // 동, 서, 남, 북
+                        if (x + distance < column) answer.Add(new Vector2(x + distance, y));
+                        if (x - distance >= 0) answer.Add(new Vector2(x - distance, y));
+                        if (y - distance >= 0) answer.Add(new Vector2(x, y - distance));
+                        if (y + distance < column) answer.Add(new Vector2(x, y + distance));
+                    }
+
+                    if (direction >= 1)
+                    {
+                        // 북서, 북동, 남서, 남동
+                        if (x + distance < column && y - distance >= 0) answer.Add(new Vector2(x + distance, y - distance));
+                        if (x + distance < column && y + distance < column) answer.Add(new Vector2(x + distance, y + distance));
+                        if (x - distance >= 0 && y - distance >= 0) answer.Add(new Vector2(x - distance, y - distance));
+                        if (x - distance >= 0 && y + distance < column) answer.Add(new Vector2(x - distance, y + distance));
+                    }
+                }
+            }
 
             return answer;
         }

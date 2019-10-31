@@ -40,6 +40,7 @@ namespace MonsterChessServer
 
         const int MAX = 30;
         int timer = MAX;
+        int waitingTime = 1000;
 
         public static readonly byte COLUMN = 7, ROW = 7;
 
@@ -309,6 +310,7 @@ namespace MonsterChessServer
                 timerMsg.Push(timer--);
                 Broadcast(timerMsg);
                 Thread.Sleep(1000);
+
                 Console.WriteLine(timer + "초 남음");
             }
 
@@ -461,45 +463,142 @@ namespace MonsterChessServer
 
                 SendMoving(index);
 
-                Thread.Sleep(1000);
+                Thread.Sleep(waitingTime);
             }
 
             while (movingLst[0].Count > 0)
             {
                 SendMoving(0);
 
-                Thread.Sleep(1000);
+                Thread.Sleep(waitingTime);
             }
 
             while (movingLst[1].Count > 0)
             {
                 SendMoving(1);
 
-                Thread.Sleep(1000);
+                Thread.Sleep(waitingTime);
             }
 
-            for (byte index = 0; index < 1; index++)
+            // 대기하고 있던 원거리 Unit들을 찾아서 정렬함 - 정렬 기준은 cost와 선공 여부
+            List<KeyValuePair<byte, Vector2>> waitingUnitLst = new List<KeyValuePair<byte, Vector2>>();
+            waitingUnitLst.AddRange(GetAttackingUnit(0));
+            waitingUnitLst.AddRange(GetAttackingUnit(1));
+
+            waitingUnitLst.Sort(delegate (KeyValuePair<byte, Vector2> first, KeyValuePair<byte, Vector2> second)
             {
-                foreach (Unit unit in players[index].units.Values)
+                if (gameBoard[first.Value.x, first.Value.y].Value.Cost == gameBoard[second.Value.x, second.Value.y].Value.Cost)
                 {
-                    if (!unit.bMoving && unit.ID[0] == '0')
+                    if (first.Key == second.Key)
                     {
-                        RemoteUnit remoteUnit = (RemoteUnit)unit;
-                        
-                        //remoteUnit.Wait(null);
+                        return 0;
+                    }
+                    else
+                    {
+                        return first.Key == currentPlayer ? 1 : -1;
+                    }
+                }
+                else
+                {
+                    return gameBoard[first.Value.x, first.Value.y].Value.Cost > gameBoard[second.Value.x, second.Value.y].Value.Cost ? 1 : -1;
+                }
+            });
+
+            // 정렬된 순서로 공격을 진행
+            List<Vector2> wastedUnitLst = new List<Vector2>();
+            foreach (KeyValuePair<byte, Vector2> unitInfo in waitingUnitLst)
+            {
+                Vector2 pos = unitInfo.Value;
+                RemoteUnit attackingUnit = (RemoteUnit)gameBoard[pos.x, pos.y].Value;
+
+                List<Vector2> waitedLst = Helper.GetMoving(attackingUnit.Pos, attackingUnit.attackDistance, attackingUnit.Direction, COLUMN, ROW);
+                List<int> wastedLst = new List<int>();
+                for (int i = 0; i < waitedLst.Count; i++)
+                {
+                    if (gameBoard[waitedLst[i].x, waitedLst[i].y].Value == EMPTY.Value)
+                    {
+                        wastedLst.Add(i);
+                    }
+                }
+
+                for (int i = 0; i < wastedLst.Count; i++)
+                {
+                    waitedLst.RemoveAt(wastedLst[i]);
+                }
+
+                if (waitedLst.Count > 0)
+                {
+                    Random rnd = new Random(DateTime.Now.Millisecond);
+
+                    int targetIndex = rnd.Next(waitedLst.Count);
+
+                    Unit targetUnit = gameBoard[waitedLst[targetIndex].x, waitedLst[targetIndex].y].Value;
+                    attackingUnit.Wait(targetUnit);
+
+                    Packet waitedMsg = Packet.Create((short)PROTOCOL.WaitedUnit);
+
+                    waitedMsg.Push(attackingUnit.Pos.x);
+                    waitedMsg.Push(attackingUnit.Pos.y);
+                    waitedMsg.Push(attackingUnit.HP);
+                    waitedMsg.Push(targetUnit.Pos.x);
+                    waitedMsg.Push(targetUnit.Pos.y);
+                    waitedMsg.Push(targetUnit.HP);
+
+                    Broadcast(waitedMsg);
+
+                    Thread.Sleep(waitingTime);
+
+                    if (targetUnit.HP <= 0)
+                    {
+                        wastedUnitLst.Add(targetUnit.Pos);
+                        gameBoard[targetUnit.Pos.x, targetUnit.Pos.y] = EMPTY;
                     }
                 }
             }
 
             midTurn = (byte)Math.Abs(midTurn - 1);
 
-            Thread.Sleep(2000);
+            Thread.Sleep(waitingTime * 2);
 
             // 계산 결과 전송 코드
             Packet msg = Packet.Create((short)PROTOCOL.MovedUnit);
             msg.Push(-1);
             msg.Push(midTurn);
             Broadcast(msg);
+        }
+
+        /// <summary>
+        /// 남은 Unit 중 움직이지 않은 Unit들을 반환
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private List<KeyValuePair<byte, Vector2>> GetAttackingUnit(byte index)
+        {
+            List<KeyValuePair<byte, Vector2>> answer = new List<KeyValuePair<byte, Vector2>>();
+            foreach (Unit unit in players[index].units.Values)
+            {
+                if (!unit.bMoving && unit.ID[0] == '0')
+                {
+                    RemoteUnit remoteUnit = (RemoteUnit)unit;
+
+                    List<Vector2> waitedLst = Helper.GetMoving(remoteUnit.Pos, remoteUnit.attackDistance, remoteUnit.Direction, COLUMN, ROW);
+                    List<int> wastedLst = new List<int>();
+                    for (int i = 0; i < waitedLst.Count; i++)
+                    {
+                        if (gameBoard[waitedLst[i].x, waitedLst[i].y].Value == EMPTY.Value)
+                        {
+                            wastedLst.Add(i);
+                        }
+                    }
+
+                    if (wastedLst.Count != waitedLst.Count)
+                    {
+                        answer.Add(new KeyValuePair<byte, Vector2>(index, unit.Pos));
+                    }
+                }
+            }
+
+            return answer;
         }
 
         /// <summary>
@@ -570,6 +669,7 @@ namespace MonsterChessServer
 
                 if (enemyUnit.Value.HP <= 0)
                 {
+                    players[enemyUnit.Key].units.Remove(enemyUnit.Value.Pos);
                     gameBoard[enemyUnit.Value.Pos.x, enemyUnit.Value.Pos.y] = EMPTY;
                 }
                 else
@@ -620,7 +720,7 @@ namespace MonsterChessServer
                     savePos = movingPos;
                     result = 0;
                 }
-                else if (myUnit.Key == gameBoard[movingPos.x, movingPos.y].Key)
+                else if (myUnit.Key == gameBoard[movingPos.x, movingPos.y].Key || myUnit.Value.ID[0] == '0')
                 {
                     //아군인경우
                     Console.WriteLine("2번 if");
@@ -664,23 +764,25 @@ namespace MonsterChessServer
                 }
 
             }
+
             Console.WriteLine("결과값은" + result);
             switch (result)
             {
                 case 0://단순이동
+                    myUnit.Value.bMoving = true;
                     myUnit.Value.MovedPos = savePos;
                     gameBoard[moving.Value.x, moving.Value.y] = myUnit;
                     gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
                     break;
                 case 1://아군뒤로 이동
+                    myUnit.Value.bMoving = true;
                     myUnit.Value.MovedPos = savePos;
                     gameBoard[moving.Value.x, moving.Value.y] = myUnit;
                     gameBoard[moving.Key.x, moving.Key.y] = EMPTY;
                     break;
                 case 2://공격
+                    myUnit.Value.bMoving = true;
                     myUnit.Value.MovedPos = savePos;
-
-
                     break;
                 case 3://이동을 하지못함
                     break;
@@ -688,10 +790,6 @@ namespace MonsterChessServer
                 default:
                     break;
             }
-           
-
-
-
         }
 
         /// <summary>
