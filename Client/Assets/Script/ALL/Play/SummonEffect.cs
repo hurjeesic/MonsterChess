@@ -7,22 +7,20 @@ namespace MonsterChessClient
 {
     public class SummonEffect : MonoBehaviour
     {
-
-        public int speed = 1;
+        private void Update()
+        {
+            //원형의 소환 이펙트가 그냥 막 존나 돌아야 해요
+            float fMove = Time.deltaTime * speed;
+            gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/SummonEffect") as Texture;
+            transform.Rotate(new Vector2(15, 0) * fMove);
+        }
+        
+        public int speed = 100;
         public Transform prefab;
 
-        void Effect(int x, int y)
+        public void Effect(int x, int y)
         {
-            //Instantiate(prefab, new vector2(x, y), Quaternion.identity);
-            //원형의 소환 이펙트가 그냥 막 존나 돌아야 해요
-            gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/Pan/SummonEffect") as Texture;
-            transform.Rotate(new Vector2(15, 0) * Time.deltaTime);
-            Invoke("DEft", 2f);
-        }
-
-        void DEft()
-        {
-
+            Instantiate(prefab, new Vector2(x, y), Quaternion.identity);
         }
     }
 }

@@ -112,7 +112,6 @@ namespace MonsterChessClient
                     break;
                 case PROTOCOL.RequestedSummons:
                     {
-                        //소환 이펙트를 넣어봅시다
                         //소환을 할려면 ID x,y,
                         int signal = msg.PopInt32();
                         if (signal == 0)
@@ -120,6 +119,9 @@ namespace MonsterChessClient
                             //소환을 함
                             Data.Instance.summonId = msg.PopString(); // summonID를 받아옴
                             int x = msg.PopInt32(), y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
+                            //소환 이펙트를 넣어봅시다
+                            SummonEffect SEft = new SummonEffect();
+                            SEft.Effect(x, y);
                             // 내 소환
                             if (y<3)
                             {

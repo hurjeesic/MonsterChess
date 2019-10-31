@@ -25,7 +25,7 @@ namespace MonsterChessClient
         int ap = 0;
         int dp = 0;
 
-        GameObject NT = GameObject.Find("NameText");
+        GameObject temp = GameObject.Find("NameText");
         MonsterSlot monsterSlot = new MonsterSlot();
 
         /*
@@ -44,6 +44,11 @@ namespace MonsterChessClient
 
         public void Place_UiBar(Unit unit)
         {
+            //아무튼 아이콘들 표시되게 하는거 받아적어야 해요 이거 작동 안하는데 나중에 좀 고칩시다 NeedFix
+            GameObject.Find("HPimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            GameObject.Find("DPimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            GameObject.Find("APimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+
             x = int.Parse(unit.ID.Substring(0, 1));
             y = int.Parse(unit.ID.Substring(2, 1));
 
@@ -61,28 +66,32 @@ namespace MonsterChessClient
         //소환시킬때 ui바에 정보 표시
         public void Summon_UiBar(string id)
         {
+            GameObject.Find("HPimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            GameObject.Find("DPIMG").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            GameObject.Find("APimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+
             Unit_Img(id);
             
-            NT = GameObject.Find("HPtext");
-            NT.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(7, 1);
+            temp = GameObject.Find("HPtext");
+            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(7, 1);
 
-            NT = GameObject.Find("APtext");
-            NT.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(5, 1);
+            temp = GameObject.Find("APtext");
+            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(5, 1);
 
-            NT = GameObject.Find("DPtext");
-            NT.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(9, 1);
+            temp = GameObject.Find("DPtext");
+            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(9, 1);
         }
         
         void Unit_Img(string id)
         {
-            NT = GameObject.Find("UnitImg");
+            temp = GameObject.Find("UnitImg");
             x = int.Parse(id.Substring(0, 1));
             y = int.Parse(id.Substring(2, 1));
             //대충 유닛 이미지 받아오는 함수
             //받아온 이미지를 Ui바 이미지 칸에 넣어야 해요
 
             string path = "Image/UnitMY/" + DataIndex.StateOfMonster[x, y].Substring(0, 3);
-            RawImage img = NT.GetComponent<RawImage>();
+            RawImage img = temp.GetComponent<RawImage>();
             if (img != null)
             {
                 //img.texture = Resources.Load("Image/Pan/Button_Square") as Texture; 오류나면 주석 취소 해보죠 뭐
@@ -93,11 +102,11 @@ namespace MonsterChessClient
             {
                 if (DataIndex.In[x, y] == false)
                 {
-                    NT.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
+                    temp.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
                 }
                 else
                 {
-                    NT.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[x, y].Substring(0, 3)) as Texture;
+                    temp.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[x, y].Substring(0, 3)) as Texture;
                 }
             }
         }
@@ -109,25 +118,23 @@ namespace MonsterChessClient
 
             //Ui바 체력 란에 표시하기
 
-            NT = GameObject.Find("HPtext");
-            NT.GetComponent<Text>().text = hp + "/" + fullHp;
+            temp = GameObject.Find("HPtext");
+            temp.GetComponent<Text>().text = hp + "/" + fullHp;
         }
         void Unit_Ap()
         {
             //대충 유닛 공격력 받아오는 함수
             //Ui바 공격력 란에 표시하기
-            
-            NT = GameObject.Find("APtext");
-            NT.GetComponent<Text>().text = ap + "";
+
+            temp = GameObject.Find("APtext");
+            temp.GetComponent<Text>().text = ap + "";
         }
         void Unit_Dp()
         {
             //대충 유닛 방어력 받아오는 함수
             //Ui바 방어력 란에 표시하기
-            NT = GameObject.Find("DPtext");
-            NT.GetComponent<Text>().text = dp + "";//아무튼방어력 훔쳐오는 프로그램
+            temp = GameObject.Find("DPtext");
+            temp.GetComponent<Text>().text = dp + "";//아무튼방어력 훔쳐오는 프로그램
         }
     }
-
-    
 }
