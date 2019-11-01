@@ -6,10 +6,12 @@ namespace MonsterChessClient
     public class MonsterSlot : MonoBehaviour
     {
         int index;
+        string Cost = "0";
 
         public Text ManaText;
         public Text HeroText;
         public Text UnitText;
+        public Text CostBox;
 
         Data DataIndex = Data.Instance;
 
@@ -78,6 +80,8 @@ namespace MonsterChessClient
 
         public void ChoiceImage(int x)
         {
+            //여기가 코스트 텍스트 넣는 부분
+            ViewCost(DataIndex.kind, index);
             string id = DataIndex.StateOfMonster[DataIndex.kind, index].Substring(0, 3);
             string path = "Image/UnitMY/" + id;
             RawImage img = gameObject.GetComponent<RawImage>();
@@ -89,6 +93,7 @@ namespace MonsterChessClient
             Object image = Resources.Load<Object>(path);
             if (image != null)
             {
+
                 if (DataIndex.In[DataIndex.kind, index] == false)
                 {
                     gameObject.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
@@ -98,6 +103,11 @@ namespace MonsterChessClient
                     gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[DataIndex.kind, index].Substring(0, 3)) as Texture;
                 }
             }
+        }
+
+        void ViewCost(int a, int b)
+        {
+            CostBox.text = DataIndex.StateOfMonster[a, b].Substring(6, 1);
         }
     }
 }
