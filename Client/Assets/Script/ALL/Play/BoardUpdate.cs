@@ -118,14 +118,11 @@ namespace MonsterChessClient
                         {
                             //소환을 함
                             Data.Instance.summonId = msg.PopString(); // summonID를 받아옴
-<<<<<<< HEAD
-                            int x = msg.PopInt32(), y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
-                            //소환 이펙트를 넣어봅시다
-                            SummonEffect SEft = new SummonEffect();
-                            SEft.Effect(x, y);
-=======
+
                             int x = msg.PopInt32(),y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
->>>>>>> develop
+                            //소환 이펙트를 넣어봅시다
+                            //SummonEffect SEft = new SummonEffect();
+                            //SEft.Effect(x, y);
                             // 내 소환
                             if (y<3)
                             {
