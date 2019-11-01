@@ -1,4 +1,4 @@
-﻿using FreeNet;
+using FreeNet;
 using UnitType;
 using UnityEngine;
 using UnityEngine.UI;
@@ -118,14 +118,7 @@ namespace MonsterChessClient
                         {
                             //소환을 함
                             Data.Instance.summonId = msg.PopString(); // summonID를 받아옴
-<<<<<<< HEAD
-                            int x = msg.PopInt32(), y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
-                            //소환 이펙트를 넣어봅시다
-                            SummonEffect SEft = new SummonEffect();
-                            SEft.Effect(x, y);
-=======
                             int x = msg.PopInt32(),y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
->>>>>>> develop
                             // 내 소환
                             if (y<3)
                             {
@@ -168,53 +161,55 @@ namespace MonsterChessClient
                     break;
                 case PROTOCOL.MovedUnit:
                     {
-                        int result = msg.PopInt32(); // -1이면 움직임이 전부 전송된 것'
-                        if (result == 0)//이동할 유닛이 남아있음
+                        int result = msg.PopInt32(); // -1이면 움직임이 전부 전송된 것
+                        if (result == 0)
                         {
                             int x = msg.PopInt32(), y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
                             int moveX = msg.PopInt32(), moveY = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
-                            int hp = msg.PopInt32();
-
-                            GameObject MoveUnit = GameObject.Find(x + "," + y);
-                            Unit unit = MoveUnit.GetComponent<Unit>();
-
+                            Debug.Log("x는" + x + "y는" + y);
+                            int myUnitHP = msg.PopInt32();
                             result = msg.PopInt32();
-                            if (result == 0)
+                            Debug.Log(Data.Instance.board[x, y].Key + "(" + myUnitHP + ") : " + x + ", " + y + " -> " + moveX + ", " + moveY);
+
+                            if (result == 0)// 0이면 공격당한 유닛이 있는 것
                             {
                                 Debug.Log("공격함");
                                 int enemyX = msg.PopInt32(), enemyY = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
                                 int enemyMoveX = msg.PopInt32(), enemyMoveY = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32();
                                 int enemyHP = msg.PopInt32();
 
-                                GameObject targetUnit = GameObject.Find(enemyX + "," + enemyY);
-                                Unit enemyUnit = targetUnit.GetComponent<Unit>();
-                                enemyUnit.GetComponent<Unit>().hp = enemyHP;
-                                if (enemyHP <= 0)//유닛이 죽을경우 단순이동
+                                Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                                unit.x = x; unit.y = y; unit.moveX = moveX; unit.moveY = moveY; unit.hp = myUnitHP;
+
+                                Debug.Log(Data.Instance.board[enemyX, enemyX].Key + "(" + enemyHP + ") : " + enemyX + ", " + enemyY + " -> " + enemyMoveX + ", " + enemyMoveY);
+
+                                Unit enemyUnit = GameObject.Find(enemyX + "," + enemyY).GetComponent<Unit>();
+                                enemyUnit.x = enemyX; enemyUnit.y = enemyY; enemyUnit.moveX = enemyMoveX; enemyUnit.moveY = enemyMoveY;
+                                enemyUnit.hp = enemyHP;
+                                if (enemyUnit.hp <= 0)//유닛이 죽을경우 단순이동
                                 {
                                     enemyUnit.RemoveUnit(GameObject.Find(enemyX + "," + enemyY));
-                                    unit.Move(enemyX,enemyY,x,y);
-
+                                    unit.moveX = enemyX; unit.moveY = enemyY;
+                                    unit.Move();
+                                    
                                 }
-                                else 
+                                else //유닛이 안죽을 경우 넉백판별
                                 {
-                                    //넉백함
-                                    if (enemyX != enemyMoveX && enemyY != enemyMoveY)
-                                    {
-                                        unit.KnockBack(x, y, enemyX, enemyY, enemyMoveX, enemyMoveY);
-                                    }
-
+                                    unit.moveX = moveX; unit.moveY = moveY;
+                                    unit.KnockBack();
                                 }
-
                             }
-                            else
+                            else //단순이동
                             {
                                 Debug.Log("단순이동");
-                                unit.Move(moveX,moveY, x, y);
-                               
+                                Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
+                                unit.moveX = moveX; unit.moveY = moveY;
+                                unit.Move();
+                                unit.x = moveX; unit.y = moveY;
+                                unit.hp = myUnitHP;
                             }
-
                         }
-                        else//이동할 유닛이 없음
+                        else // "이동안함"이 아니라 움직이는 게 다 끝나서 다음 턴으로 넘어가야함
                         {
                             Packet finishMsg = Packet.Create((short)PROTOCOL.FinishedTurn);
 
@@ -227,7 +222,7 @@ namespace MonsterChessClient
                         Debug.Log("웨잇!!");
                         int x = msg.PopInt32() ,y = Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32(), hp = msg.PopInt32();
                         Debug.Log(x + "," + y + ": 공격하는 유닛\t"+hp);
-                        int enemyX = msg.PopInt32(), enemyY= Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32(), enemyHP=msg.PopInt32();
+                        int enemyX = msg.PopInt32(), enemyY=msg.PopInt32(), enemyHP=msg.PopInt32();
                         Debug.Log(enemyX + "," + enemyY + ": 공격받는 유닛\t" + enemyHP);
                         GameObject fire = Instantiate(Resources.Load("Prefab/CFX4 Fire") as GameObject, GameObject.Find(x+","+y).transform);
                         fire.transform.position = new Vector3(fire.transform.position.x - 0.5f, fire.transform.position.y - 0.5f, fire.transform.position.z);

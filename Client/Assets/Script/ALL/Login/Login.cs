@@ -171,6 +171,10 @@ namespace MonsterChessClient
                 {
                     process.GetComponentsInChildren<Text>()[0].text = "비밀번호를 입력해세요.";
                 }
+
+                process.SetActive(true);
+                EnableObjects(false);
+                this.userState = UserStage.EmptyField;
             }
             else
             {
@@ -178,14 +182,6 @@ namespace MonsterChessClient
             }
             
             EnableObjects(false);
-        }
-
-        public void RequestMatching()
-        {
-            this.userState = UserStage.WaitingMatching;
-
-            Packet msg = Packet.Create((short)PROTOCOL.RequestMatching);
-            this.networkManager.Send(msg);
         }
 
         public void FindUser()

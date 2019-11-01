@@ -152,6 +152,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.DL.MonsterChess
     Standalone: com.Company.ProductName
+    iOS: com.DL.MonsterChess
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16

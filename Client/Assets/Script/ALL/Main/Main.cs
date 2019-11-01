@@ -17,7 +17,6 @@ namespace MonsterChessClient
         public void MoveSelect()
         {
             select.Enter();
-            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Select;
         }
 
         public void MoveFriendList()

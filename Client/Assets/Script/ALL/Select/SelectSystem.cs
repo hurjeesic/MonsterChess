@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MonsterChessClient
 {
@@ -17,6 +18,7 @@ namespace MonsterChessClient
 
         public void Enter()
         {
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Select;
             monster.Clear();
             for (int i = 0; i < 3; i++)
             {
@@ -25,24 +27,30 @@ namespace MonsterChessClient
                     instance.In[i, j] = false;
                 }
             }
-            instance.costSum = 0;
             instance.MonsterCount = 0;
             instance.bHero = false;
+
+            Data.Instance.costSum = 0;
+            GameObject.Find("HeroText").GetComponent<Text>().text = "X";
+            GameObject.Find("UnitText").GetComponent<Text>().text = "0";
+            GameObject.Find("ManaText").GetComponent<Text>().text = Data.Instance.costSum.ToString() + "/" + Data.Instance.MaxCost;
         }
 
         public void MoveMain()
         {
             main.Enter();
+            Data.Instance.kind = 0;
             GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present = SceneList.Main;
         }
 
         public void AddMonster()
         {
-            if ((instance.bHero == false) && (instance.kind == 2))
+            if (instance.bHero == false && instance.kind == 2 && Data.Instance.MonsterCount < 6)
             {
                 //히어로를 선택하지 않았을 경우 선택함
                 instance.bHero = true;
             }
+
             monster.Add(instance.unitId);
             if(instance.kind != 2)
             {
@@ -56,6 +64,7 @@ namespace MonsterChessClient
             {
                 instance.bHero = false;
             }
+
             monster.Remove(instance.unitId);
             if (instance.kind != 2)
             {
