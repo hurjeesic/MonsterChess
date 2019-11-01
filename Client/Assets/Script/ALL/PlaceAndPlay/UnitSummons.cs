@@ -24,6 +24,11 @@ namespace MonsterChessClient
             {
                 int tempNum = int.Parse(slotTrans.name);
                 string id = Data.Instance.units[tempNum];
+
+                //소환부분 UI바 구현해봤어요
+                UIBar tm = new UIBar();
+                tm.Summon_UiBar(id);
+
                 if (Data.Instance.bSummons == false)
                 {
                     Data.Instance.bSummons = true;

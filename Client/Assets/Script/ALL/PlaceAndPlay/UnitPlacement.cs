@@ -30,6 +30,8 @@ namespace MonsterChessClient
         {
             int x = slotTrans.name[0] - '0';
             int y = slotTrans.name[2] - '0';
+
+
             switch (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present)
             {
                 case SceneList.Place://플레이스에서 유닛을저장함
@@ -54,6 +56,11 @@ namespace MonsterChessClient
                                 Data.Instance.mana -= cost;
                                 manaText.text = Data.Instance.mana + "";
                                 Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+
+                                //UI바 관련 기능 넣어주세요
+                                UIBar tm = new UIBar();
+                                tm.Place_UiBar(unit);
+
                                 if (unit != null)
                                 {
                                     // 플레이스 단계에서 유닛을 배치함
