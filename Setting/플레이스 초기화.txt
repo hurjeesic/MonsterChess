@@ -1,0 +1,46 @@
+PlaceInitialization();// 초기화-> 히어로 유닛만 설정함
+
+
+  public void PlaceInitialization()
+        {
+            Data.Instance.mana = 15;//마나 설정
+            Text text = GameObject.Find("ManaText").GetComponent<Text>();//마나텍스트 설정
+            text.text = ""+Data.Instance.mana;//텍스트 설정
+            for (int i = 0; i < Data.COLUMN; i++)
+            {
+                for (int j = 0; j < Data.ROW; j++)
+                {
+                    //히어로를 제외한 칸 초기화
+                    GameObject tempBoard = GameObject.Find(i + "," + j);
+                    Unit unit = tempBoard.GetComponent<Unit>();
+                    if (unit != null) DestroyImmediate(unit);
+                    tempBoard.GetComponent<RawImage>().texture = null;
+                    tempBoard.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                    Data.Instance.board[i, j] = Data.Instance.Empty;
+                    if (i == 3 && j == 0)
+                    {
+                        GameObject heroBtn = GameObject.Find("3,0");//히어로칸 탐색
+                        RawImage heroBtnImg = heroBtn.GetComponent<RawImage>();//히어로 이미지추가
+                        heroBtnImg.texture = Resources.Load("Image/UnitMy/" + Data.Instance.units[5]) as Texture;
+                        heroBtnImg.color = new Color(255, 255, 255, 255);//히어로 그림표시
+                        Unit heroUnit = heroBtn.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.units[5])) as Unit;//유닛 컴포넌트추가
+                        Data.Instance.board[3, 0] = new KeyValuePair<byte, Unit>(Data.Instance.myIndex, heroUnit);
+                        Data.Instance.board[3, 0].Value.x = 3;
+                        Data.Instance.board[3, 0].Value.y = 0;
+                        Data.Instance.board[3, 0].Value.moveX = 3;
+                        Data.Instance.board[3, 0].Value.moveY = 0;
+                        Data.Instance.board[3, 0].Value.status = 0;
+                        Data.Instance.board[3, 0].Value.order = Data.Instance.order;
+
+                        heroUnit.x = 3;
+                        heroUnit.y = 0;
+                        heroUnit.moveX = 3;
+                        heroUnit.moveY = 0;
+                        heroUnit.status = 0;
+                        heroUnit.order = Data.Instance.order;
+
+                        
+                    }
+                }
+            }
+}

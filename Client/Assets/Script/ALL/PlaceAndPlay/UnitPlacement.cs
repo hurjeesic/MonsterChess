@@ -32,7 +32,7 @@ namespace MonsterChessClient
             int y = slotTrans.name[2] - '0';
             switch (GameObject.Find("SceneManager").GetComponent<MySceneManager>().Present)
             {
-                case SceneList.Place:
+                case SceneList.Place://플레이스에서 유닛을저장함
                     if (Data.Instance.bSummons == true)
                     {
                         if (y < 3)
@@ -56,10 +56,13 @@ namespace MonsterChessClient
                                 Unit unit = slotTrans.gameObject.AddComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
                                 if (unit != null)
                                 {
+                                    // 플레이스 단계에서 유닛을 배치함
                                     unit.order = Data.Instance.order;
                                     unit.x = x;
                                     unit.y = y;
                                     unit.status = 0;
+                                    GameObject.Find("hpBar"+x+","+y).GetComponent<Image>().color = new Color(255 / 255, 0, 0, 255 / 255); ;
+
                                 }
                                 Data.Instance.bSummons = false;
                             }
@@ -94,11 +97,13 @@ namespace MonsterChessClient
                         }
 
                     }
-                    else if (Data.Instance.bMoving == false && Data.Instance.time <= 30 && Data.Instance.order == slotTrans.GetComponent<Unit>().order)
+                    else if (Data.Instance.bMoving == false && Data.Instance.time <= 30 && Data.Instance.order == slotTrans.GetComponent<Unit>().order )
+
+
                     {
                         Debug.Log("무브");
                         // 터치한 유닛의 이동 범위를 가져옴
-                        if (Data.Instance.board[x, y].Value != null)
+                        if (Data.Instance.board[x, y].Value != null&&Data.Instance.board[x,y].Value.status !=2)
                         {
                             Debug.Log("가져옴");
                             slotTrans.GetComponent<Unit>().MoveRange();
@@ -106,9 +111,9 @@ namespace MonsterChessClient
                             Data.Instance.bMoving = true;
                         }
 
-                        
+
                     }
-                    else if (Data.Instance.bMoving ==true)
+                    else if (Data.Instance.bMoving == true)
                     {
                         // 이동범위 클릭시 무브 리스트 변경
                         int originX = Data.Instance.origin.name[0] - '0';
@@ -140,12 +145,16 @@ namespace MonsterChessClient
                                     Debug.Log("알맞은 이동범위를 선택하시기 바랍니다.");
                                     Data.Instance.AnimStop();
                                 }
-                               
+
                             }
-                           
+
                         }
 
                         Data.Instance.bMoving = false;
+                    }
+                    else
+                    {
+                        Debug.Log("소환한 유닛입니다.");
                     }
                     break;
             }
@@ -180,6 +189,7 @@ namespace MonsterChessClient
                     if (tempUnit !=null && tempUnit.ID == Data.Instance.summonId)
                     {
                         tempUnit.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                        GameObject.Find("hpBar" + x + "," + y).GetComponent<Image>().color = new Color(255 / 255, 255 / 255, 255 / 255, 0);
                         Data.Instance.board[x, y] = Data.Instance.Empty;
                         DestroyImmediate(tempUnit.GetComponent<Unit>());
                         int cost = int.Parse(Data.Instance.FindStateOfMonster(Data.Instance.summonId).Substring(6, 1));

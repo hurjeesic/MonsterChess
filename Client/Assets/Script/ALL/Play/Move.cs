@@ -9,21 +9,26 @@ public class Move : MonoBehaviour {
     public Vector3 endPos;
     public bool bPlay = false;
 	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-       
-        time += Time.deltaTime;
-        speed += time / 2;
+	void Start ()
+    {
+        //bPlay = false;
+    }
 
-        gameObject.transform.position = Vector3.MoveTowards(startPos, endPos, speed);
-        if (gameObject.transform.position.x == endPos.x && gameObject.transform.position.y == endPos.y)
+    // Update is called once per frame
+    void Update()
+    {
+        if (bPlay)
         {
-            Debug.Log("종료!");
-            DestroyImmediate(gameObject.GetComponent<Move>());
+            time += Time.deltaTime;
+            speed += time / 2;
+
+            gameObject.transform.position = Vector3.MoveTowards(startPos, endPos, speed);
+
+            if (gameObject.transform.position.x == endPos.x && gameObject.transform.position.y == endPos.y)
+            {
+                Debug.Log("종료!");
+                DestroyImmediate(gameObject.GetComponent<Move>());
+            }
         }
     }
 }

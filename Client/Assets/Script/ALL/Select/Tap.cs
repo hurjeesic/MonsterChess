@@ -40,7 +40,6 @@ namespace MonsterChessClient
             tapS.color = new Color(1, 1, 1);
             tapL.color = new Color(179/255, 230/255, 1);
             tapH.color = new Color(1, 1, 1);
-            Debug.Log("원거리 태비애오");
             DataIndex.kind = 1;
         }
 
@@ -49,7 +48,6 @@ namespace MonsterChessClient
             tapS.color = new Color(1, 1, 1);
             tapL.color = new Color(1, 1, 1);
             tapH.color = new Color(179/255 , 230/255 , 1);
-            Debug.Log("히어로 태비애오");
             DataIndex.kind = 2;
         }
     }

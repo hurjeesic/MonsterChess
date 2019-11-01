@@ -63,8 +63,8 @@ namespace MonsterChessServer
         {
             List<Vector2> answer = new List<Vector2>();
 
-            short x = (short)pos.x;
-            short y = (short)pos.y;
+            int x = pos.x;
+            int y = pos.y;
 
             for (int i = 1; i <= distance; i++)
             {
@@ -143,23 +143,36 @@ namespace MonsterChessServer
         /// <returns></returns>
         public static int GetPlayResult(Player[] allPlayer)
         {
-            // 아직 완전한 처리가 안되서 이것은 상의한 후에 작성할 것
-            if (allPlayer[0].GetUnitCount() == 1 || allPlayer[1].GetUnitCount() == 1)
-            {
-                return 2;
-            }
-            else if (allPlayer[0].GetUnitCount() == 1)
-            {
-                return 1;
-            }
-            else if (allPlayer[1].GetUnitCount() == 1)
-            {
-                return 0;
-            }
+            bool[] liveBoss = new bool[2];
 
             foreach (Player player in allPlayer)
             {
+                liveBoss[player.playerIndex] = false;
+                foreach (Unit unit in player.units.Values)
+                {
+                    if (unit.ID[0] == '2')
+                    {
+                        liveBoss[player.playerIndex] = true;
+                        break;
+                    }
+                }
+            }
 
+            if (!liveBoss[0] && !liveBoss[1])
+            {
+                return 2;
+            }
+            else if (!liveBoss[0] || !liveBoss[1])
+            {
+                return !liveBoss[0] ? 1 : 0;
+            }
+            else if (allPlayer[0].GetUnitCount() == 1 && allPlayer[1].GetUnitCount() == 1)
+            {
+                return 2;
+            }
+            else if (allPlayer[0].GetUnitCount() == 1 || allPlayer[1].GetUnitCount() == 1)
+            {
+                return allPlayer[0].GetUnitCount() == 1 ? 1 : 0;
             }
 
             return -1;

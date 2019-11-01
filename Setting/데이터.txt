@@ -1,4 +1,4 @@
-﻿using UnitType;
+using UnitType;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -279,42 +279,71 @@ namespace MonsterChessClient
         {
             string temp;
             GameObject KnockBackUnit = null;
-            Debug.Log("넉백");
 
-            //넉백좌표
-            int tempX = EnemyMoveX;
-            int tempY = EnemyMoveY;
-            //넉백유닛
-            KnockBackUnit = GameObject.Find(tempX + "," + tempY);
-            GameObject unit = GameObject.Find(X + "," + Y);
-            GameObject enemyUnit = GameObject.Find(EnemyX + "," + EnemyY);
+            if (board[moveX, moveY].Value != null)//공격유닛의 이동좌표가 비어있지 않은 경우
+            {
+                Debug.Log("넉백");
+
+                //넉백좌표
+                int tempX = enemyUnit.GetComponent<Unit>().moveX;
+                int tempY = enemyUnit.GetComponent<Unit>().moveY;
+                //넉백유닛
+                KnockBackUnit = GameObject.Find(tempX + "," + tempY);
+
+                unit.AddComponent<Move>();
+                enemyUnit.AddComponent<Move>();
+                KnockBackUnit.AddComponent<Move>();
+
+                unit.GetComponent<Move>().startPos = unit.transform.position;
+                unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
+                enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
+                enemyUnit.GetComponent<Move>().endPos = KnockBackUnit.transform.position;
+                KnockBackUnit.GetComponent<Move>().startPos = KnockBackUnit.transform.position;
+                KnockBackUnit.GetComponent<Move>().endPos = unit.transform.position;
+
+                unit.GetComponent<Unit>().x = moveX;
+                unit.GetComponent<Unit>().y = moveY;
+                unit.GetComponent<Unit>().moveX = moveX;
+                unit.GetComponent<Unit>().moveY = moveY;
+
+                enemyUnit.GetComponent<Unit>().x = tempX;
+                enemyUnit.GetComponent<Unit>().y = tempY;
+                enemyUnit.GetComponent<Unit>().moveX = tempX;
+                enemyUnit.GetComponent<Unit>().moveY = tempY;
 
 
-            unit.AddComponent<Move>();
-            enemyUnit.AddComponent<Move>();
-            KnockBackUnit.AddComponent<Move>();
+                board[tempX, tempY] = board[moveX, moveY];
+                board[tempX, tempY].Value.x = tempX;
+                board[tempX, tempY].Value.y = tempY;
+                board[tempX, tempY].Value.moveX = tempX;
+                board[tempX, tempY].Value.moveY = tempX;
+                Debug.Log(board[tempX, tempY].Value.ID);
 
-            unit.GetComponent<Move>().startPos = unit.transform.position;
-            unit.GetComponent<Move>().endPos = enemyUnit.transform.position;
-            enemyUnit.GetComponent<Move>().startPos = enemyUnit.transform.position;
-            enemyUnit.GetComponent<Move>().endPos = KnockBackUnit.transform.position;
-            KnockBackUnit.GetComponent<Move>().startPos = KnockBackUnit.transform.position;
-            KnockBackUnit.GetComponent<Move>().endPos = unit.transform.position;
+                board[moveX, moveY] = board[x, y];
+                board[moveX, moveY].Value.x = moveX;
+                board[moveX, moveY].Value.y = moveY;
+                board[moveX, moveY].Value.moveX = moveX;
+                board[moveX, moveY].Value.moveY = moveX;
+                Debug.Log(board[moveX, moveY].Value.ID);
 
+                board[x, y] = Empty;
+
+
+                unit.GetComponent<Move>().bPlay = true;
+                enemyUnit.GetComponent<Move>().bPlay = true;
+                KnockBackUnit.GetComponent<Move>().bPlay = true;
+
+                temp = unit.name;
+                unit.name = enemyUnit.name;
+                enemyUnit.name = KnockBackUnit.name;
+                KnockBackUnit.name = temp;
+            }
+            else
+            {
+                Debug.Log("넉백이지만 못함");
+                //데미지는 주고위치값은 그대로
+            }
           
-
-
-         
-
-            unit.GetComponent<Move>().bPlay = true;
-            enemyUnit.GetComponent<Move>().bPlay = true;
-            KnockBackUnit.GetComponent<Move>().bPlay = true;
-
-            temp = unit.name;
-            unit.name = enemyUnit.name;
-            enemyUnit.name = KnockBackUnit.name;
-            KnockBackUnit.name = temp;
-           
 
         }
     }

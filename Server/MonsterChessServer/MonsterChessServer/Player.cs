@@ -17,7 +17,7 @@ namespace MonsterChessServer
             this.owner = user;
             this.playerIndex = player_index;
             this.units = new Dictionary<Vector2, Unit>();
-            this.mana = 15;
+            this.mana = 10;
         }
 
         public void Reset()

@@ -35,25 +35,30 @@ namespace UnitType
             range = new List<KeyValuePair<int, GameObject>>();
         }
 
-       
-        public virtual void Move()
+        public virtual void KnockBack(int X, int Y, int EnemyX, int EnemyY, int EnemyMoveX,int EnemyMoveY)
+        {
+            Data.Instance.KnockBack(X,Y,EnemyX, EnemyY, EnemyMoveX, EnemyMoveY);
+        }
+        public virtual void Move(int movex, int movey, int X, int Y)
         {
             // 일반 이동
             Debug.Log("이동~");
-            if(bmove)Data.Instance.Move(gameObject, GameObject.Find(moveX + "," + moveY), moveX, moveY, x, y);
+            if(bmove)Data.Instance.Move(gameObject, GameObject.Find(movex + "," + movey), movex, movey, X, Y);
         }
 
        
 
         public void RemoveUnit(GameObject target)
         {
-            
-
+            Debug.Log(target.name+" - 죽은놈");
             // Unit을 List에서 제거
-            Data.Instance.board[moveY, moveX] = Data.Instance.Empty;// 보드에서 제거
-            Destroy(target.GetComponent<Unit>());//스크립트 제거
+            GameObject fire = Instantiate(Resources.Load("Prefab/fx_fire_ball_bb") as GameObject, target.transform);
+            fire.transform.position = new Vector3(fire.transform.position.x - 0.5f, fire.transform.position.y - 0.5f, fire.transform.position.z);
+            Destroy(fire, 1);
+            Data.Instance.board[target.GetComponent<Unit>().x, target.GetComponent<Unit>().x] = Data.Instance.Empty;// 보드에서 제거
+            DestroyImmediate(target.GetComponent<Unit>());//스크립트 제거
+            target.GetComponent<RawImage>().texture = null;
             target.GetComponent<RawImage>().color = new Color(255, 255, 255, 0); // Image 투명화
-        
         }
 
       

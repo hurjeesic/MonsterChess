@@ -5,7 +5,7 @@ namespace MonsterChessClient
 {
     public class MonsterSlot : MonoBehaviour
     {
-        int type, index;
+        int index;
 
         public Text ManaText;
         public Text HeroText;
@@ -15,27 +15,11 @@ namespace MonsterChessClient
 
         void Awake()
         {
-            type = 0;
             index = int.Parse(gameObject.transform.name);
         }
 
         void Update()
         {
-            ManaText.text = DataIndex.costSum + "/15";
-            UnitText.text = DataIndex.MonsterCount + "";
-            if (DataIndex.bHero)
-            {
-                HeroText.text = "O";
-            }
-            else
-            {
-                HeroText.text = "X";
-            }
-            if (DataIndex.kind != type)
-            {
-                type = DataIndex.kind;
-            }
-
             ChoiceImage(DataIndex.kind);
         }
 
@@ -43,29 +27,29 @@ namespace MonsterChessClient
         {
             if (DataIndex.StateOfMonster.Length > index)
             {
-                DataIndex.unitId = DataIndex.StateOfMonster[type, index].Substring(0, 3);
+                DataIndex.unitId = DataIndex.StateOfMonster[DataIndex.kind, index].Substring(0, 3);
                 int tempCount = int.Parse(UnitText.text);
                 if(DataIndex.unitId !="300") tempCount++;
                 UnitText.text = ""+tempCount;
             }
 
             // 몬스터가 추가되어 있을 경우 제거
-            if (DataIndex.In[type, index])
+            if (DataIndex.In[DataIndex.kind, index])
             {
-                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+                DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[DataIndex.kind, index].Substring(6, 1));
 
                 GameObject.Find("SelectSystem").GetComponent<SelectSystem>().RemoveMonster();
-                DataIndex.In[type, index] = !DataIndex.In[type, index];
+                DataIndex.In[DataIndex.kind, index] = !DataIndex.In[DataIndex.kind, index];
             }
             else
             {
                 //몬스터가 추가되지 않았을 경우 추가
-                DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+                DataIndex.costSum += int.Parse(DataIndex.StateOfMonster[DataIndex.kind, index].Substring(6, 1));
                 if (DataIndex.costSum > DataIndex.MaxCost)
                 {
                     //마나코스트의 합이 지정한 값을 넘길경우
                     Debug.Log("마나코스트의 합이 " + DataIndex.MaxCost + "을 넘겼습니다");
-                    DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[type, index].Substring(6, 1));
+                    DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[DataIndex.kind, index].Substring(6, 1));
                 }
                 else
                 {
@@ -77,16 +61,24 @@ namespace MonsterChessClient
                     else
                     {
                         GameObject.Find("SelectSystem").GetComponent<SelectSystem>().AddMonster();
-                        DataIndex.In[type, index] = !DataIndex.In[type, index];
+                        if (DataIndex.In[DataIndex.kind, index])
+                        {
+                            DataIndex.costSum -= int.Parse(DataIndex.StateOfMonster[DataIndex.kind, index].Substring(6, 1));
+                        }
+
+                        DataIndex.In[DataIndex.kind, index] = !DataIndex.In[DataIndex.kind, index];
                     }
                 }
             }
-            
+
+            ManaText.text = DataIndex.costSum + "/" + DataIndex.MaxCost;
+            UnitText.text = DataIndex.MonsterCount.ToString();
+            HeroText.text = DataIndex.bHero ? "O" : "X";
         }
 
         public void ChoiceImage(int x)
         {
-            string id = DataIndex.StateOfMonster[type, index].Substring(0, 3) == "300" ? "" : DataIndex.StateOfMonster[type, index].Substring(0, 3);
+            string id = DataIndex.StateOfMonster[DataIndex.kind, index].Substring(0, 3);
             string path = "Image/UnitMY/" + id;
             RawImage img = gameObject.GetComponent<RawImage>();
             if (img != null)
@@ -97,13 +89,13 @@ namespace MonsterChessClient
             Object image = Resources.Load<Object>(path);
             if (image != null)
             {
-                if (DataIndex.In[type, index] == false)
+                if (DataIndex.In[DataIndex.kind, index] == false)
                 {
                     gameObject.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
                 }
                 else
                 {
-                    gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[type, index].Substring(0, 3)) as Texture;
+                    gameObject.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[DataIndex.kind, index].Substring(0, 3)) as Texture;
                 }
             }
         }
