@@ -148,7 +148,7 @@ namespace MonsterChessServer
             foreach (Player player in allPlayer)
             {
                 liveBoss[player.playerIndex] = false;
-                foreach (Unit unit in player.units.Values)
+                foreach (Unit unit in player.units)
                 {
                     if (unit.ID[0] == '2')
                     {

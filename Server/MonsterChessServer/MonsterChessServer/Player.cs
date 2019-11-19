@@ -9,14 +9,14 @@ namespace MonsterChessServer
         private GameUser owner;
         public string Name { get { return owner.Name; } }
         public readonly byte playerIndex;
-        public readonly Dictionary<Vector2, Unit> units;
+        public readonly List<Unit> units;
         public int mana;
 
         public Player(GameUser user, byte player_index)
         {
             this.owner = user;
             this.playerIndex = player_index;
-            this.units = new Dictionary<Vector2, Unit>();
+            this.units = new List<Unit>();
             this.mana = 10;
         }
 
@@ -25,18 +25,18 @@ namespace MonsterChessServer
             this.units.Clear();
         }
 
-        public void AddUnit(KeyValuePair<Vector2, Unit> unit)
+        public void AddUnit(Unit unit)
         {
-            this.units.Add(unit.Key, unit.Value);
+            this.units.Add(unit);
         }
 
-        public bool DamageUnit(Vector2 pos)
+        public bool DestoyUnit(Vector2 pos)
         {
-            foreach (KeyValuePair<Vector2, Unit> unit in units)
+            foreach (Unit unit in units)
             {
-                if (pos == unit.Key)
+                if (pos == unit.Pos)
                 {
-                    units.Remove(pos);
+                    units.Remove(unit);
                     return true;
                 }
             }
