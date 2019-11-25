@@ -27,7 +27,7 @@ namespace MonsterChessClient
 
                 //소환부분 UI바 구현해봤어요
                 UIBar tm = new UIBar();
-                tm.Summon_UiBar(id);
+                tm.UiBarID(id);
 
                 if (Data.Instance.bSummons == false)
                 {

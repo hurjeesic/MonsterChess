@@ -8,120 +8,56 @@ namespace MonsterChessClient
 {
     public class UIBar : MonoBehaviour
     {
-        Data DataIndex = Data.Instance;
-
-        string[,] S_M_Id = { { "0" }, { "0" } };//현재 선택된 유닛을 넣어야 해요
-        
         public Image M_Img;
+        
         public Text AttackText;
         public Text DefenceText;
         public Text HpText;
+        public Text NameText;
 
-        int x = 0;
-        int y = 0;
-
-        int fullHp = 0;
-        int hp = 0;
-        int ap = 0;
-        int dp = 0;
-
-        GameObject temp;
         MonsterSlot monsterSlot = new MonsterSlot();
-        
 
-        public void Place_UiBar(Unit unit)
+
+        public void UiBarID(string id)
         {
-            //아무튼 아이콘들 표시되게 하는거 받아적어야 해요 이거 작동 안하는데 나중에 좀 고칩시다 NeedFix
+            GameObject.Find("UnitImg").GetComponent<RawImage>().texture = Resources.Load("Image/UnitMy/" + id) as Texture;
+            GameObject.Find("UnitImg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
             GameObject.Find("HPimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            GameObject.Find("DPIMG").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
             GameObject.Find("APimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
 
-            x = int.Parse(unit.ID.Substring(0, 1));
-            y = int.Parse(unit.ID.Substring(2, 1));
+            string temp = Data.Instance.FindStateOfMonster(id);
 
-            fullHp = unit.fullHp;
-            hp = unit.hp;
-            dp = unit.dp;
-            ap = unit.ap;
 
-            Unit_Img(unit.ID);
-            Unit_Hp();
-            Unit_Ap();
-            Unit_Dp();
+            HpText = GameObject.Find("HPtext").GetComponent<Text>();
+            HpText.text = temp[7] + "/" + temp[7];
+
+            AttackText = GameObject.Find("APtext").GetComponent<Text>();
+            AttackText.text = "" + temp[8];
+
+            NameText = GameObject.Find("NameText").GetComponent<Text>();
+            NameText.text = temp.Substring(10);
         }
-
+    
         //소환시킬때 ui바에 정보 표시
-        public void Summon_UiBar(string id)
+        public void UiBarUnit(Unit unit)
         {
+            GameObject.Find("UnitImg").GetComponent<RawImage>().texture = Resources.Load("/UnitMy/"+unit.ID) as Texture;
+            GameObject.Find("UnitImg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
             GameObject.Find("HPimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            GameObject.Find("DPIMG").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
             GameObject.Find("APimg").GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
 
-            Unit_Img(id);
-            
-            temp = GameObject.Find("HPtext");
-            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(7, 1);
 
-            temp = GameObject.Find("APtext");
-            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(8, 1);
 
-            temp = GameObject.Find("DPtext");
-            temp.GetComponent<Text>().text = DataIndex.StateOfMonster[x, y].Substring(9, 1);
+
+            HpText = GameObject.Find("HPtext").GetComponent<Text>();
+            HpText.text= unit.hp+"/"+unit.fullHp;
+
+            AttackText = GameObject.Find("APtext").GetComponent<Text>();
+            AttackText.text = ""+unit.ap;
         }
         
-        void Unit_Img(string id)
-        {
-            temp = GameObject.Find("UnitImg");
-            x = int.Parse(id.Substring(0, 1));
-            y = int.Parse(id.Substring(2, 1));
-            //대충 유닛 이미지 받아오는 함수
-            //받아온 이미지를 Ui바 이미지 칸에 넣어야 해요
-
-            string path = "Image/UnitMY/" + DataIndex.StateOfMonster[x, y].Substring(0, 3);
-            RawImage img = temp.GetComponent<RawImage>();
-            if (img != null)
-            {
-                //img.texture = Resources.Load("Image/Pan/Button_Square") as Texture; 오류나면 주석 취소 해보죠 뭐
-            }
-
-            Object image = Resources.Load<Object>(path);
-            if (image != null)
-            {
-                if (DataIndex.In[x, y] == false)
-                {
-                    temp.GetComponent<RawImage>().texture = Resources.Load(path) as Texture;
-                }
-                else
-                {
-                    temp.GetComponent<RawImage>().texture = Resources.Load("Image/UnitEnemy/" + DataIndex.StateOfMonster[x, y].Substring(0, 3)) as Texture;
-                }
-            }
-        }
-        
-        void Unit_Hp()
-        {
-            //대충 유닛 체력 받아오는 함수
-            //선택된 유닛 체력최대치에서 계산해요
-
-            //Ui바 체력 란에 표시하기
-
-            temp = GameObject.Find("HPtext");
-            temp.GetComponent<Text>().text = hp + "/" + fullHp;
-        }
-        void Unit_Ap()
-        {
-            //대충 유닛 공격력 받아오는 함수
-            //Ui바 공격력 란에 표시하기
-
-            temp = GameObject.Find("APtext");
-            temp.GetComponent<Text>().text = ap + "";
-        }
-        void Unit_Dp()
-        {
-            //대충 유닛 방어력 받아오는 함수
-            //Ui바 방어력 란에 표시하기
-            temp = GameObject.Find("DPtext");
-            temp.GetComponent<Text>().text = dp + "";//아무튼방어력 훔쳐오는 프로그램
-        }
+       
+      
+       
     }
 }

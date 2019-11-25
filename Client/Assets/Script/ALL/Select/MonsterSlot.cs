@@ -10,7 +10,7 @@ namespace MonsterChessClient
         public Text ManaText;
         public Text HeroText;
         public Text UnitText;
-
+        public GameObject debug;
         Data DataIndex = Data.Instance;
 
         void Awake()

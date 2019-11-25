@@ -223,8 +223,12 @@ namespace MonsterChessClient
                         int enemyX = msg.PopInt32(), enemyY= Data.Instance.myIndex == 0 ? msg.PopInt32() : 6 - msg.PopInt32(), enemyHP=msg.PopInt32();
                         Debug.Log(enemyX + "," + enemyY + ": 공격받는 유닛\t" + enemyHP);
                         GameObject fire = Instantiate(Resources.Load("Prefab/CFX4 Fire") as GameObject, GameObject.Find(x+","+y).transform);
-                        fire.transform.position = new Vector3(fire.transform.position.x - 0.5f, fire.transform.position.y - 0.5f, fire.transform.position.z);
-
+                        Move move = fire.AddComponent<Move>();
+                        move.startPos = GameObject.Find(x + "," + y).transform.position;
+                        move.endPos = GameObject.Find(enemyX + "," + enemyY).transform.position;
+                        fire.SetActive(true);
+                        move.bPlay = true;
+                        Debug.Log(fire.name+"생성된 투사체");
 
                         Unit unit = GameObject.Find(x + "," + y).GetComponent<Unit>();
                         unit.hp = hp;

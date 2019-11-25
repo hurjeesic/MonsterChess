@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnitType;
 
 public class Move : MonoBehaviour {
     float time = 0;
@@ -20,15 +21,20 @@ public class Move : MonoBehaviour {
         if (bPlay)
         {
             time += Time.deltaTime;
-            speed += time / 2;
+            if (gameObject.name.Contains("CFX4 Fire")) speed += time;
+            else { speed += time / 2; }
+               
 
             gameObject.transform.position = Vector3.MoveTowards(startPos, endPos, speed);
 
             if (gameObject.transform.position.x == endPos.x && gameObject.transform.position.y == endPos.y)
             {
                 Debug.Log("종료!");
-                DestroyImmediate(gameObject.GetComponent<Move>());
+                
+                if (gameObject.name.Contains("CFX4 Fire")){ DestroyImmediate(gameObject);}
+                else if (gameObject != null) DestroyImmediate(gameObject.GetComponent<Move>());
             }
+           
         }
     }
 }

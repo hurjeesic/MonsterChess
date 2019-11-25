@@ -59,7 +59,7 @@ namespace MonsterChessClient
 
                                 //UI바 관련 기능 넣어주세요
                                 UIBar tm = new UIBar();
-                                tm.Place_UiBar(unit);
+                                tm.UiBarUnit(unit);
 
                                 if (unit != null)
                                 {
@@ -86,7 +86,10 @@ namespace MonsterChessClient
                         Vector2 unitPos;
                         x = slotTrans.name[0] - '0';
                         y = slotTrans.name[2] - '0';
+
                         Unit unit = slotTrans.gameObject.GetComponent(Type.GetType("UnitType.Unit" + Data.Instance.summonId)) as Unit;
+                        UIBar tm = new UIBar();
+                        tm.UiBarUnit(unit);
                         if (unit == null)
                         {
                             Packet summon = Packet.Create((short)PROTOCOL.RequestedSummons);
@@ -116,6 +119,9 @@ namespace MonsterChessClient
                             slotTrans.GetComponent<Unit>().MoveRange();
                             Data.Instance.origin = slotTrans.gameObject;
                             Data.Instance.bMoving = true;
+                            UIBar tm = new UIBar();
+                            Unit unit = slotTrans.gameObject.GetComponent<Unit>();
+                            tm.UiBarUnit(unit);
                         }
 
 
@@ -161,7 +167,9 @@ namespace MonsterChessClient
                     }
                     else
                     {
-                        Debug.Log("소환한 유닛입니다.");
+                        UIBar tm = new UIBar();
+                        Unit unit = slotTrans.gameObject.GetComponent<Unit>();
+                        tm.UiBarUnit(unit);
                     }
                     break;
             }
