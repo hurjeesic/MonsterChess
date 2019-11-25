@@ -29,7 +29,7 @@ namespace MonsterChessServer
     {
         public static List<GameUser> userList;
         public static GameServer gameServer = new GameServer();
-        public readonly static string ipAddress = "192.168.1.84";
+        public readonly static string ipAddress = "172.19.9.251";
         public readonly static string key = "Gmen";
 
         static void Main(string[] args)

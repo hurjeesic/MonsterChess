@@ -20,14 +20,6 @@ namespace UnitType
         protected Vector2 movedPos;
         public Vector2 MovedPos { get { return movedPos; } set { if (value.x > -1 && value.y > -1) movedPos = value; } }
         public int status;
-        public virtual void SavePos(Vector2 tempPos)
-        {
-            pos = tempPos;
-        }
-        public virtual void SaveMovePos(Vector2 tempPos)
-        {
-            MovedPos = tempPos;
-        }
 
         public virtual void Move()
         {
@@ -43,8 +35,9 @@ namespace UnitType
         {
             // 방어할 때
             // true -> Destroy, false -> Damage
-            int damage = enemyAp - DP;
-            if (damage > 0) HP -= damage;
+            // int damage = enemyAp - DP;
+            // if (damage > 0) HP -= damage;
+            HP -= enemyAp;
         }
 
         public bool CheckDeath()

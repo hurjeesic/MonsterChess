@@ -76,7 +76,7 @@ namespace MonsterChessServer
                     Program.gameServer.DisconnectUser(this);
                     break;
                 case PROTOCOL.CompleteLoading:
-                    this.battleRoom.CompleteLoading(this.player, GetUnitDic(msg));
+                    this.battleRoom.CompleteLoading(this.player, GetUnitLst(msg));
                     break;
                 case PROTOCOL.StartedGame:
                     this.battleRoom.BattleStart(this.player);
@@ -346,19 +346,21 @@ namespace MonsterChessServer
             return unit;
         }
 
-        private Dictionary<Vector2, Unit> GetUnitDic(Packet msg)
+        private List<Unit> GetUnitLst(Packet msg)
         {
-            Dictionary<Vector2, Unit> unitDic = new Dictionary<Vector2, Unit>();
+            List<Unit> unitLst = new List<Unit>();
             for (int i = 0; i < 6; i++)
             {
                 Unit unit = GetUnitType(msg.PopString());
                 int x = msg.PopInt32(), y = msg.PopInt32();
                 Vector2 initPos = player.playerIndex == 0 ? new Vector2(x, y) : Helper.GetReversePosition(new Vector2(x, y), GameRoom.ROW);
+                unit.MovedPos = initPos;
+                unit.Move();
 
-                unitDic.Add(initPos, unit);
+                unitLst.Add(unit);
             }
 
-            return unitDic;
+            return unitLst;
         }
 
         private KeyValuePair<Vector2, Vector2> GetMoving(Packet msg)
@@ -375,16 +377,17 @@ namespace MonsterChessServer
             return moving;
         }
 
-        private KeyValuePair<Vector2, Unit> GetUnit(Packet msg)
+        private Unit GetUnit(Packet msg)
         {
-            KeyValuePair<Vector2, Unit> summonsUnit;
+            Unit summonsUnit;
 
             int x = msg.PopInt32(), y = msg.PopInt32();
             Vector2 vector = player.playerIndex == 0 ? new Vector2(x, y) : Helper.GetReversePosition(new Vector2(x, y), GameRoom.ROW);
 
             Unit unit = GetUnitType(msg.PopString());
 
-            summonsUnit = new KeyValuePair<Vector2, Unit>(vector, unit);
+            summonsUnit = unit;
+            summonsUnit.MovedPos = vector;
 
             return summonsUnit;
         }
